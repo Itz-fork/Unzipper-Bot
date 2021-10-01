@@ -107,7 +107,7 @@ async def broadcast_dis(client: Client, message: Message):
     await bc_msg.edit("`Broadcasting has started, This may take while 🥱!`")
     success_no = 0
     failed_no = 0
-    async for user in users_list:
+    for user in users_list:
         b_cast = await _do_broadcast(message=r_msg, user=user)
         if b_cast == 200:
             success_no += 1
