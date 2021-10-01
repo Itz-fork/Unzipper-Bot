@@ -1,7 +1,7 @@
 {
     "name": "Unzipper Bot",
-    "description": "Simple Telegram Bot to extract archives like rar, 7z, zip etc.",
-    "logo": "https://telegra.ph/file/583f46da57641b90c28f9.png",
+    "description": "A Telegram Bot to Extract Various Types Of Archives",
+    "logo": "https://telegra.ph/file/dab7c08182e6d9e03bcef.jpg",
     "keywords": [
         "7z",
         "Telegram Bot",
@@ -32,7 +32,7 @@
             "required": true
         },
         "LOGS_CHANNEL": {
-            "description": "Make a private channel and forward a message from that channel to @ChannelidHEXbot and Get this. Not Mandatory",
+            "description": "Make a private channel and forward a message from that channel to @ChannelidHEXbot and Get this",
             "required": true
         }
     },
