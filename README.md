@@ -62,7 +62,12 @@ bash start.sh
 If you found a bug in this bot please open an [issue](https://github.com/Itz-fork/Unzipper-Bot/issues) or report it at the [Support Group](#support).
 
 # Support
-<a href="https://t.me/Nexa_bots"><img src="https://img.shields.io/badge/Support_Group-0a0a0a?style=for-the-badge&logo=telegram&logoColor=white"></a>
+<a href="https://t.me/Nexa_bots">
+  <img src="https://img.shields.io/badge/Updates_Channel-0a0a0a?style=for-the-badge&logo=telegram&logoColor=white">
+</a>
+<a href="https://t.me/Nexa_bots">
+  <img src="https://img.shields.io/badge/Support_Group-0a0a0a?style=for-the-badge&logo=telegram&logoColor=white">
+</a>
 
 # License & Copyright
 ```
