@@ -40,7 +40,7 @@ async def count_users():
     return users
 
 async def get_users_list():
-    return [users_list async for users_list in user_db.find({})]
+    return [users_list async for users_list in user_db.find({"user_id"})]
 
 
 # Banned users database (I don't know why tf i added this, but who cares)
