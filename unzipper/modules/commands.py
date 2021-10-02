@@ -103,6 +103,7 @@ async def broadcast_dis(client: Client, message: Message):
     if not r_msg:
         return await bc_msg.edit("`Reply to a message to broadcast!`")
     users_list = await get_users_list()
+    print(users_list)
     # trying to broadcast
     await bc_msg.edit("`Broadcasting has started, This may take while 🥱!`")
     success_no = 0
