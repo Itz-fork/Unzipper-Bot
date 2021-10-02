@@ -125,8 +125,9 @@ async def broadcast_dis(client: Client, message: Message):
 @Client.on_message(filters.private & filters.command("ban") & filters.user(Config.BOT_OWNER))
 async def ban_user(client: Client, message: Message):
     ban_msg = await message.reply("`Processing ⚙️...`")
-    user_id = message.text.split(None, 1)[1] if message.text.split(None, 1)[1] else None
-    if user_id is None:
+    try:
+        user_id = message.text.split(None, 1)[1]
+    except:
         return await ban_msg.edit("`Give a user id to ban!`")
     await add_banned_user(user_id)
     await ban_msg.edit(f"**Successfully Banned That User ✅** \n\n**User ID:** `{user_id}`")
@@ -134,8 +135,9 @@ async def ban_user(client: Client, message: Message):
 @Client.on_message(filters.private & filters.command("unban") & filters.user(Config.BOT_OWNER))
 async def unban_user(client: Client, message: Message):
     unban_msg = await message.reply("`Processing ⚙️...`")
-    user_id = message.text.split(None, 1)[1] if message.text.split(None, 1)[1] else None
-    if user_id is None:
+    try:
+        user_id = message.text.split(None, 1)[1]
+    except:
         return await unban_msg.edit("`Give a user id to unban!`")
     await del_banned_user(user_id)
     await unban_msg.edit(f"**Successfully Unbanned That User ✅** \n\n**User ID:** `{user_id}`")
