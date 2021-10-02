@@ -77,7 +77,7 @@ Hi **{}**, I'm **Nexa Unzipper Bot** 😇!
 ✘ **Developer:** [Itz-fork](https://github.com/Itz-fork)
 
 
-**Made with ❤️ by @NexaBotsUpdates**"
+**Made with ❤️ by @NexaBotsUpdates**
     """
 
     LOG_TXT = """
