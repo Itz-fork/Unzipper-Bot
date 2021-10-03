@@ -7,9 +7,9 @@ from pyrogram.types import InlineKeyboardButton
 
 async def extract_with_7z_helper(path, archive_path, password=None):
     if password:
-        command = f"7z x -o{path} -p{password} {archive_path}"
+        command = f"7z x -o{path} -p{password} {archive_path} -y"
     else:
-        command = f"7z x -o{path} {archive_path}"
+        command = f"7z x -o{path} {archive_path} -y"
     ext_cmd = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
     ext_out = ext_cmd.stdout.read()[:-1].decode("utf-8")
     return ext_out
