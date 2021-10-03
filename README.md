@@ -70,7 +70,7 @@ bash start.sh
 If you found a bug in this bot please open an [issue](https://github.com/Itz-fork/Unzipper-Bot/issues) or report it at the [Support Group](#support).
 
 ## Support
-<a href="https://t.me/Nexa_bots">
+<a href="https://t.me/NexaBotsUpdates">
   <img src="https://img.shields.io/badge/Updates_Channel-0a0a0a?style=for-the-badge&logo=telegram&logoColor=white">
 </a>
 <a href="https://t.me/Nexa_bots">
@@ -81,6 +81,6 @@ If you found a bug in this bot please open an [issue](https://github.com/Itz-for
 ```
 Copyright (c) 2021 Itz-fork
 
-This Unzipper-Bot repository is licensed under GPLv3 License (https://github.com/Itz-fork/Unzipper-Bot/blob/master/LICENSE).
-Copying or Modifying Any Part of the code without permission is strictly prohibited.
+This Unzipper-Bot repository is licensed under GPLv3 License (https://github.com/Itz-fork/Unzipper-Bot/blob/master/LICENSE)
+Copying or Modifying Any Part of the code without permission is strictly prohibited
 ```
