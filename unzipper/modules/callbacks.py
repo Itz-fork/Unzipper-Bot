@@ -42,7 +42,6 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
             await query.message.edit(Messages.AFTER_OK_DL_TXT.format(TimeFormatter(round(e_time-s_time) * 1000)))
             
             # Extracting process
-            os.makedirs(ext_files_dir)
             mode = query.data.split("|")
             if mode[1] == "with_pass":
                 password = await unzip_bot.ask(chat_id=query.message.chat.id ,text="**Please send me the password 🔑:**")
@@ -64,8 +63,8 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
         except Exception as e:
             try:
                 shutil.rmtree(download_path)
-            except:
-                pass
+            except Exception as e:
+                print(e)
             await query.message.edit(Messages.ERROR_TXT.format(e))
 
     elif query.data.startswith("ext_f"):
