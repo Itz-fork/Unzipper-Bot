@@ -3,6 +3,7 @@
 import subprocess
 import os
 
+from pykeyboard import InlineKeyboard
 from pyrogram.types import InlineKeyboardButton
 
 async def extract_with_7z_helper(path, archive_path, password=None):
@@ -25,16 +26,36 @@ def get_files(path):
 # Make keyboard
 async def make_keyboard(paths, user_id, chat_id):
     num = 0
-    i_kbd = []
+    i_kbd = InlineKeyboard(row_width=1)
+    data = []
+    data.append(
+        InlineKeyboardButton(f"Upload All ♻️", f"ext_a|{user_id}|{chat_id}")
+    )
+    data.append(
+        InlineKeyboardButton("Cancel ❌", "cancel_dis")
+    )
     for file in paths:
-        i_kbd.append(
-            [InlineKeyboardButton(f"{num} - {os.path.basename(file)}", f"ext_f|{user_id}|{chat_id}|{num}")]
+        data.append(
+            InlineKeyboardButton(f"{num} - {os.path.basename(file)}", f"ext_f|{user_id}|{chat_id}|{num}")
         )
         num += 1
-    i_kbd.append(
-        [InlineKeyboardButton(f"Upload All ♻️", f"ext_a|{user_id}|{chat_id}")]
-    )
-    i_kbd.append(
-        [InlineKeyboardButton("Cancel ❌", callback_data="cancel_dis")]
-    )
+    i_kbd.add(*data)
     return i_kbd
+
+
+### --- Saved for later --- ###
+# async def make_keyboard(paths, user_id, chat_id):
+#     num = 0
+#     i_kbd = []
+#     for file in paths:
+#         i_kbd.append(
+#             [InlineKeyboardButton(f"{num} - {os.path.basename(file)}", f"ext_f|{user_id}|{chat_id}|{num}")]
+#         )
+#         num += 1
+#     i_kbd.append(
+#         [InlineKeyboardButton(f"Upload All ♻️", f"ext_a|{user_id}|{chat_id}")]
+#     )
+#     i_kbd.append(
+#         [InlineKeyboardButton("Cancel ❌", callback_data="cancel_dis")]
+#     )
+#     return i_kbd
