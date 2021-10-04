@@ -28,17 +28,17 @@ async def make_keyboard(paths, user_id, chat_id):
     num = 0
     i_kbd = InlineKeyboard(row_width=1)
     data = []
-    for file in paths:
-        data.append(
-            InlineKeyboardButton(f"{num} - {os.path.basename(file)}", f"ext_f|{user_id}|{chat_id}|{num}")
-        )
-        num += 1
     data.append(
         InlineKeyboardButton(f"Upload All ♻️", f"ext_a|{user_id}|{chat_id}")
     )
     data.append(
         InlineKeyboardButton("Cancel ❌", "cancel_dis")
     )
+    for file in paths:
+        data.append(
+            InlineKeyboardButton(f"{num} - {os.path.basename(file)}", f"ext_f|{user_id}|{chat_id}|{num}")
+        )
+        num += 1
     i_kbd.add(*data)
     return i_kbd
 
