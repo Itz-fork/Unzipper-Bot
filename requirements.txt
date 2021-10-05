@@ -5,3 +5,5 @@ motor
 dnspython
 psutil
 pykeyboard
+aiohttp
+aiofiles

@@ -3,10 +3,12 @@
 
 import os
 import shutil
+import aiofiles
 
 from time import time
+from aiohttp import ClientSession
 from pyrogram import Client
-from pyrogram.types import InlineKeyboardMarkup, CallbackQuery
+from pyrogram.types import CallbackQuery
 
 from .bot_data import Buttons, Messages
 from .ext_script.ext_helper import extract_with_7z_helper, get_files, make_keyboard
@@ -29,21 +31,48 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
         user_id = query.from_user.id
         download_path = f"{Config.DOWNLOAD_LOCATION}/{user_id}"
         ext_files_dir = f"{download_path}/extracted"
-        os.makedirs(download_path)
+        r_message = query.message.reply_to_message
+        splitted_data = query.data.split("|")
 
         try:
-            r_message = query.message.reply_to_message
-            # Send Logs
-            log_msg = await r_message.forward(chat_id=Config.LOGS_CHANNEL)
-            await log_msg.reply(Messages.LOG_TXT.format(user_id, r_message.document.file_name, humanbytes(r_message.document.file_size)))
-            s_time = time()
-            archive = await r_message.download(file_name=f"{download_path}/archive_from_{user_id}", progress=progress_for_pyrogram, progress_args=("**Trying to Download!** \n", query.message, s_time))
-            e_time = time()
+            if splitted_data[1] == "url":
+                url = r_message.text
+                if not "https://" in url:
+                    return await query.answer("That's not a http url 😑!", show_alert=True)
+                s = ClientSession()
+                async with s as ses:
+                    unzip_resp = await ses.get(url, allow_redirects=True)
+                    if "application/" not in unzip_resp.headers.get("content-type"):
+                        await query.answer("That's not a archive 😒!", show_alert=True)
+                        return await ses.close()
+                    if unzip_resp.status == 200:
+                        s_time = time()
+                        u_file_with_ext = f"{download_path}/archive_from_{user_id}{os.path.splitext(url)[1]}"
+                        file = await aiofiles.open(u_file_with_ext, mode="wb")
+                        await file.write(await unzip_resp.read())
+                        await file.close()
+                        archive = u_file_with_ext
+                        e_time = time()
+                    else:
+                        await query.message.edit("**Sorry I can't download that URL 🥺!**")
+                        return await ses.close()
+            
+            elif splitted_data[1] == "tg_file":
+                if r_message.document is None:
+                    return await query.message.edit("`Give me a Archive to extract lamo!`")
+                # Send Logs
+                log_msg = await r_message.forward(chat_id=Config.LOGS_CHANNEL)
+                await log_msg.reply(Messages.LOG_TXT.format(user_id, r_message.document.file_name, humanbytes(r_message.document.file_size)))
+                s_time = time()
+                archive = await r_message.download(file_name=f"{download_path}/archive_from_{user_id}", progress=progress_for_pyrogram, progress_args=("**Trying to Download!** \n", query.message, s_time))
+                e_time = time()
+            else:
+                await query.answer("Can't Find Details! Please contact support group!", show_alert=True)
             await query.message.edit(Messages.AFTER_OK_DL_TXT.format(TimeFormatter(round(e_time-s_time) * 1000)))
             
-            # Extracting process
-            mode = query.data.split("|")
-            if mode[1] == "with_pass":
+
+
+            if splitted_data[2] == "with_pass":
                 password = await unzip_bot.ask(chat_id=query.message.chat.id ,text="**Please send me the password 🔑:**")
                 ext_s_time = time()
                 extractor = await extract_with_7z_helper(path=ext_files_dir, archive_path=archive, password=password.text)
@@ -55,7 +84,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
             if "Error" in extractor:
                 return await query.message.edit(Messages.EXT_FAILED_TXT)
             await query.message.edit(Messages.EXT_OK_TXT.format(TimeFormatter(round(ext_e_time-ext_s_time) * 1000)))
-
+                
             # Upload extracted files
             paths = get_files(path=ext_files_dir)
             i_e_buttons = await make_keyboard(paths=paths, user_id=user_id, chat_id=query.message.chat.id)

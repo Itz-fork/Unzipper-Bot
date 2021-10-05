@@ -4,6 +4,8 @@ A Telegram Bot to Extract Various Types Of Archives
 
 # Features
 - Extract various types of archives like `rar`, `zip`, `tar`, `7z`, `tar.xz` etc.
+- Password support for extracting
+- Extract archives from direct links
 - Broadcast Messages to users
 - Ban / Unban users from using your bot
 - Send logs in a private channel

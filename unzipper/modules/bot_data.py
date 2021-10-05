@@ -17,8 +17,12 @@ class Buttons:
     CHOOSE_E_BTN=InlineKeyboardMarkup(
         [
             [
-                InlineKeyboardButton("Extract 📂", callback_data="extract_file|no_pass"),
-                InlineKeyboardButton("(Password) Extract 📂", callback_data="extract_file|with_pass")
+                InlineKeyboardButton("File Extract 📂", callback_data="extract_file|tg_file|no_pass"),
+                InlineKeyboardButton("File (Password) Extract 📂", callback_data="extract_file|tg_file|with_pass")
+            ],
+            [
+                InlineKeyboardButton("🔗 Url Extract 📂", callback_data="extract_file|url|no_pass"),
+                InlineKeyboardButton("🔗 (Password) Url Extract 📂", callback_data="extract_file|url|with_pass")
             ],
             [
                 InlineKeyboardButton("Cancel ❌", callback_data="cancel_dis")
@@ -58,8 +62,8 @@ Hi **{}**, I'm **Nexa Unzipper Bot** 😇!
     HELP_TXT = """
 **How To Extract? 🤔**
 
-`1. Send the file that you want to extract.`
-`2. Click on extract button.`
+`1. Send the file or link that you want to extract.`
+`2. Click on extract button (If you sent a link use "Url Extract" button. If it's a file just use "File Extract" button).`
 
 
 **Note:**
