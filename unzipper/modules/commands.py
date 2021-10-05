@@ -49,8 +49,6 @@ async def extract_dis_archive(client: Client, message: Message):
     download_path = f"{Config.DOWNLOAD_LOCATION}/{user_id}"
     if os.path.isdir(download_path):
         return await unzip_msg.edit("`Already one process is going on, Don't spam you idiot 😑!` \n\nWanna Clear You Files from my server? Then just send **/clean** command!")
-    else:
-        os.makedirs(download_path)
     await unzip_msg.edit("**What do you want?**", reply_markup=Buttons.CHOOSE_E_BTN)
 
 # Database Commands

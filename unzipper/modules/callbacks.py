@@ -2,6 +2,7 @@
 # Don't kang this else your dad is gae
 
 import os
+import re
 import shutil
 import aiofiles
 
@@ -42,15 +43,21 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                     return await query.message.edit("`That's not a http url 😑!`")
                 s = ClientSession()
                 async with s as ses:
-                    unzip_resp = await ses.get(url)
+                    unzip_head = await ses.get(url)
                     # Checks if file is an archive using content-type header
-                    if "application/" not in unzip_resp.headers.get("Content-Type"):
+                    if "application/" not in unzip_head.headers.get("Content-Type"):
                         return await query.message.edit("`That's not an archive 😒!`")
                     # Checks if url file size is bigger than 2GB (Telegram limit)
-                    u_file_size = unzip_resp.headers.get("Content-Length")
-                    if Config.TG_MAX_SIZE < u_file_size:
+                    u_file_size = unzip_head.headers.get("Content-Length")
+                    if u_file_size is None:
+                        return await query.message.edit("`Sorry, An Error occurred while getting file size. Please try again after some time 🥺!`")
+                    if Config.TG_MAX_SIZE < int(u_file_size):
                         return await query.message.edit("`File Size is too large to send in telegram 🥶!`")
+                    unzip_resp = await ses.get(url)
                     if unzip_resp.status == 200:
+                        # Makes download dir
+                        os.makedirs(download_path)
+                        # Send logs
                         await unzip_bot.send_message(chat_id=Config.LOGS_CHANNEL, text=Messages.LOG_TXT.format(user_id, url, u_file_size))
                         s_time = time()
                         u_file_with_ext = f"{download_path}/archive_from_{user_id}{os.path.splitext(url)[1]}"
@@ -66,6 +73,8 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
             elif splitted_data[1] == "tg_file":
                 if r_message.document is None:
                     return await query.message.edit("`Give me an Archive to extract lamo!`")
+                # Makes download dir
+                os.makedirs(download_path)
                 # Send Logs
                 log_msg = await r_message.forward(chat_id=Config.LOGS_CHANNEL)
                 await log_msg.reply(Messages.LOG_TXT.format(user_id, r_message.document.file_name, humanbytes(r_message.document.file_size)))
@@ -98,6 +107,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
         except Exception as e:
             try:
                 shutil.rmtree(download_path)
+                await s.close()
             except Exception as e:
                 print(e)
             await query.message.edit(Messages.ERROR_TXT.format(e))
