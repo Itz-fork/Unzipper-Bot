@@ -37,15 +37,21 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
         try:
             if splitted_data[1] == "url":
                 url = r_message.text
+                # Double check
                 if not "https://" in url:
-                    return await query.answer("That's not a http url 😑!", show_alert=True)
+                    return await query.message.edit("`That's not a http url 😑!`")
                 s = ClientSession()
                 async with s as ses:
-                    unzip_resp = await ses.get(url, allow_redirects=True)
-                    if "application/" not in unzip_resp.headers.get("content-type"):
-                        await query.answer("That's not a archive 😒!", show_alert=True)
-                        return await ses.close()
+                    unzip_resp = await ses.get(url)
+                    # Checks if file is an archive using content-type header
+                    if "application/" not in unzip_resp.headers.get("Content-Type"):
+                        return await query.message.edit("`That's not an archive 😒!`")
+                    # Checks if url file size is bigger than 2GB (Telegram limit)
+                    u_file_size = unzip_resp.headers.get("Content-Length")
+                    if Config.TG_MAX_SIZE < u_file_size:
+                        return await query.message.edit("`File Size is too large to send in telegram 🥶!`")
                     if unzip_resp.status == 200:
+                        await unzip_bot.send_message(chat_id=Config.LOGS_CHANNEL, text=Messages.LOG_TXT.format(user_id, url, u_file_size))
                         s_time = time()
                         u_file_with_ext = f"{download_path}/archive_from_{user_id}{os.path.splitext(url)[1]}"
                         file = await aiofiles.open(u_file_with_ext, mode="wb")
@@ -55,11 +61,11 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                         e_time = time()
                     else:
                         await query.message.edit("**Sorry I can't download that URL 🥺!**")
-                        return await ses.close()
+                        return
             
             elif splitted_data[1] == "tg_file":
                 if r_message.document is None:
-                    return await query.message.edit("`Give me a Archive to extract lamo!`")
+                    return await query.message.edit("`Give me an Archive to extract lamo!`")
                 # Send Logs
                 log_msg = await r_message.forward(chat_id=Config.LOGS_CHANNEL)
                 await log_msg.reply(Messages.LOG_TXT.format(user_id, r_message.document.file_name, humanbytes(r_message.document.file_size)))

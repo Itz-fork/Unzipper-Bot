@@ -24,6 +24,10 @@ from unzipper.helpers_nexa.unzip_help import humanbytes
 from config import Config
 
 
+# Regex for http/https urls
+https_url_regex = "^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$"
+
+# Function to check user status (is banned or not)
 @Client.on_message(filters.private)
 async def _(client: Client, message: Message):
     await check_user(message)
@@ -38,7 +42,7 @@ async def clean_ma_files(client: Client, message: Message):
     await message.reply_text(text=Messages.CLEAN_TXT, reply_markup=Buttons.CLN_BTNS)
     message.from_user.mention
 
-@Client.on_message(filters.incoming & filters.private & filters.text | filters.document)
+@Client.on_message(filters.incoming & filters.private & filters.regex(https_url_regex) | filters.document)
 async def extract_dis_archive(client: Client, message: Message):
     unzip_msg = await message.reply("`Processing ⚙️...`", reply_to_message_id=message.message_id)
     user_id = message.from_user.id
