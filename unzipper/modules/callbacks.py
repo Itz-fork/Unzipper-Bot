@@ -2,7 +2,6 @@
 # Don't kang this else your dad is gae
 
 import os
-import re
 import shutil
 import aiofiles
 
@@ -53,8 +52,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                         return await query.message.edit("`Sorry, An Error occurred while getting file size. Please try again after some time 🥺!`")
                     if Config.TG_MAX_SIZE < int(u_file_size):
                         return await query.message.edit("`File Size is too large to send in telegram 🥶!`")
-                    unzip_resp = await ses.get(url)
-                    if unzip_resp.status == 200:
+                    if unzip_head.status == 200:
                         # Makes download dir
                         os.makedirs(download_path)
                         # Send logs
@@ -62,7 +60,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                         s_time = time()
                         u_file_with_ext = f"{download_path}/archive_from_{user_id}{os.path.splitext(url)[1]}"
                         file = await aiofiles.open(u_file_with_ext, mode="wb")
-                        await file.write(await unzip_resp.read())
+                        await file.write(await unzip_head.read())
                         await file.close()
                         archive = u_file_with_ext
                         e_time = time()
