@@ -121,7 +121,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                 shutil.rmtree(f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}")
             return await query.message.edit("`I've already sent you those files 😐, Don't ask me to resend 😒!`")
         try:
-            await unzip_bot.send_document(chat_id=spl_data[2], document=paths[int(spl_data[3])], caption="**Extracted by @NexaUnzipper_Bot**")
+            await unzip_bot.send_document(chat_id=spl_data[2], document=paths[int(spl_data[3])], caption="**Extracted by @HFBots**")
             os.remove(paths[int(spl_data[3])])
         except FileNotFoundError:
             await query.answer("Sorry! I can't find that file", show_alert=True)
@@ -145,8 +145,8 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                 pass
             await query.message.edit("`I've already sent you those files 😐, Don't ask me to resend 😒!`")
         for file in paths:
-            await unzip_bot.send_document(chat_id=spl_data[2], document=file, caption="**Extracted by @NexaUnzipper_Bot**")
-        await query.message.edit("**Successfully Uploaded!** \n\n **Join @NexaBotsUpdates ❤️**")
+            await unzip_bot.send_document(chat_id=spl_data[2], document=file, caption="**Extracted by @HFBots**")
+        await query.message.edit("**Successfully Uploaded!** \n\n **Join @Housefull_links ❤️**")
         try:
             shutil.rmtree(f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}")
         except FileNotFoundError:
