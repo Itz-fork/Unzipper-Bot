@@ -34,7 +34,7 @@ async def progress_for_pyrogram(current, total, ud_type, message, start):
             estimated_total_time if estimated_total_time != '' else "0 s"
         )
         try:
-            await message.edit(text="{}\n {} \n\n**Powered by @HFbots**".format(ud_type,tmp))
+            await message.edit(text="{}\n {} \n\n**Powered by @HFbotsupdates**".format(ud_type,tmp))
         except:
             pass
 
@@ -75,7 +75,7 @@ def check_logs():
                 print("TF? Chat is not private")
                 return
             else:
-                client.send_message(chat_id=Config.LOGS_CHANNEL, text="`Unzipper-Bot has Successfully Started!` \n\n**Powered by @HFbots**")
+                client.send_message(chat_id=Config.LOGS_CHANNEL, text="`Unzipper-Bot has Successfully Started!` \n\n**Powered by @HFbotsupdates**")
         else:
             print("No Log Channel ID is Given! Imma leaving Now!")
             exit()
