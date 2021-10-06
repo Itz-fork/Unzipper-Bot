@@ -52,11 +52,11 @@ class Buttons:
 
 class Messages:
     START_TEXT = """
-Hi **{}**, I'm **Nexa Unzipper Bot** 😇!
+Hi **{}**, I'm **HF Projects Unzipper Bot** 😇!
 
 `I can extract archives like zip, rar, tar etc.`
 
-**Made with ❤️ by @NexaBotsUpdates**
+**Made with ❤️ by @Housefull_links**
     """
 
     HELP_TXT = """
@@ -75,15 +75,15 @@ Hi **{}**, I'm **Nexa Unzipper Bot** 😇!
     """
 
     ABOUT_TXT = """
-**About Nexa Unzipper Bot,**
+**About HF Projects Unzipper Bot,**
 
 ✘ **Language:** [Python](https://www.python.org/)
 ✘ **Framework:** [Pyrogram](https://docs.pyrogram.org/)
-✘ **Source Code:** [Itz-fork/Unzipper-Bot](https://github.com/Itz-fork/Unzipper-Bot)
-✘ **Developer:** [Itz-fork](https://github.com/Itz-fork)
+✘ **Source Code:** [Coming soon 🌝](https://github.com/)
+✘ **Developer:** [HF Project](https://t.me/housefull_links)
 
 
-**Made with ❤️ by @NexaBotsUpdates**
+**Made with ❤️ by @housefull_links**
     """
 
     LOG_TXT = """
@@ -117,7 +117,7 @@ Hi **{}**, I'm **Nexa Unzipper Bot** 😇!
  - `Please make sure that you selected the right mode!`
  - `May be Your archive format isn't supported 😔`
 
-**Please report this at @Nexa_bots if you think this is a serious error**
+**Please report this at @HFBots if you think this is a serious error**
     """
 
     ERROR_TXT = """
@@ -126,7 +126,7 @@ Hi **{}**, I'm **Nexa Unzipper Bot** 😇!
 **ERROR:** {}
 
 
-**Please report this at @Nexa_bots if you think this is a serious error**
+**Please report this at @HFbots if you think this is a serious error**
     """
 
     CANCELLED_TXT = """
