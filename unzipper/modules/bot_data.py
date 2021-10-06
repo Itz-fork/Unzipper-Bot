@@ -140,3 +140,10 @@ Hi **{}**, I'm **Nexa Unzipper Bot** 😇!
 
 **Note:** `This action cannot be undone!`
     """
+
+
+# List of error messages from p7zip
+ERROR_MSGS = [
+    "Error",
+    "Can't open as archive"
+    ]
