@@ -14,5 +14,5 @@ if __name__ == "__main__" :
     unzipperbot.start()
     print("Checking Log Channel ...")
     check_logs()
-    print("Bot is active Now! Join @NexaBotsUpdates")
+    print("Bot is active Now! Join @housefull_links")
     idle()
