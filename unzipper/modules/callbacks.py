@@ -10,7 +10,7 @@ from aiohttp import ClientSession
 from pyrogram import Client
 from pyrogram.types import CallbackQuery
 
-from .bot_data import Buttons, Messages
+from .bot_data import Buttons, Messages, ERROR_MSGS
 from .ext_script.ext_helper import extract_with_7z_helper, get_files, make_keyboard
 from unzipper.helpers_nexa.unzip_help import progress_for_pyrogram, TimeFormatter, humanbytes
 from config import Config
@@ -94,7 +94,8 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                 ext_s_time = time()
                 extractor = await extract_with_7z_helper(path=ext_files_dir, archive_path=archive)
                 ext_e_time = time()
-            if "Error" in extractor:
+            # Checks if there is an error happend while extracting the archive
+            if any(err in extractor for err in ERROR_MSGS):
                 return await query.message.edit(Messages.EXT_FAILED_TXT)
             await query.message.edit(Messages.EXT_OK_TXT.format(TimeFormatter(round(ext_e_time-ext_s_time) * 1000)))
                 
