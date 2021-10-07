@@ -44,17 +44,18 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                     return await query.message.edit("`That's not a valid url 😑!`")
                 s = ClientSession()
                 async with s as ses:
-                    unzip_head = await ses.get(url)
+                    unzip_head = await ses.head(url)
                     # Checks if file is an archive using content-type header
-                    if "application/" not in unzip_head.headers.get("Content-Type"):
+                    if "application/" not in unzip_head.headers.get('content-type'):
                         return await query.message.edit("`That's not an archive 😒!`")
                     # Checks if url file size is bigger than 2GB (Telegram limit)
-                    u_file_size = unzip_head.headers.get("Content-Length")
+                    u_file_size = unzip_head.headers.get('content-length')
                     if u_file_size is None:
                         return await query.message.edit("`Sorry, An Error occurred while getting file size. Please try again after some time 🥺!`")
                     if Config.TG_MAX_SIZE < int(u_file_size):
                         return await query.message.edit("`File Size is too large to send in telegram 🥶!`")
-                    if unzip_head.status == 200:
+                    unzip_resp = await ses.get(url)
+                    if unzip_resp.status == 200:
                         # Makes download dir
                         os.makedirs(download_path)
                         # Send logs
@@ -62,7 +63,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                         s_time = time()
                         u_file_with_ext = f"{download_path}/archive_from_{user_id}{os.path.splitext(url)[1]}"
                         file = await aiofiles.open(u_file_with_ext, mode="wb")
-                        await file.write(await unzip_head.read())
+                        await file.write(await unzip_resp.read())
                         await file.close()
                         archive = u_file_with_ext
                         e_time = time()
