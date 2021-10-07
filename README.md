@@ -1,8 +1,11 @@
-# Unzipper Bot
+<h1 align="center">》 Unzipper Bot 《</h1>
 A Telegram Bot to Extract Various Types Of Archives
 
+</br></br>
 
-# Features
+
+<h1 align="center">》 Features 《</h1>
+
 - Extract various types of archives like `rar`, `zip`, `tar`, `7z`, `tar.xz` etc.
 - Password support for extracting
 - Extract archives from direct links
@@ -12,7 +15,10 @@ A Telegram Bot to Extract Various Types Of Archives
 
 And Some other features 🔥!
 
-## Configs 📖
+</br>
+
+
+<h1 align="center">》 Configs 📖 《</h1>
 
 - `APP_ID` - Your APP ID. Get it from [my.telegram.org](my.telegram.org)
 - `API_HASH` - Your API_HASH. Get it from [my.telegram.org](my.telegram.org)
@@ -21,57 +27,55 @@ And Some other features 🔥!
 - `MONGODB_URL` - Your MongoDB url, Tutorial [here](https://www.youtube.com/watch?v=0aYrJTfYBHU)
 - `LOGS_CHANNEL` - Make a private channel and forward a message from that channel to [@ChannelidHEXbot](https://t.me/ChannelidHEXbot) to Get this. (Make sure to add Your bot to the channel as an admin)
 
-## Deploy
+</br>
+
+
+<h1 align="center">》 Deploy 《</h1>
+
 Deploying is easy 🤫! You can deploy this bot in Heroku or in a VPS ♥️! **Star 🌟 Fork 🍴 and Deploy**
 
-### With Heroku
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://www.heroku.com/deploy?template=https://github.com/Itz-fork/Unzipper-Bot)
 
+<h3 align="center">〕 With Heroku 〔</h3>
 
-### With VPS
+<p align="center">
+  <a href="https://www.heroku.com/deploy?template=https://github.com/Itz-fork/Unzipper-Bot">
+    <img src="https://www.herokucdn.com/deploy/button.svg">
+  </a>
+</p>
 
-- Clone this repo
+---
+
+<h3 align="center">〕 Self-Hosting 〔</h3>
+
 ```bash
 git clone https://github.com/Itz-fork/Unzipper-Bot.git
-```
-
-- Enter to the project directory,
-```bash
 cd Unzipper-Bot
-```
-
-- Install Requirements,
-
-**Install 7z (linux version) in your system,**
-```bash
+pip3 install -r requirements.txt
 sudo apt-get install p7zip-full p7zip-rar -y
 ```
-**Then install other requirements,**
-```
-pip3 install -r requirements.txt
-```
 
-- Fill Config Vars,
+<h4 align="center">Edit config.py with your own values</h4>
 
-For PCs - Use Normal Text Editor to Fill Config Vars </br>
-For Vps - If you haven't installed nano yet, Read This - [How to install Nano in your computer/Vps](https://gist.github.com/Itz-fork/fd11c08ef7464bdae3663a1f9c77c9e9)
-```
-sudo nano config.py
-```
-
-- Now run the bot
 ```bash
 bash start.sh
 ```
-</br>
+
+---
 
 **DONE 🥳, Enjoy The Bot! Be sure to Follow Me on [Github](https://github.com/Itz-fork) to Show some support 😍!**
 
+</br>
 
-## Found a bug 🐞?
+
+<h1 align="center">》 Found a bug 🐞? 《</h1>
+
 If you found a bug in this bot please open an [issue](https://github.com/Itz-fork/Unzipper-Bot/issues) or report it at the [Support Group](#support).
 
-## Support
+</br>
+
+
+<h1 align="center">》 Support 《</h1>
+
 <a href="https://t.me/NexaBotsUpdates">
   <img src="https://img.shields.io/badge/Updates_Channel-0a0a0a?style=for-the-badge&logo=telegram&logoColor=white">
 </a>
@@ -79,7 +83,11 @@ If you found a bug in this bot please open an [issue](https://github.com/Itz-for
   <img src="https://img.shields.io/badge/Support_Group-0a0a0a?style=for-the-badge&logo=telegram&logoColor=white">
 </a>
 
-## License & Copyright
+</br>
+
+
+<h1 align="center">》 License & Copyright 《</h1>
+
 ```
 Copyright (c) 2021 Itz-fork
 
