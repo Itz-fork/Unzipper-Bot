@@ -2,6 +2,7 @@
 # Don't kang this else your dad is gae
 
 import os
+import re
 import shutil
 import aiofiles
 
@@ -12,6 +13,7 @@ from pyrogram.types import CallbackQuery
 
 from .bot_data import Buttons, Messages, ERROR_MSGS
 from .ext_script.ext_helper import extract_with_7z_helper, get_files, make_keyboard
+from .commands import https_url_regex
 from unzipper.helpers_nexa.unzip_help import progress_for_pyrogram, TimeFormatter, humanbytes
 from config import Config
 
@@ -38,8 +40,8 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
             if splitted_data[1] == "url":
                 url = r_message.text
                 # Double check
-                if not "https://" in url:
-                    return await query.message.edit("`That's not a http url 😑!`")
+                if not re.match(https_url_regex, url):
+                    return await query.message.edit("`That's not a valid url 😑!`")
                 s = ClientSession()
                 async with s as ses:
                     unzip_head = await ses.get(url)
