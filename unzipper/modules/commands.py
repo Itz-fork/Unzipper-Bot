@@ -25,7 +25,11 @@ from config import Config
 
 
 # Regex for http/https urls
-https_url_regex = "^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$"
+https_url_regex = ("((http|https)://)(www.)?" + 
+                "[a-zA-Z0-9@:%._\\+~#?&//=]" +
+                "{2,256}\\.[a-z]" +
+                "{2,6}\\b([-a-zA-Z0-9@:%" +
+                "._\\+~#?&//=]*)")
 
 # Function to check user status (is banned or not)
 @Client.on_message(filters.private)
