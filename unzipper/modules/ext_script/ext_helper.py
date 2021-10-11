@@ -22,13 +22,14 @@ async def _extract_with_7z_helper(path, archive_path, password=None):
 
 ##Extract with zstd (for .zst files)
 async def _extract_with_zstd(path, archive_path):
-    command = f"zstd --output-dir-flat {path} -d {archive_path}"
+    command = f"zstd -f --output-dir-flat {path} -d {archive_path}"
     return await __run_cmds_unzipper(command)
 
 # Main function to extract files
 async def extr_files(path, archive_path, password=None):
     file_path = os.path.splitext(archive_path)[1]
     if file_path == ".zst":
+        os.mkdir(path)
         ex = await _extract_with_zstd(path, archive_path)
         return ex
     else:
