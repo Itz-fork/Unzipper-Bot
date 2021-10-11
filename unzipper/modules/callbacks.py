@@ -12,7 +12,7 @@ from pyrogram import Client
 from pyrogram.types import CallbackQuery
 
 from .bot_data import Buttons, Messages, ERROR_MSGS
-from .ext_script.ext_helper import extract_with_7z_helper, get_files, make_keyboard
+from .ext_script.ext_helper import extr_files, get_files, make_keyboard
 from .ext_script.up_helper import send_file
 from .commands import https_url_regex
 from unzipper.helpers_nexa.unzip_help import progress_for_pyrogram, TimeFormatter, humanbytes
@@ -97,11 +97,11 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
             if splitted_data[2] == "with_pass":
                 password = await unzip_bot.ask(chat_id=query.message.chat.id ,text="**Please send me the password 🔑:**")
                 ext_s_time = time()
-                extractor = await extract_with_7z_helper(path=ext_files_dir, archive_path=archive, password=password.text)
+                extractor = await extr_files(path=ext_files_dir, archive_path=archive, password=password.text)
                 ext_e_time = time()
             else:
                 ext_s_time = time()
-                extractor = await extract_with_7z_helper(path=ext_files_dir, archive_path=archive)
+                extractor = await extr_files(path=ext_files_dir, archive_path=archive)
                 ext_e_time = time()
             # Checks if there is an error happend while extracting the archive
             if any(err in extractor for err in ERROR_MSGS):
