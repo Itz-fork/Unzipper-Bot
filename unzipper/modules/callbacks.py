@@ -90,7 +90,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
             try:
                 await query.message.edit(Messages.AFTER_OK_DL_TXT.format(TimeFormatter(round(e_time-s_time) * 1000)))
             except:
-                await query.answer("Successfully Downloaded! Extracting Now 😊!")
+                await query.answer("Successfully Downloaded! Extracting Now 😊!", show_alert=True)
             
 
 
