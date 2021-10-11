@@ -27,7 +27,7 @@ async def _extract_with_zstd(path, archive_path):
 
 # Main function to extract files
 async def extr_files(path, archive_path, password=None):
-    file_path = os.path.splitext(archive_path)
+    file_path = os.path.splitext(archive_path)[1]
     if file_path == ".zst":
         ex = await _extract_with_zstd(path, archive_path)
         return ex
