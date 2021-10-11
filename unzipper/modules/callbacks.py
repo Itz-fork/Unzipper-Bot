@@ -132,6 +132,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                 shutil.rmtree(f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}")
             await query.message.edit("`I've already sent you those files 😐, Don't ask me to resend 😒!`")
         
+        await query.answer("Send that file to you. Please wait!")
         await send_file(unzip_bot=unzip_bot,
                         c_id=spl_data[2],
                         doc_f=paths[int(spl_data[3])],
@@ -164,6 +165,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                 pass
             return await query.message.edit("`I've already sent you those files 😐, Don't ask me to resend 😒!`")
         for file in paths:
+            await query.answer("Send that file to you. Please wait!")
             await send_file(unzip_bot=unzip_bot,
                             c_id=spl_data[2],
                             doc_f=file,
