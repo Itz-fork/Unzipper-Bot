@@ -13,6 +13,7 @@ from pyrogram.types import CallbackQuery
 
 from .bot_data import Buttons, Messages, ERROR_MSGS
 from .ext_script.ext_helper import extract_with_7z_helper, get_files, make_keyboard
+from .ext_script.up_helper import send_file
 from .commands import https_url_regex
 from unzipper.helpers_nexa.unzip_help import progress_for_pyrogram, TimeFormatter, humanbytes
 from config import Config
@@ -62,6 +63,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                         await unzip_bot.send_message(chat_id=Config.LOGS_CHANNEL, text=Messages.LOG_TXT.format(user_id, url, u_file_size))
                         s_time = time()
                         u_file_with_ext = f"{download_path}/archive_from_{user_id}{os.path.splitext(url)[1]}"
+                        await query.message.edit(f"**Trying to download!** \n\n**Url:** `{url}` \n\n`This may take a while, Go and grab a coffee ☕️!`")
                         file = await aiofiles.open(u_file_with_ext, mode="wb")
                         await file.write(await unzip_resp.read())
                         await file.close()
@@ -84,7 +86,11 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                 e_time = time()
             else:
                 await query.answer("Can't Find Details! Please contact support group!", show_alert=True)
-            await query.message.edit(Messages.AFTER_OK_DL_TXT.format(TimeFormatter(round(e_time-s_time) * 1000)))
+            
+            try:
+                await query.message.edit(Messages.AFTER_OK_DL_TXT.format(TimeFormatter(round(e_time-s_time) * 1000)))
+            except:
+                await query.answer("Successfully Downloaded! Extracting Now 😊!")
             
 
 
@@ -100,8 +106,10 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
             # Checks if there is an error happend while extracting the archive
             if any(err in extractor for err in ERROR_MSGS):
                 return await query.message.edit(Messages.EXT_FAILED_TXT)
+            
             await query.message.edit(Messages.EXT_OK_TXT.format(TimeFormatter(round(ext_e_time-ext_s_time) * 1000)))
-                
+            
+            
             # Upload extracted files
             paths = get_files(path=ext_files_dir)
             i_e_buttons = await make_keyboard(paths=paths, user_id=user_id, chat_id=query.message.chat.id)
@@ -122,20 +130,23 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
         if not paths:
             if os.path.isdir(f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}"):
                 shutil.rmtree(f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}")
-            return await query.message.edit("`I've already sent you those files 😐, Don't ask me to resend 😒!`")
-        try:
-            await unzip_bot.send_document(chat_id=spl_data[2], document=paths[int(spl_data[3])], caption="**Extracted by @NexaUnzipper_Bot**")
-            os.remove(paths[int(spl_data[3])])
-        except FileNotFoundError:
-            await query.answer("Sorry! I can't find that file", show_alert=True)
-        except BaseException:
-            shutil.rmtree(f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}")
+            await query.message.edit("`I've already sent you those files 😐, Don't ask me to resend 😒!`")
+        
+        await send_file(c_id=spl_data[2], doc_f=paths[int(spl_data[3])], query=query, full_path=f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}")
+
         # Refreshing Inline keyboard
         await query.message.edit("`Refreshing ⏳...`")
         rpaths = get_files(path=file_path)
+        # There are no files let's die
+        if not rpaths:
+            try:
+                shutil.rmtree(f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}")
+            except:
+                pass
+            return await query.message.edit("`I've already sent you those files 😐, Don't ask me to resend 😒!`")
         i_e_buttons = await make_keyboard(paths=rpaths, user_id=query.from_user.id, chat_id=query.message.chat.id)
         await query.message.edit("Select Files to Upload!", reply_markup=i_e_buttons)
-
+    
     
     elif query.data.startswith("ext_a"):
         spl_data = query.data.split("|")
@@ -146,15 +157,13 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                 shutil.rmtree(f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}")
             except:
                 pass
-            await query.message.edit("`I've already sent you those files 😐, Don't ask me to resend 😒!`")
+            return await query.message.edit("`I've already sent you those files 😐, Don't ask me to resend 😒!`")
         for file in paths:
-            await unzip_bot.send_document(chat_id=spl_data[2], document=file, caption="**Extracted by @NexaUnzipper_Bot**")
+            await send_file(c_id=spl_data[2], doc_f=file, query=query, full_path=f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}")
         await query.message.edit("**Successfully Uploaded!** \n\n **Join @NexaBotsUpdates ❤️**")
         try:
             shutil.rmtree(f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}")
-        except FileNotFoundError:
-            pass
-        except BaseException as e:
+        except Exception as e:
             await query.message.edit(Messages.ERROR_TXT.format(e))
     
     elif query.data == "cancel_dis":
