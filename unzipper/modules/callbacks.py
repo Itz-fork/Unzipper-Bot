@@ -82,7 +82,10 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                 log_msg = await r_message.forward(chat_id=Config.LOGS_CHANNEL)
                 await log_msg.reply(Messages.LOG_TXT.format(user_id, r_message.document.file_name, humanbytes(r_message.document.file_size)))
                 s_time = time()
-                archive = await r_message.download(file_name=f"{download_path}/archive_from_{user_id}", progress=progress_for_pyrogram, progress_args=("**Trying to Download!** \n", query.message, s_time))
+                archive = await r_message.download(
+                    file_name=f"{download_path}/archive_from_{user_id}{os.path.splitext(r_message.document.file_name)[1]}",
+                    progress=progress_for_pyrogram, progress_args=("**Trying to Download!** \n", query.message, s_time)
+                    )
                 e_time = time()
             else:
                 await query.answer("Can't Find Details! Please contact support group!", show_alert=True)
