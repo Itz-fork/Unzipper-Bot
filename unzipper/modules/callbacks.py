@@ -108,11 +108,11 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
             await query.message.edit("Select Files to Upload!", reply_markup=i_e_buttons)
         except Exception as e:
             try:
+                await query.message.edit(Messages.ERROR_TXT.format(e))
                 shutil.rmtree(download_path)
                 await s.close()
-            except Exception as e:
-                print(e)
-            await query.message.edit(Messages.ERROR_TXT.format(e))
+            except Exception as er:
+                print(er)
 
     elif query.data.startswith("ext_f"):
         spl_data = query.data.split("|")
