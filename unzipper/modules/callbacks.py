@@ -132,7 +132,12 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                 shutil.rmtree(f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}")
             await query.message.edit("`I've already sent you those files 😐, Don't ask me to resend 😒!`")
         
-        await send_file(c_id=spl_data[2], doc_f=paths[int(spl_data[3])], query=query, full_path=f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}")
+        await send_file(unzip_bot=unzip_bot,
+                        c_id=spl_data[2],
+                        doc_f=paths[int(spl_data[3])],
+                        query=query,
+                        full_path=f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}"
+                    )
 
         # Refreshing Inline keyboard
         await query.message.edit("`Refreshing ⏳...`")
@@ -159,7 +164,12 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                 pass
             return await query.message.edit("`I've already sent you those files 😐, Don't ask me to resend 😒!`")
         for file in paths:
-            await send_file(c_id=spl_data[2], doc_f=file, query=query, full_path=f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}")
+            await send_file(unzip_bot=unzip_bot,
+                            c_id=spl_data[2],
+                            doc_f=file,
+                            query=query,
+                            full_path=f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}"
+                        )
         await query.message.edit("**Successfully Uploaded!** \n\n **Join @NexaBotsUpdates ❤️**")
         try:
             shutil.rmtree(f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}")

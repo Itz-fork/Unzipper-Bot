@@ -9,7 +9,7 @@ from pyrogram import Client
 from pyrogram.errors import FloodWait
 
 # Send file to a user
-async def send_file(unzip_bot: Client, c_id, doc_f, query, full_path):
+async def send_file(unzip_bot, c_id, doc_f, query, full_path):
     await query.answer("Send that file to you. Please wait!")
     try:
         await unzip_bot.send_document(chat_id=c_id, document=doc_f, caption="**Extracted by @NexaUnzipper_Bot**")
