@@ -133,7 +133,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
         if not paths:
             if os.path.isdir(f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}"):
                 shutil.rmtree(f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}")
-            await query.message.edit("`I've already sent you those files 😐, Don't ask me to resend 😒!`")
+            return await query.message.edit("`I've already sent you those files 😐, Don't ask me to resend 😒!`")
         
         await query.answer("Send that file to you. Please wait!")
         await send_file(unzip_bot=unzip_bot,
