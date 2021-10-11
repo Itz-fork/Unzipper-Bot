@@ -18,14 +18,12 @@ async def _extract_with_7z_helper(path, archive_path, password=None):
         command = f"7z x -o{path} -p{password} {archive_path} -y"
     else:
         command = f"7z x -o{path} {archive_path} -y"
-    return __run_cmds_unzipper(command)
+    return await __run_cmds_unzipper(command)
 
 ##Extract with zstd (for .zst files)
 async def _extract_with_zstd(path, archive_path):
     command = f"zstd --output-dir-flat {path} -d {archive_path}"
-    ext_cmd = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
-    ext_out = ext_cmd.stdout.read()[:-1].decode("utf-8")
-    return __run_cmds_unzipper(command)
+    return await __run_cmds_unzipper(command)
 
 # Main function to extract files
 async def extr_files(path, archive_path, password=None):
