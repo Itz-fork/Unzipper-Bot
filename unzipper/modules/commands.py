@@ -2,6 +2,7 @@
 # Don't kang this else your dad is gae
 import os
 import asyncio
+import re
 import shutil
 import psutil
 
@@ -53,7 +54,12 @@ async def extract_dis_archive(client: Client, message: Message):
     download_path = f"{Config.DOWNLOAD_LOCATION}/{user_id}"
     if os.path.isdir(download_path):
         return await unzip_msg.edit("`Already one process is going on, Don't spam you idiot 😑!` \n\nWanna Clear You Files from my server? Then just send **/clean** command!")
-    await unzip_msg.edit("**What do you want?**", reply_markup=Buttons.CHOOSE_E_BTN)
+    if re.match(message.text):
+        await unzip_msg.edit("**What do you want?**", reply_markup=Buttons.CHOOSE_E_U__BTNS)
+    elif message.document:
+        await unzip_msg.edit("**What do you want?**", reply_markup=Buttons.CHOOSE_E_F__BTNS)
+    else:
+        await unzip_msg.edit("`Hold up! What Should I Extract 😳?`")
 
 # Database Commands
 @Client.on_message(filters.private & filters.command("stats") & filters.user(Config.BOT_OWNER))

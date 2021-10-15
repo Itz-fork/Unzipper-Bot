@@ -14,14 +14,26 @@ class Buttons:
         ]
     )
     
-    CHOOSE_E_BTN=InlineKeyboardMarkup(
+    CHOOSE_E_F__BTNS=InlineKeyboardMarkup(
         [
             [
                 InlineKeyboardButton("File Extract 📂", callback_data="extract_file|tg_file|no_pass"),
+            ],
+            [
                 InlineKeyboardButton("File (Password) Extract 📂", callback_data="extract_file|tg_file|with_pass")
             ],
             [
+                InlineKeyboardButton("Cancel ❌", callback_data="cancel_dis")
+            ]
+        ]
+    )
+
+    CHOOSE_E_U__BTNS=InlineKeyboardMarkup(
+        [
+            [
                 InlineKeyboardButton("🔗 Url Extract 📂", callback_data="extract_file|url|no_pass"),
+            ],
+            [
                 InlineKeyboardButton("🔗 (Password) Url Extract 📂", callback_data="extract_file|url|with_pass")
             ],
             [
