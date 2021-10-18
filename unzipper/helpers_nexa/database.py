@@ -91,7 +91,7 @@ async def check_user(message):
         await add_user(message.from_user.id)
         await Client.send_message(
             chat_id=Config.LOGS_CHANNEL,
-            text=f"**#NEW_USER** 🎙 \n\n**User Profile:** `{message.from_user.mention}` \n**User ID:** `{message.from_user.id}` \n**Profile Url:** tg://user?id={message.from_user.id}",
+            text=f"**#NEW_USER** 🎙 \n\n**User Profile:** `{message.from_user.mention}` \n**User ID:** `{message.from_user.id}` \n**Profile Url:** [Click here](tg://user?id={message.from_user.id})",
             disable_web_page_preview=True
         )
     await message.continue_propagation()
