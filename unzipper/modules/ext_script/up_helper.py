@@ -11,6 +11,13 @@ from pyrogram.errors import FloodWait
 # Send file to a user
 async def send_file(unzip_bot, c_id, doc_f, query, full_path):
     try:
+        # Checks if url file size is bigger than 2GB (Telegram limit)
+        u_file_size = os.stat(doc_f).st_size
+        if Config.TG_MAX_SIZE < int(u_file_size):
+            return await unzip_bot.send_message(
+                chat_id=c_id,
+                text="`File Size is too large to send in telegram 🥶!` \n\n**Sorry, but I can't do anything about this as it's a telegram limitation 😔!**"
+            )
         await unzip_bot.send_document(chat_id=c_id, document=doc_f, caption="**Extracted by @NexaUnzipper_Bot**")
         os.remove(doc_f)
     except FloodWait as f:
