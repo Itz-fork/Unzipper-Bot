@@ -45,6 +45,10 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                     return await query.message.edit("`That's not a valid url 😑!`")
                 s = ClientSession()
                 async with s as ses:
+                    # Get the file size
+                    unzip_head = await ses.head(url)
+                    f_size = unzip_head.headers.get('content-length')
+                    u_file_size = f_size if f_size else "undefined"
                     # Checks if file is an archive using content-type header
                     unzip_resp = await ses.get(url)
                     if "application/" not in unzip_resp.headers.get('content-type'):
