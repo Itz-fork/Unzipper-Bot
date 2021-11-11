@@ -50,7 +50,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                     f_size = unzip_head.headers.get('content-length')
                     u_file_size = f_size if f_size else "undefined"
                     # Checks if file is an archive using content-type header
-                    unzip_resp = await ses.get(url)
+                    unzip_resp = await ses.get(url, timeout=None)
                     if "application/" not in unzip_resp.headers.get('content-type'):
                         return await query.message.edit("`That's not an archive 😒!`")
                     if unzip_resp.status == 200:
