@@ -51,7 +51,11 @@ Deploying is easy 🤫! You can deploy this bot in Heroku or in a VPS ♥️! **
 git clone https://github.com/Itz-fork/Unzipper-Bot.git
 cd Unzipper-Bot
 pip3 install -r requirements.txt
+
+# If ubuntu based
 sudo apt-get install p7zip-full p7zip-rar -y
+# If arch based
+sudo pacman -S p7zip
 ```
 
 <h4 align="center">Edit config.py with your own values</h4>
