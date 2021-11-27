@@ -3,6 +3,9 @@ A Telegram Bot to Extract Various Types Of Archives
 
 </br></br>
 
+> Note ⚠️
+> This branch has some changes in Dockerfile. That means I've changed it from ubuntu to arch linux.
+> Why 🤔? Cuz arch's p7zip package is based on currently active version of originall p7zip package with some additional features
 
 <h1 align="center">》 Features 《</h1>
 
