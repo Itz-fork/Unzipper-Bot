@@ -7,6 +7,7 @@ import asyncio
 
 from pyrogram import Client
 from pyrogram.errors import FloodWait
+from config import Config
 
 # Send file to a user
 async def send_file(unzip_bot, c_id, doc_f, query, full_path):
