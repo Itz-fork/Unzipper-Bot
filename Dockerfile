@@ -1,9 +1,7 @@
-FROM ubuntu:latest
+FROM archlinux:latest
 
-ENV DEBIAN_FRONTEND noninteractive
-
-RUN apt update && apt upgrade -y
-RUN apt install python3-pip zstd p7zip-full p7zip-rar -y
+RUN pacman -Syyu --noconfirm
+RUN pacman -S --noconfirm python-pip zstd p7zip
 RUN pip3 install -U pip
 RUN mkdir /app/
 WORKDIR /app/
