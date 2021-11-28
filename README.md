@@ -1,13 +1,13 @@
 <h1 align="center">》 Unzipper Bot 《</h1>
-A Telegram Bot to Extract Various Types Of Archives
+
+<p align="center">
+  A Telegram Bot to Extract Various Types Of Archives
+</p>
 
 </br></br>
 
-> Note ⚠️
-> This branch has some changes in Dockerfile. That means I've changed it from ubuntu to arch linux.
-> Why 🤔? Cuz arch's p7zip package is based on currently active version of originall p7zip package with some additional features
 
-<h1 align="center">》 Features 《</h1>
+## Features
 
 - Extract various types of archives like `rar`, `zip`, `tar`, `7z`, `tar.xz` etc.
 - Password support for extracting
@@ -18,10 +18,8 @@ A Telegram Bot to Extract Various Types Of Archives
 
 And Some other features 🔥!
 
-</br>
 
-
-<h1 align="center">》 Configs 📖 《</h1>
+## Configs 📖
 
 - `APP_ID` - Your APP ID. Get it from [my.telegram.org](my.telegram.org)
 - `API_HASH` - Your API_HASH. Get it from [my.telegram.org](my.telegram.org)
@@ -33,31 +31,31 @@ And Some other features 🔥!
 </br>
 
 
-<h1 align="center">》 Deploy 《</h1>
+## Deploy 👀
 
 Deploying is easy 🤫! You can deploy this bot in Heroku or in a VPS ♥️! **Star 🌟 Fork 🍴 and Deploy**
 
+> Note ⚠️
+> This branch has some changes in Dockerfile. That means I've changed it from ubuntu to arch linux.
+> 
+> But Why 🤔? Cuz arch's p7zip package is based on currently active version of originall p7zip package with some additional features
 
-<h3 align="center">〕 With Heroku 〔</h3>
+#### With Heroku
 
-<p align="center">
-  <a href="https://www.heroku.com/deploy?template=https://github.com/Itz-fork/Unzipper-Bot">
-    <img src="https://www.herokucdn.com/deploy/button.svg">
-  </a>
-</p>
+<a href="https://www.heroku.com/deploy?template=https://github.com/Itz-fork/Unzipper-Bot/tree/arch">
+  <img src="https://www.herokucdn.com/deploy/button.svg">
+</a>
 
 ---
 
-<h3 align="center">〕 Self-Hosting 〔</h3>
+#### Self-Hosting
 
 ```bash
-git clone https://github.com/Itz-fork/Unzipper-Bot.git
+git clone -b arch https://github.com/Itz-fork/Unzipper-Bot.git
 cd Unzipper-Bot
 pip3 install -r requirements.txt
 
-# If ubuntu based
-sudo apt-get install p7zip-full p7zip-rar -y
-# If arch based
+# Arch linux only
 sudo pacman -S p7zip
 ```
 
@@ -69,19 +67,19 @@ bash start.sh
 
 ---
 
-**DONE 🥳, Enjoy The Bot! Be sure to Follow Me on [Github](https://github.com/Itz-fork) to Show some support 😍!**
+**DONE 🥳, Enjoy The Bot! Be sure to Follow Me on [Github](https://github.com/Itz-fork) and Star 🌟 this repo to Show some support 😍!**
 
 </br>
 
 
-<h1 align="center">》 Found a bug 🐞? 《</h1>
+## Found a bug 🐞?
 
 If you found a bug in this bot please open an [issue](https://github.com/Itz-fork/Unzipper-Bot/issues) or report it at the [Support Group](#support).
 
 </br>
 
 
-<h1 align="center">》 Support 《</h1>
+## Support 💙
 
 <a href="https://t.me/NexaBotsUpdates">
   <img src="https://img.shields.io/badge/Updates_Channel-0a0a0a?style=for-the-badge&logo=telegram&logoColor=white">
@@ -93,7 +91,7 @@ If you found a bug in this bot please open an [issue](https://github.com/Itz-for
 </br>
 
 
-<h1 align="center">》 License & Copyright 《</h1>
+## License & Copyright 👮
 
 ```
 Copyright (c) 2021 Itz-fork
