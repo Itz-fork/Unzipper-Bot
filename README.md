@@ -1,10 +1,13 @@
 <h1 align="center">》 Unzipper Bot 《</h1>
-A Telegram Bot to Extract Various Types Of Archives
+
+<p align="center">
+  A Telegram Bot to Extract Various Types Of Archives
+</p>
 
 </br></br>
 
 
-<h1 align="center">》 Features 《</h1>
+## Features
 
 - Extract various types of archives like `rar`, `zip`, `tar`, `7z`, `tar.xz` etc.
 - Password support for extracting
@@ -15,10 +18,8 @@ A Telegram Bot to Extract Various Types Of Archives
 
 And Some other features 🔥!
 
-</br>
 
-
-<h1 align="center">》 Configs 📖 《</h1>
+## Configs 📖
 
 - `APP_ID` - Your APP ID. Get it from [my.telegram.org](my.telegram.org)
 - `API_HASH` - Your API_HASH. Get it from [my.telegram.org](my.telegram.org)
@@ -30,22 +31,20 @@ And Some other features 🔥!
 </br>
 
 
-<h1 align="center">》 Deploy 《</h1>
+## Deploy 👀
 
 Deploying is easy 🤫! You can deploy this bot in Heroku or in a VPS ♥️! **Star 🌟 Fork 🍴 and Deploy**
 
 
-<h3 align="center">〕 With Heroku 〔</h3>
+#### With Heroku
 
-<p align="center">
-  <a href="https://www.heroku.com/deploy?template=https://github.com/Itz-fork/Unzipper-Bot">
-    <img src="https://www.herokucdn.com/deploy/button.svg">
-  </a>
-</p>
+<a href="https://www.heroku.com/deploy?template=https://github.com/Itz-fork/Unzipper-Bot">
+  <img src="https://www.herokucdn.com/deploy/button.svg">
+</a>
 
 ---
 
-<h3 align="center">〕 Self-Hosting 〔</h3>
+#### Self-Hosting
 
 ```bash
 git clone https://github.com/Itz-fork/Unzipper-Bot.git
@@ -66,12 +65,12 @@ bash start.sh
 
 ---
 
-**DONE 🥳, Enjoy The Bot! Be sure to Follow Me on [Github](https://github.com/Itz-fork) to Show some support 😍!**
+**DONE 🥳, Enjoy The Bot! Be sure to Follow Me on [Github](https://github.com/Itz-fork) and Star 🌟 this repo to Show some support 😍!**
 
 </br>
 
 
-<h1 align="center">》 Found a bug 🐞? 《</h1>
+##Found a bug 🐞? 《</h1>
 
 If you found a bug in this bot please open an [issue](https://github.com/Itz-fork/Unzipper-Bot/issues) or report it at the [Support Group](#support).
 
