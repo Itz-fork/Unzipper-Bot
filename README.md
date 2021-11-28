@@ -35,6 +35,8 @@ And Some other features 🔥!
 
 Deploying is easy 🤫! You can deploy this bot in Heroku or in a VPS ♥️! **Star 🌟 Fork 🍴 and Deploy**
 
+> Note ⚠️:
+> Use [arch branch](https://github.com/Itz-fork/Unzipper-Bot/tree/arch) if you want to use latest p7zip version
 
 #### With Heroku
 
@@ -70,14 +72,14 @@ bash start.sh
 </br>
 
 
-##Found a bug 🐞? 《</h1>
+## Found a bug 🐞?
 
 If you found a bug in this bot please open an [issue](https://github.com/Itz-fork/Unzipper-Bot/issues) or report it at the [Support Group](#support).
 
 </br>
 
 
-<h1 align="center">》 Support 《</h1>
+## Support 💙
 
 <a href="https://t.me/NexaBotsUpdates">
   <img src="https://img.shields.io/badge/Updates_Channel-0a0a0a?style=for-the-badge&logo=telegram&logoColor=white">
@@ -89,7 +91,7 @@ If you found a bug in this bot please open an [issue](https://github.com/Itz-for
 </br>
 
 
-<h1 align="center">》 License & Copyright 《</h1>
+## License & Copyright 👮
 
 ```
 Copyright (c) 2021 Itz-fork
