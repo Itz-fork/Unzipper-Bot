@@ -90,7 +90,10 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
             try:
                 await query.message.edit(Messages.AFTER_OK_DL_TXT.format(TimeFormatter(round(e_time-s_time) * 1000)))
             except:
-                await query.answer("Successfully Downloaded! Extracting Now 😊!", show_alert=True)
+                try:
+                    await query.answer("Successfully Downloaded! Extracting Now 😊!", show_alert=True)
+                except:
+                    await unzip_bot.send_message(chat_id=query.message.chat.id, text="Successfully Downloaded! Extracting Now 😊!")
             
 
 
@@ -112,7 +115,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                         await query.message.delete()
                     except:
                         pass
-                    return await unzip_bot.send_message(Messages.EXT_FAILED_TXT)
+                    return await unzip_bot.send_message(chat_id=query.message.chat.id, text=Messages.EXT_FAILED_TXT)
             
             try:
                 await query.message.edit(Messages.EXT_OK_TXT.format(TimeFormatter(round(ext_e_time-ext_s_time) * 1000)))
@@ -132,7 +135,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                     await query.message.delete()
                 except:
                     pass
-                await unzip_bot.send_message("`Select Files to Upload!`", reply_markup=i_e_buttons)
+                await unzip_bot.send_message(chat_id=query.message.chat.id, text="`Select Files to Upload!`", reply_markup=i_e_buttons)
             
         except Exception as e:
             try:
