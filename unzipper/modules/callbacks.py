@@ -123,7 +123,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                     pass
             
             # Upload extracted files
-            paths = get_files(path=ext_files_dir)
+            paths = await get_files(path=ext_files_dir)
             i_e_buttons = await make_keyboard(paths=paths, user_id=user_id, chat_id=query.message.chat.id)
             try:
                 await query.message.edit("`Select Files to Upload!`", reply_markup=i_e_buttons)
