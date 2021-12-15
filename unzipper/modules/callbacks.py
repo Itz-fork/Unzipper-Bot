@@ -72,7 +72,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
             
             elif splitted_data[1] == "tg_file":
                 if r_message.document is None:
-                    return await query.message.edit("`Give me an Archive to extract lamo!`")
+                    return await query.message.edit("`Give me an Archive to extract lmao!`")
                 # Makes download dir
                 os.makedirs(download_path)
                 # Send Logs
@@ -105,15 +105,35 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                 ext_e_time = time()
             # Checks if there is an error happend while extracting the archive
             if any(err in extractor for err in ERROR_MSGS):
-                return await query.message.edit(Messages.EXT_FAILED_TXT)
+                try:
+                    return await query.message.edit(Messages.EXT_FAILED_TXT)
+                except:
+                    try:
+                        await query.message.delete()
+                    except:
+                        pass
+                    return await unzip_bot.send_message(Messages.EXT_FAILED_TXT)
             
-            await query.message.edit(Messages.EXT_OK_TXT.format(TimeFormatter(round(ext_e_time-ext_s_time) * 1000)))
-            
+            try:
+                await query.message.edit(Messages.EXT_OK_TXT.format(TimeFormatter(round(ext_e_time-ext_s_time) * 1000)))
+            except:
+                try:
+                    await query.answer(Messages.EXT_OK_TXT.format(TimeFormatter(round(ext_e_time-ext_s_time) * 1000)), show_alert=True)
+                except:
+                    pass
             
             # Upload extracted files
             paths = get_files(path=ext_files_dir)
             i_e_buttons = await make_keyboard(paths=paths, user_id=user_id, chat_id=query.message.chat.id)
-            await query.message.edit("Select Files to Upload!", reply_markup=i_e_buttons)
+            try:
+                await query.message.edit("`Select Files to Upload!`", reply_markup=i_e_buttons)
+            except:
+                try:
+                    await query.message.delete()
+                except:
+                    pass
+                await unzip_bot.send_message("`Select Files to Upload!`", reply_markup=i_e_buttons)
+            
         except Exception as e:
             try:
                 await query.message.edit(Messages.ERROR_TXT.format(e))
