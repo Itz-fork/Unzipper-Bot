@@ -37,7 +37,7 @@ async def extr_files(path, archive_path, password=None):
         return ex
 
 # Get files in directory as a list
-def get_files(path):
+async def get_files(path):
     path_list = []
     for r, d, f in os.walk(path):
         for file in f:
