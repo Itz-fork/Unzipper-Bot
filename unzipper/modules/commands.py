@@ -20,19 +20,21 @@ from unzipper.helpers_nexa.database import (
     add_banned_user,
     del_banned_user,
     count_banned_users
-    )
+)
 from unzipper.helpers_nexa.unzip_help import humanbytes
 from config import Config
 
 
 # Regex for http/https urls
-https_url_regex = ("((http|https)://)(www.)?" + 
-                "[a-zA-Z0-9@:%._\\+~#?&//=]" +
-                "{2,256}\\.[a-z]" +
-                "{2,6}\\b([-a-zA-Z0-9@:%" +
-                "._\\+~#?&//=]*)")
+https_url_regex = ("((http|https)://)(www.)?" +
+                   "[a-zA-Z0-9@:%._\\+~#?&//=]" +
+                   "{2,256}\\.[a-z]" +
+                   "{2,6}\\b([-a-zA-Z0-9@:%" +
+                   "._\\+~#?&//=]*)")
 
 # Function to check user status (is banned or not)
+
+
 @Client.on_message(filters.private)
 async def _(client: Client, message: Message):
     await check_user(message)
@@ -42,10 +44,12 @@ async def _(client: Client, message: Message):
 async def start_bot(client: Client, message: Message):
     await message.reply_text(text=Messages.START_TEXT.format(message.from_user.mention), reply_markup=Buttons.START_BUTTON, disable_web_page_preview=True)
 
+
 @Client.on_message(filters.private & filters.command("clean"))
 async def clean_ma_files(client: Client, message: Message):
     await message.reply_text(text=Messages.CLEAN_TXT, reply_markup=Buttons.CLN_BTNS)
     message.from_user.mention
+
 
 @Client.on_message(filters.incoming & filters.private & filters.regex(https_url_regex) | filters.document)
 async def extract_dis_archive(client: Client, message: Message):
@@ -55,11 +59,12 @@ async def extract_dis_archive(client: Client, message: Message):
     if os.path.isdir(download_path):
         return await unzip_msg.edit("`Already one process is going on, Don't spam you idiot 😑!` \n\nWanna Clear You Files from my server? Then just send **/clean** command!")
     if message.text and (re.match(https_url_regex, message.text)):
-            await unzip_msg.edit("**What do you want?**", reply_markup=Buttons.CHOOSE_E_U__BTNS)
+        await unzip_msg.edit("**What do you want?**", reply_markup=Buttons.CHOOSE_E_U__BTNS)
     elif message.document:
         await unzip_msg.edit("**What do you want?**", reply_markup=Buttons.CHOOSE_E_F__BTNS)
     else:
         await unzip_msg.edit("`Hold up! What Should I Extract 😳?`")
+
 
 # Database Commands
 @Client.on_message(filters.private & filters.command("stats") & filters.user(Config.BOT_OWNER))
@@ -91,7 +96,8 @@ async def send_stats(client: Client, message: Message):
 **🎛 Hardware Usage,**
  ↳**CPU Usage:** `{cpu_usage}%`
  ↳**RAM Usage:** `{ram_usage}%`"""
-    )
+                         )
+
 
 async def _do_broadcast(message, user):
     try:
@@ -115,13 +121,13 @@ async def broadcast_dis(client: Client, message: Message):
     await bc_msg.edit("`Broadcasting has started, This may take while 🥱!`")
     success_no = 0
     failed_no = 0
+    total_users = await count_users()
     for user in users_list:
         b_cast = await _do_broadcast(message=r_msg, user=user["user_id"])
         if b_cast == 200:
             success_no += 1
         else:
             failed_no += 1
-    total_users = await count_users()
     await bc_msg.edit(f"""
 **Broadcast Completed ✅!**
 
@@ -129,6 +135,7 @@ async def broadcast_dis(client: Client, message: Message):
 **Successful Responses:** `{success_no}`
 **Failed Responses:** `{failed_no}`
     """)
+
 
 @Client.on_message(filters.private & filters.command("ban") & filters.user(Config.BOT_OWNER))
 async def ban_user(client: Client, message: Message):
@@ -139,6 +146,7 @@ async def ban_user(client: Client, message: Message):
         return await ban_msg.edit("`Give a user id to ban!`")
     await add_banned_user(user_id)
     await ban_msg.edit(f"**Successfully Banned That User ✅** \n\n**User ID:** `{user_id}`")
+
 
 @Client.on_message(filters.private & filters.command("unban") & filters.user(Config.BOT_OWNER))
 async def unban_user(client: Client, message: Message):

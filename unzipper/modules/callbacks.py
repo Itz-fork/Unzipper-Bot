@@ -13,7 +13,7 @@ from pyrogram.types import CallbackQuery
 
 from .bot_data import Buttons, Messages, ERROR_MSGS
 from .ext_script.ext_helper import extr_files, get_files, make_keyboard
-from .ext_script.up_helper import send_file
+from .ext_script.up_helper import send_file, answer_query
 from .commands import https_url_regex
 from unzipper.helpers_nexa.unzip_help import progress_for_pyrogram, TimeFormatter, humanbytes
 from config import Config
@@ -60,15 +60,14 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                         await unzip_bot.send_message(chat_id=Config.LOGS_CHANNEL, text=Messages.LOG_TXT.format(user_id, url, u_file_size))
                         s_time = time()
                         u_file_with_ext = f"{download_path}/archive_from_{user_id}{os.path.splitext(url)[1]}"
-                        await query.message.edit(f"**Trying to download!** \n\n**Url:** `{url}` \n\n`This may take a while, Go and grab a coffee ☕️!`")
+                        await answer_query(query, f"**Trying to download!** \n\n**Url:** `{url}` \n\n`This may take a while, Go and grab a coffee ☕️!`", unzip_client=unzip_bot)
                         file = await aiofiles.open(u_file_with_ext, mode="wb")
                         await file.write(await unzip_resp.read())
                         await file.close()
                         archive = u_file_with_ext
                         e_time = time()
                     else:
-                        await query.message.edit("**Sorry I can't download that URL 🥺!**")
-                        return
+                        return await query.message.edit("**Sorry I can't download that URL 🥺!**")
             
             elif splitted_data[1] == "tg_file":
                 if r_message.document is None:
@@ -85,17 +84,9 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                     )
                 e_time = time()
             else:
-                await query.answer("Can't Find Details! Please contact support group!", show_alert=True)
+                await answer_query(query, "Can't Find Details! Please contact support group!", answer_only=True, unzip_client=unzip_bot)
             
-            try:
-                await query.message.edit(Messages.AFTER_OK_DL_TXT.format(TimeFormatter(round(e_time-s_time) * 1000)))
-            except:
-                try:
-                    await query.answer("Successfully Downloaded! Extracting Now 😊!", show_alert=True)
-                except:
-                    await unzip_bot.send_message(chat_id=query.message.chat.id, text="Successfully Downloaded! Extracting Now 😊!")
-            
-
+            await answer_query(query, Messages.AFTER_OK_DL_TXT.format(TimeFormatter(round(e_time-s_time) * 1000)), unzip_client=unzip_bot)
 
             if splitted_data[2] == "with_pass":
                 password = await unzip_bot.ask(chat_id=query.message.chat.id ,text="**Please send me the password 🔑:**")
@@ -117,13 +108,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                         pass
                     return await unzip_bot.send_message(chat_id=query.message.chat.id, text=Messages.EXT_FAILED_TXT)
             
-            try:
-                await query.message.edit(Messages.EXT_OK_TXT.format(TimeFormatter(round(ext_e_time-ext_s_time) * 1000)))
-            except:
-                try:
-                    await query.answer(Messages.EXT_OK_TXT.format(TimeFormatter(round(ext_e_time-ext_s_time) * 1000)), show_alert=True)
-                except:
-                    pass
+            await answer_query(query, Messages.EXT_OK_TXT.format(TimeFormatter(round(ext_e_time-ext_s_time) * 1000)), unzip_client=unzip_bot)
             
             # Upload extracted files
             paths = await get_files(path=ext_files_dir)
@@ -155,7 +140,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                 shutil.rmtree(f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}")
             return await query.message.edit("`I've already sent you those files 😐, Don't ask me to resend 😒!`")
         
-        await query.answer("Send that file to you. Please wait!")
+        await query.answer("Sending that file to you. Please wait!")
         await send_file(unzip_bot=unzip_bot,
                         c_id=spl_data[2],
                         doc_f=paths[int(spl_data[3])],

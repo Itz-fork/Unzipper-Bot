@@ -2,10 +2,10 @@
 # Don't kang this else your dad is gae
 
 import os
+import re
 import shutil
 import asyncio
 
-from pyrogram import Client
 from pyrogram.errors import FloodWait
 from config import Config
 
@@ -28,3 +28,20 @@ async def send_file(unzip_bot, c_id, doc_f, query, full_path):
         await query.answer("Sorry! I can't find that file", show_alert=True)
     except BaseException:
         shutil.rmtree(full_path)
+
+
+# Function to remove basic markdown characters from a string
+async def rm_mark_chars(text: str):
+    return re.sub("[*`_]", "", text)
+
+
+# Function to answer queries
+async def answer_query(query, message_text: str, answer_only: bool = False, unzip_client = None):
+    try:
+        if answer_only:
+            await query.answer(await rm_mark_chars(message_text), show_alert=True)
+        else:
+            await query.message.edit(message_text)
+    except:
+        if unzip_client:
+            await unzip_client.send_message(chat_id=query.message.chat.id, text=message_text)
