@@ -133,7 +133,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
     elif query.data.startswith("ext_f"):
         spl_data = query.data.split("|")
         file_path = f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}/extracted"
-        paths = get_files(path=file_path)
+        paths = await get_files(path=file_path)
         # Next level logic lmao
         if not paths:
             if os.path.isdir(f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}"):
@@ -150,7 +150,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
 
         # Refreshing Inline keyboard
         await query.message.edit("`Refreshing ⏳...`")
-        rpaths = get_files(path=file_path)
+        rpaths = await get_files(path=file_path)
         # There are no files let's die
         if not rpaths:
             try:
@@ -165,7 +165,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
     elif query.data.startswith("ext_a"):
         spl_data = query.data.split("|")
         file_path = f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}/extracted"
-        paths = get_files(path=file_path)
+        paths = await get_files(path=file_path)
         if not paths:
             try:
                 shutil.rmtree(f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}")
