@@ -36,9 +36,9 @@ And Some other features 🔥!
 Deploying is easy 🤫! You can deploy this bot in Heroku or in a VPS ♥️! **Star 🌟 Fork 🍴 and Deploy**
 
 > Note ⚠️
-> This branch has some changes in Dockerfile. That means I've changed it from ubuntu to arch linux.
+> This branch is using arch linux.
 > 
-> But Why 🤔? Cuz arch's p7zip package is based on currently active version of originall p7zip package with some additional features
+> But Why 🤔? Cuz arch's p7zip package is the only maintained version of [original p7zip](http://p7zip.sourceforge.net/) package with some additional features
 
 #### With Heroku
 
