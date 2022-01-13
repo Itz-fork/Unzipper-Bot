@@ -5,17 +5,14 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 # Inline buttons
 class Buttons:
-    START_BUTTON=InlineKeyboardMarkup(
-        [
+    START_BUTTON = InlineKeyboardMarkup([
             [
                 InlineKeyboardButton("Help 📜", callback_data="helpcallback"),
                 InlineKeyboardButton("About ⁉️", callback_data="aboutcallback")
             ]
-        ]
-    )
+        ])
     
-    CHOOSE_E_F__BTNS=InlineKeyboardMarkup(
-        [
+    CHOOSE_E_F__BTNS = InlineKeyboardMarkup([
             [
                 InlineKeyboardButton("File Extract 📂", callback_data="extract_file|tg_file|no_pass"),
             ],
@@ -25,11 +22,9 @@ class Buttons:
             [
                 InlineKeyboardButton("Cancel ❌", callback_data="cancel_dis")
             ]
-        ]
-    )
+        ])
 
-    CHOOSE_E_U__BTNS=InlineKeyboardMarkup(
-        [
+    CHOOSE_E_U__BTNS = InlineKeyboardMarkup([
             [
                 InlineKeyboardButton("🔗 Url Extract 📂", callback_data="extract_file|url|no_pass"),
             ],
@@ -39,27 +34,31 @@ class Buttons:
             [
                 InlineKeyboardButton("Cancel ❌", callback_data="cancel_dis")
             ]
-        ]
-    )
+        ])
 
-    CLN_BTNS=InlineKeyboardMarkup(
-        [
+    CLN_BTNS = InlineKeyboardMarkup([
             [
                 InlineKeyboardButton("Clean My Files 😇", callback_data="cancel_dis")
             ],
             [
                 InlineKeyboardButton("TF! Nooo 😳", callback_data="nobully")
             ]
-        ]
-    )
+        ])
     
-    ME_GOIN_HOME=InlineKeyboardMarkup(
-        [
+    ME_GOIN_HOME = InlineKeyboardMarkup([
             [
                 InlineKeyboardButton("Back 🏡", callback_data="megoinhome")
             ]
-        ]
-    )
+        ])
+
+    SET_UPLOAD_MODE_BUTTONS = InlineKeyboardMarkup([
+            [
+                InlineKeyboardButton("As Doc 📁", callback_data="set_mode|doc")
+            ],
+            [
+                InlineKeyboardButton("As Video 📹", callback_data="set_mode|video")
+            ]
+        ])
 
 
 class Messages:
@@ -152,6 +151,15 @@ Hi **{}**, I'm **Nexa Unzipper Bot** 😇!
 
 **Note:** `This action cannot be undone!`
     """
+
+    SELECT_UPLOAD_MODE_TXT = """
+`Please select the upload mode by clicking on below buttons!`
+
+**Current Upload mode is:** `{}`
+"""
+    CHANGED_UPLOAD_MODE_TXT = """
+**Successfully changed upload mode to** `{}` **✅!**
+"""
 
 
 # List of error messages from p7zip

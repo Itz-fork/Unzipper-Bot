@@ -95,3 +95,21 @@ async def check_user(message):
             disable_web_page_preview=True
         )
     await message.continue_propagation()
+
+
+# Upload mode
+mode_db = unzipper_db["upload_mode_db"]
+
+async def set_upload_mode(user_id, mode):
+    is_exist = await b_user_db.find_one({"_id": user_id})
+    if is_exist:
+        await b_user_db.update_one({"_id": user_id}, {"$set": {"mode": mode}})
+    else:
+        await b_user_db.insert_one({"_id": user_id, "mode": mode})
+
+async def get_upload_mode(user_id):
+    umode = await b_user_db.find_one({"_id": user_id})
+    if umode:
+        return umode["mode"]
+    else:
+        return "doc"

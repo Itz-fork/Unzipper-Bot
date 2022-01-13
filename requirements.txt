@@ -6,4 +6,4 @@ dnspython
 psutil
 pykeyboard
 aiohttp
-aiofiles
+wget

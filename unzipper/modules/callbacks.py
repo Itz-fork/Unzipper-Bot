@@ -4,9 +4,11 @@
 import os
 import re
 import shutil
-import aiofiles
 
 from time import time
+from wget import download
+from asyncio import get_running_loop
+from functools import partial
 from aiohttp import ClientSession
 from pyrogram import Client
 from pyrogram.types import CallbackQuery
@@ -16,7 +18,9 @@ from .ext_script.ext_helper import extr_files, get_files, make_keyboard
 from .ext_script.up_helper import send_file, answer_query
 from .commands import https_url_regex
 from unzipper.helpers_nexa.unzip_help import progress_for_pyrogram, TimeFormatter, humanbytes
+from unzipper.helpers_nexa.database import set_upload_mode
 from config import Config
+
 
 # Callbacks
 @Client.on_callback_query()
@@ -30,6 +34,12 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
     elif query.data == "aboutcallback":
         await query.edit_message_text(text=Messages.ABOUT_TXT, reply_markup=Buttons.ME_GOIN_HOME, disable_web_page_preview=True)
     
+    elif query.data.startswith("set_mode"):
+        user_id = query.from_user.id
+        mode = query.data.split("|")[1]
+        await set_upload_mode(user_id, mode)
+        await answer_query(query, Messages.CHANGED_UPLOAD_MODE_TXT)
+
     elif query.data.startswith("extract_file"):
         user_id = query.from_user.id
         download_path = f"{Config.DOWNLOAD_LOCATION}/{user_id}"
@@ -59,12 +69,10 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                         # Send logs
                         await unzip_bot.send_message(chat_id=Config.LOGS_CHANNEL, text=Messages.LOG_TXT.format(user_id, url, u_file_size))
                         s_time = time()
-                        u_file_with_ext = f"{download_path}/archive_from_{user_id}{os.path.splitext(url)[1]}"
+                        archive = f"{download_path}/archive_from_{user_id}{os.path.splitext(url)[1]}"
                         await answer_query(query, f"**Trying to download!** \n\n**Url:** `{url}` \n\n`This may take a while, Go and grab a coffee ☕️!`", unzip_client=unzip_bot)
-                        file = await aiofiles.open(u_file_with_ext, mode="wb")
-                        await file.write(await unzip_resp.read())
-                        await file.close()
-                        archive = u_file_with_ext
+                        loop = get_running_loop()
+                        await loop.run_in_executor(None, partial(download, url, archive))
                         e_time = time()
                     else:
                         return await query.message.edit("**Sorry I can't download that URL 🥺!**")
