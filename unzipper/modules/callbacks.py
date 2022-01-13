@@ -20,13 +20,12 @@ from unzipper.helpers_nexa.database import set_upload_mode
 from config import Config
 
 
-# Function to download files from direct link using pycurl
+# Function to download files from direct link using aiohttp
 async def download(url, path):
-    CHUNK_SIZE = 1024 * 6
     async with ClientSession() as session:
         async with session.get(url, timeout=None) as resp:
             async with openfile(path, mode="wb") as file:
-                async for chunk in resp.content.iter_chunked(CHUNK_SIZE):
+                async for chunk in resp.content.iter_chunked(Config.CHUNK_SIZE):
                     await file.write(chunk)
 
 
