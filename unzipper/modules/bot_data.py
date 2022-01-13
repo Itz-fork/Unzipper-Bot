@@ -76,6 +76,8 @@ Hi **{}**, I'm **Nexa Unzipper Bot** 😇!
 `1. Send the file or link that you want to extract.`
 `2. Click on extract button (If you sent a link use "Url Extract" button. If it's a file just use "File Extract" button).`
 
+**How To Change Upload Mode? 🤔**
+ `Send` **/mode** `command to the bot. You can change upload mode from there.`
 
 **Note:**
     **1.** `If your archive is password protected select` **(Password) Extract 📂** `mode. Bot isn't a GOD to know your file's password so If this happens just send that password!`

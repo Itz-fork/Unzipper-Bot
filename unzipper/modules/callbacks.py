@@ -38,7 +38,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
         user_id = query.from_user.id
         mode = query.data.split("|")[1]
         await set_upload_mode(user_id, mode)
-        await answer_query(query, Messages.CHANGED_UPLOAD_MODE_TXT)
+        await answer_query(query, Messages.CHANGED_UPLOAD_MODE_TXT.format(mode))
 
     elif query.data.startswith("extract_file"):
         user_id = query.from_user.id
