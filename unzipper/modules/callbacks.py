@@ -6,10 +6,8 @@ import re
 import shutil
 
 from time import time
-from pycurl import Curl
-from asyncio import get_running_loop
-from functools import partial
 from aiohttp import ClientSession
+from aiofiles import open as openfile
 from pyrogram import Client
 from pyrogram.types import CallbackQuery
 
@@ -23,14 +21,13 @@ from config import Config
 
 
 # Function to download files from direct link using pycurl
-def download(url, path):
-    with open(path, "wb") as file:
-        c = Curl()
-        c.setopt(c.URL, url)
-        c.setopt(c.FOLLOWLOCATION, True)
-        c.setopt(c.WRITEDATA, file)
-        c.perform()
-        c.close()
+async def download(url, path):
+    CHUNK_SIZE = 1024 * 6
+    async with ClientSession() as session:
+        async with session.get(url, timeout=None) as resp:
+            async with openfile(path, mode="wb") as file:
+                async for chunk in resp.content.iter_chunked(CHUNK_SIZE):
+                    await file.write(chunk)
 
 
 # Callbacks
@@ -82,8 +79,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                         s_time = time()
                         archive = f"{download_path}/archive_from_{user_id}{os.path.splitext(url)[1]}"
                         await answer_query(query, f"**Trying to download!** \n\n**Url:** `{url}` \n\n`This may take a while, Go and grab a coffee ☕️!`", unzip_client=unzip_bot)
-                        loop = get_running_loop()
-                        await loop.run_in_executor(None, partial(download, url, archive))
+                        await download(url, archive)
                         e_time = time()
                     else:
                         return await query.message.edit("**Sorry I can't download that URL 🥺!**")
