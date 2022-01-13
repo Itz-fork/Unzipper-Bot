@@ -131,11 +131,8 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
             try:
                 await query.message.edit("`Select Files to Upload!`", reply_markup=i_e_buttons)
             except:
-                try:
-                    await query.message.delete()
-                except:
-                    pass
                 await unzip_bot.send_message(chat_id=query.message.chat.id, text="`Select Files to Upload!`", reply_markup=i_e_buttons)
+                await query.message.delete()
             
         except Exception as e:
             try:
