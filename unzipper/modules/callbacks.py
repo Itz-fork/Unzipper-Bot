@@ -23,7 +23,7 @@ from config import Config
 
 
 # Function to download files from direct link using pycurl
-async def download(url, path):
+def download(url, path):
     with open(path, "wb") as file:
         c = Curl()
         c.setopt(c.URL, url)
