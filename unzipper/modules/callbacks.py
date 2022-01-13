@@ -27,6 +27,7 @@ def download(url, path):
     with open(path, "wb") as file:
         c = Curl()
         c.setopt(c.URL, url)
+        c.setopt(c.FOLLOWLOCATION, True)
         c.setopt(c.WRITEDATA, file)
         c.perform()
         c.close()
