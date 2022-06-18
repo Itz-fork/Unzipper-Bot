@@ -95,8 +95,8 @@ async def send_stats(_, message: Message):
 
 
 **🌐 Bandwith Usage,**
- ↳ *Sent:* `{humanbytes(net_usage.bytes_sent)}`
- ↳ *Received:* `{humanbytes(net_usage.bytes_recv)}`
+ ↳ **Sent:** `{humanbytes(net_usage.bytes_sent)}`
+ ↳ **Received:** `{humanbytes(net_usage.bytes_recv)}`
 
 
 **💾 Disk Usage,**
