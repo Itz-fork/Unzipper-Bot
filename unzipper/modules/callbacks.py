@@ -34,13 +34,13 @@ async def download(url, path):
 async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
     if query.data == "megoinhome":
         await query.edit_message_text(text=Messages.START_TEXT.format(query.from_user.mention), reply_markup=Buttons.START_BUTTON)
-    
+
     elif query.data == "helpcallback":
         await query.edit_message_text(text=Messages.HELP_TXT, reply_markup=Buttons.ME_GOIN_HOME)
-    
+
     elif query.data == "aboutcallback":
         await query.edit_message_text(text=Messages.ABOUT_TXT, reply_markup=Buttons.ME_GOIN_HOME, disable_web_page_preview=True)
-    
+
     elif query.data.startswith("set_mode"):
         user_id = query.from_user.id
         mode = query.data.split("|")[1]
@@ -82,7 +82,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                         e_time = time()
                     else:
                         return await query.message.edit("**Sorry I can't download that URL 🥺!**")
-            
+
             elif splitted_data[1] == "tg_file":
                 if r_message.document is None:
                     return await query.message.edit("`Give me an Archive to extract lmao!`")
@@ -94,16 +94,17 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                 s_time = time()
                 archive = await r_message.download(
                     file_name=f"{download_path}/archive_from_{user_id}{os.path.splitext(r_message.document.file_name)[1]}",
-                    progress=progress_for_pyrogram, progress_args=("**Trying to Download!** \n", query.message, s_time)
-                    )
+                    progress=progress_for_pyrogram, progress_args=(
+                        "**Trying to Download!** \n", query.message, s_time)
+                )
                 e_time = time()
             else:
                 await answer_query(query, "Can't Find Details! Please contact support group!", answer_only=True, unzip_client=unzip_bot)
-            
+
             await answer_query(query, Messages.AFTER_OK_DL_TXT.format(TimeFormatter(round(e_time-s_time) * 1000)), unzip_client=unzip_bot)
 
             if splitted_data[2] == "with_pass":
-                password = await unzip_bot.ask(chat_id=query.message.chat.id ,text="**Please send me the password 🔑:**")
+                password = await unzip_bot.ask(chat_id=query.message.chat.id, text="**Please send me the password 🔑:**")
                 ext_s_time = time()
                 extractor = await extr_files(path=ext_files_dir, archive_path=archive, password=password.text)
                 ext_e_time = time()
@@ -121,9 +122,9 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                     except:
                         pass
                     return await unzip_bot.send_message(chat_id=query.message.chat.id, text=Messages.EXT_FAILED_TXT)
-            
+
             await answer_query(query, Messages.EXT_OK_TXT.format(TimeFormatter(round(ext_e_time-ext_s_time) * 1000)), unzip_client=unzip_bot)
-            
+
             # Upload extracted files
             paths = await get_files(path=ext_files_dir)
             i_e_buttons = await make_keyboard(paths=paths, user_id=user_id, chat_id=query.message.chat.id)
@@ -132,7 +133,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
             except:
                 await unzip_bot.send_message(chat_id=query.message.chat.id, text="`Select Files to Upload!`", reply_markup=i_e_buttons)
                 await query.message.delete()
-            
+
         except Exception as e:
             try:
                 await query.message.edit(Messages.ERROR_TXT.format(e))
@@ -150,14 +151,14 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
             if os.path.isdir(f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}"):
                 shutil.rmtree(f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}")
             return await query.message.edit("`I've already sent you those files 😐, Don't ask me to resend 😒!`")
-        
+
         await query.answer("Sending that file to you. Please wait!")
         await send_file(unzip_bot=unzip_bot,
                         c_id=spl_data[2],
                         doc_f=paths[int(spl_data[3])],
                         query=query,
                         full_path=f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}"
-                    )
+                        )
 
         # Refreshing Inline keyboard
         await query.message.edit("`Refreshing ⏳...`")
@@ -171,8 +172,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
             return await query.message.edit("`I've already sent you those files 😐, Don't ask me to resend 😒!`")
         i_e_buttons = await make_keyboard(paths=rpaths, user_id=query.from_user.id, chat_id=query.message.chat.id)
         await query.message.edit("Select Files to Upload!", reply_markup=i_e_buttons)
-    
-    
+
     elif query.data.startswith("ext_a"):
         spl_data = query.data.split("|")
         file_path = f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}/extracted"
@@ -190,19 +190,19 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                             doc_f=file,
                             query=query,
                             full_path=f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}"
-                        )
+                            )
         await query.message.edit("**Successfully Uploaded!** \n\n **Join @NexaBotsUpdates ❤️**")
         try:
             shutil.rmtree(f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}")
         except Exception as e:
             await query.message.edit(Messages.ERROR_TXT.format(e))
-    
+
     elif query.data == "cancel_dis":
         try:
             shutil.rmtree(f"{Config.DOWNLOAD_LOCATION}/{query.from_user.id}")
             await query.message.edit(Messages.CANCELLED_TXT.format("Process Cancelled"))
         except:
             return await query.answer("There is nothing to remove lmao!", show_alert=True)
-    
+
     elif query.data == "nobully":
         await query.message.edit("**Ok Ok! I won't delete those files 😂!**")
