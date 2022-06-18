@@ -4,6 +4,7 @@
 import math
 import time
 
+from pyrogram import enums
 from unzipper import unzipperbot as client
 from config import Config
 
@@ -68,12 +69,10 @@ def check_logs():
     try:
         if Config.LOGS_CHANNEL:
             c_info = client.get_chat(chat_id=Config.LOGS_CHANNEL)
-            if c_info.type != "channel":
-                print("TF? Chat is not a channel")
-                return
+            if c_info.type != enums.ChatType.CHANNEL:
+                return print("TF? Chat is not a channel")
             elif c_info.username is not None:
-                print("TF? Chat is not private")
-                return
+                return print("TF? Chat is not private")
             else:
                 client.send_message(chat_id=Config.LOGS_CHANNEL, text="`Unzipper-Bot has Successfully Started!` \n\n**Powered by @NexaBotsUpdates**")
         else:
