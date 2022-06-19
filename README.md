@@ -32,7 +32,7 @@ And Some other features 🔥!
   - Add your bot to the channel as an admin
   - Send a message and copy it's link
   - The link'll be something like `https://t.me/c/12345/1`. Simply copy the `12345` part from it and add `-100` to the beginning of it. Now it'll be something like `-10012345`. That's your channel id!
-- `LOGS_CHANNEL` - Private channel to save thumbnails. Defaults to `LOGS_CHANNEL` value. However it's **recommended** to use separate channel
+- `DB_CHANNEL` - Private channel to save thumbnails. Defaults to `LOGS_CHANNEL` value. However it's **recommended** to use separate channel
 
 </br>
 
