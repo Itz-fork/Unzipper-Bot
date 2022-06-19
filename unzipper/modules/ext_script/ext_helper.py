@@ -1,18 +1,29 @@
 # Copyright (c) 2021 Itz-fork
 # Don't kang this else your dad is gae
 import os
-import subprocess
 
+from functools import partial
+from subprocess import Popen, PIPE
+from asyncio import get_running_loop
 from pykeyboard import InlineKeyboard
 from pyrogram.types import InlineKeyboardButton
 
 
 # Run commands in shell
-async def __run_cmds_unzipper(command):
-    ext_cmd = subprocess.Popen(
-        command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+def __run_cmds_unzipper(command):
+    ext_cmd = Popen(
+        command, stdout=PIPE, stderr=PIPE, shell=True)
     ext_out = ext_cmd.stdout.read()[:-1].decode("utf-8")
     return ext_out
+
+
+# Execute blocking functions asynchronously
+async def __run_cmds_on_cr(command):
+    loop = get_running_loop()
+    return await loop.run_in_executor(
+        None,
+        partial(__run_cmds_unzipper, command)
+    )
 
 
 # Extract with 7z
@@ -21,13 +32,13 @@ async def _extract_with_7z_helper(path, archive_path, password=None):
         command = f"7z x -o{path} -p{password} {archive_path} -y"
     else:
         command = f"7z x -o{path} {archive_path} -y"
-    return await __run_cmds_unzipper(command)
+    return await __run_cmds_on_cr(command)
 
 
 # Extract with zstd (for .zst files)
 async def _extract_with_zstd(path, archive_path):
     command = f"zstd -f --output-dir-flat {path} -d {archive_path}"
-    return await __run_cmds_unzipper(command)
+    return await __run_cmds_on_cr(command)
 
 
 # Main function to extract files
