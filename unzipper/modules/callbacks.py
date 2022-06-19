@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Itz-fork
+# Copyright (c) 2022 Itz-fork
 # Don't kang this else your dad is gae
 
 import os
@@ -16,7 +16,7 @@ from .ext_script.ext_helper import extr_files, get_files, make_keyboard
 from .ext_script.up_helper import send_file, answer_query
 from .commands import https_url_regex
 from unzipper.helpers_nexa.unzip_help import progress_for_pyrogram, TimeFormatter, humanbytes
-from unzipper.helpers_nexa.database import set_upload_mode
+from unzipper.helpers_nexa.database.upload_mode import set_upload_mode
 from config import Config
 
 

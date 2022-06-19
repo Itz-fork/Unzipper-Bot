@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Itz-fork
+# Copyright (c) 2022 Itz-fork
 # Don't kang this else your dad is gae
 
 import os
@@ -8,15 +8,17 @@ import subprocess
 
 from asyncio import sleep
 from pyrogram.errors import FloodWait
-from unzipper.helpers_nexa.database import get_upload_mode
+from unzipper.helpers_nexa.database.upload_mode import get_upload_mode
 from config import Config
 
 
 # To get video duration and thumbnail
 async def run_shell_cmds(command):
-    run = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+    run = subprocess.Popen(command, stdout=subprocess.PIPE,
+                           stderr=subprocess.PIPE, shell=True)
     shell_ouput = run.stdout.read()[:-1].decode("utf-8")
     return shell_ouput
+
 
 # Send file to a user
 async def send_file(unzip_bot, c_id, doc_f, query, full_path):
@@ -57,7 +59,7 @@ async def rm_mark_chars(text: str):
 
 
 # Function to answer queries
-async def answer_query(query, message_text: str, answer_only: bool = False, unzip_client = None):
+async def answer_query(query, message_text: str, answer_only: bool = False, unzip_client=None):
     try:
         if answer_only:
             await query.answer(await rm_mark_chars(message_text), show_alert=True)
