@@ -24,14 +24,16 @@ async def run_shell_cmds(command):
 
 # Returns thumbnail path
 async def return_thumb(uid, doc_f):
-    thdb = await get_thumbnail(uid)
-    if not thdb:
-        thmb_pth = f"Dump/thumbnail_{os.path.basename(doc_f)}.jpg"
-        if os.path.exists(thmb_pth):
-            os.remove(thmb_pth)
-        await run_shell_cmds(f"ffmpeg -ss 00:00:01.00 -i {doc_f} -vf 'scale=320:320:force_original_aspect_ratio=decrease' -vframes 1 {thmb_pth}")
-        return thmb_pth
-    return thdb
+    dbthumb = await get_thumbnail(uid)
+    if dbthumb:
+        print(dbthumb)
+        return dbthumb
+    thmb_pth = f"Dump/thumbnail_{os.path.basename(doc_f)}.jpg"
+    if os.path.exists(thmb_pth):
+        os.remove(thmb_pth)
+    await run_shell_cmds(f"ffmpeg -ss 00:00:01.00 -i {doc_f} -vf 'scale=320:320:force_original_aspect_ratio=decrease' -vframes 1 {thmb_pth}")
+    print(thmb_pth)
+    return thmb_pth
 
 
 # Send file to a user
