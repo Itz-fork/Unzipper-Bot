@@ -4,9 +4,9 @@
 import os
 import re
 import shutil
-import asyncio
 import subprocess
 
+from asyncio import sleep
 from pyrogram.errors import FloodWait
 from unzipper.helpers_nexa.database import get_upload_mode
 from config import Config
@@ -40,10 +40,13 @@ async def send_file(unzip_bot, c_id, doc_f, query, full_path):
             await unzip_bot.send_document(chat_id=c_id, document=doc_f, caption="**Extracted by @NexaUnzipper_Bot**")
         os.remove(doc_f)
     except FloodWait as f:
-        asyncio.sleep(f.x)
-        return send_file(c_id, doc_f)
+        sleep(f.x)
+        return await send_file(c_id, doc_f)
     except FileNotFoundError:
-        await query.answer("Sorry! I can't find that file", show_alert=True)
+        try:
+            await query.answer("Sorry! I can't find that file", show_alert=True)
+        except:
+            await unzip_bot.send_message(c_id, "Sorry! I can't find that file")
     except BaseException:
         shutil.rmtree(full_path)
 
