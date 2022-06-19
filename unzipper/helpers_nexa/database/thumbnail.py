@@ -20,8 +20,9 @@ def prepare_thumb(kw):
     ipath = kw["ipath"]
     tpath = f"{os.path.splitext(ipath)[0]}.thumb.jpg"
     with Image.open(ipath) as im:
-        im.thumbnail((320, 320))
-        im.save(tpath, "JPEG")
+        rim = im.convert("RGB")
+        rim.thumbnail((320, 320))
+        rim.save(tpath, "JPEG")
     return tpath
 
 
