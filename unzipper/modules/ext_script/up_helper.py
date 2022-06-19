@@ -24,15 +24,13 @@ async def run_shell_cmds(command):
 
 # Returns thumbnail path
 async def return_thumb(uid, doc_f):
-    dbthumb = await get_thumbnail(uid)
+    dbthumb = await get_thumbnail(int(uid))
     if dbthumb:
-        print(dbthumb)
         return dbthumb
     thmb_pth = f"Dump/thumbnail_{os.path.basename(doc_f)}.jpg"
     if os.path.exists(thmb_pth):
         os.remove(thmb_pth)
     await run_shell_cmds(f"ffmpeg -ss 00:00:01.00 -i {doc_f} -vf 'scale=320:320:force_original_aspect_ratio=decrease' -vframes 1 {thmb_pth}")
-    print(thmb_pth)
     return thmb_pth
 
 
@@ -47,13 +45,14 @@ async def send_file(unzip_bot, c_id, doc_f, query, full_path):
                 chat_id=c_id,
                 text="`File Size is too large to send in telegram 🥶!` \n\n**Sorry, but I can't do anything about this as it's a telegram limitation 😔!**"
             )
+        sthumb = await return_thumb(c_id, doc_f)
         if cum == "video":
             vid_duration = await run_shell_cmds(f"ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 {doc_f}")
-            sthumb = await return_thumb(c_id, doc_f)
             await unzip_bot.send_video(chat_id=c_id, video=doc_f, caption="**Extracted by @NexaUnzipper_Bot**", duration=int(vid_duration) if vid_duration.isnumeric() else 0, thumb=sthumb)
         else:
-            await unzip_bot.send_document(chat_id=c_id, document=doc_f, caption="**Extracted by @NexaUnzipper_Bot**")
+            await unzip_bot.send_document(chat_id=c_id, document=doc_f, caption="**Extracted by @NexaUnzipper_Bot**", thumb=sthumb)
         os.remove(doc_f)
+        os.remove(sthumb)
     except FloodWait as f:
         sleep(f.x)
         return await send_file(c_id, doc_f)
