@@ -12,6 +12,7 @@
 - Extract various types of archives like `rar`, `zip`, `tar`, `7z`, `tar.xz` etc.
 - Password support for extracting
 - Extract archives from direct links
+- Custom thumbnail support
 - Broadcast Messages to users
 - Ban / Unban users from using your bot
 - Send logs in a private channel
@@ -26,7 +27,12 @@ And Some other features 🔥!
 - `BOT_OWNER` - Your Telegram Account ID. Get it from [@MissRose_bot](https://t.me/MissRose_bot) (Start the bot and send <samp>/info</samp> command).
 - `BOT_TOKEN` - Bot Token of Your Telegram Bot. Get it from [@BotFather](https://t.me/BotFather)
 - `MONGODB_URL` - Your MongoDB url, Tutorial [here](https://www.youtube.com/watch?v=0aYrJTfYBHU)
-- `LOGS_CHANNEL` - Make a private channel and forward a message from that channel to [@ChannelidHEXbot](https://t.me/ChannelidHEXbot) to Get this. (Make sure to add Your bot to the channel as an admin)
+- `LOGS_CHANNEL` - Follow these steps,
+  - Make a private channel
+  - Add your bot to the channel as an admin
+  - Send a message and copy it's link
+  - The link'll be something like `https://t.me/c/12345/1`. Simply copy the `12345` part from it and add `-100` to the beginning of it. Now it'll be something like `-10012345`. That's your channel id!
+- `LOGS_CHANNEL` - Private channel to save thumbnails. Defaults to `LOGS_CHANNEL` value. However it's **recommended** to use separate channel
 
 </br>
 

@@ -7,17 +7,31 @@ import shutil
 import subprocess
 
 from asyncio import sleep
-from pyrogram.errors import FloodWait
-from unzipper.helpers_nexa.database.upload_mode import get_upload_mode
 from config import Config
-
+from pyrogram.errors import FloodWait
+from unzipper.helpers_nexa.database.thumbnail import get_thumbnail
+from unzipper.helpers_nexa.database.upload_mode import get_upload_mode
 
 # To get video duration and thumbnail
+
+
 async def run_shell_cmds(command):
     run = subprocess.Popen(command, stdout=subprocess.PIPE,
                            stderr=subprocess.PIPE, shell=True)
     shell_ouput = run.stdout.read()[:-1].decode("utf-8")
     return shell_ouput
+
+
+# Returns thumbnail path
+async def return_thumb(uid, doc_f):
+    thdb = await get_thumbnail(uid)
+    if not thdb:
+        thmb_pth = f"Dump/thumbnail_{os.path.basename(doc_f)}.jpg"
+        if os.path.exists(thmb_pth):
+            os.remove(thmb_pth)
+        await run_shell_cmds(f"ffmpeg -ss 00:00:01.00 -i {doc_f} -vf 'scale=320:320:force_original_aspect_ratio=decrease' -vframes 1 {thmb_pth}")
+        return thmb_pth
+    return thdb
 
 
 # Send file to a user
@@ -33,11 +47,8 @@ async def send_file(unzip_bot, c_id, doc_f, query, full_path):
             )
         if cum == "video":
             vid_duration = await run_shell_cmds(f"ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 {doc_f}")
-            thmb_pth = f"Dump/thumbnail_{os.path.basename(doc_f)}.jpg"
-            if os.path.exists(thmb_pth):
-                os.remove(thmb_pth)
-            thumb = await run_shell_cmds(f"ffmpeg -ss 00:00:01.00 -i {doc_f} -vf 'scale=320:320:force_original_aspect_ratio=decrease' -vframes 1 {thmb_pth}")
-            await unzip_bot.send_video(chat_id=c_id, video=doc_f, caption="**Extracted by @NexaUnzipper_Bot**", duration=int(vid_duration) if vid_duration.isnumeric() else 0, thumb=str(thumb))
+            sthumb = await return_thumb(c_id, doc_f)
+            await unzip_bot.send_video(chat_id=c_id, video=doc_f, caption="**Extracted by @NexaUnzipper_Bot**", duration=int(vid_duration) if vid_duration.isnumeric() else 0, thumb=sthumb)
         else:
             await unzip_bot.send_document(chat_id=c_id, document=doc_f, caption="**Extracted by @NexaUnzipper_Bot**")
         os.remove(doc_f)

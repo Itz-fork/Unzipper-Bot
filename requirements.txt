@@ -7,3 +7,4 @@ psutil
 pykeyboard
 aiohttp
 aiofiles
+Pillow

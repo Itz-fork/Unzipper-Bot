@@ -5,6 +5,8 @@ import math
 import time
 
 from pyrogram import enums
+from functools import partial
+from asyncio import get_running_loop
 from unzipper import unzipperbot as client
 from config import Config
 
@@ -35,7 +37,7 @@ async def progress_for_pyrogram(current, total, ud_type, message, start):
             estimated_total_time if estimated_total_time != '' else "0 s"
         )
         try:
-            await message.edit(text="{}\n {} \n\n**Powered by @NexaBotsUpdates**".format(ud_type,tmp))
+            await message.edit(text="{}\n {} \n\n**Powered by @NexaBotsUpdates**".format(ud_type, tmp))
         except:
             pass
 
@@ -64,6 +66,16 @@ def TimeFormatter(milliseconds: int) -> str:
         ((str(milliseconds) + "ms, ") if milliseconds else "")
     return tmp[:-2]
 
+
+# Execute blocking functions asynchronously
+async def run_cmds_on_cr(func, **kwargs):
+    loop = get_running_loop()
+    return await loop.run_in_executor(
+        None,
+        partial(func, kwargs)
+    )
+
+
 # Checking log channel
 def check_logs():
     try:
@@ -74,7 +86,8 @@ def check_logs():
             elif c_info.username is not None:
                 return print("TF? Chat is not private")
             else:
-                client.send_message(chat_id=Config.LOGS_CHANNEL, text="`Unzipper-Bot has Successfully Started!` \n\n**Powered by @NexaBotsUpdates**")
+                client.send_message(
+                    chat_id=Config.LOGS_CHANNEL, text="`Unzipper-Bot has Successfully Started!` \n\n**Powered by @NexaBotsUpdates**")
         else:
             print("No Log Channel ID is Given! Imma leaving Now!")
             exit()

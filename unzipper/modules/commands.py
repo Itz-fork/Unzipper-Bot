@@ -14,6 +14,7 @@ from unzipper.helpers_nexa.database.users import (add_banned_user,  # Banned Use
                                                   check_user, get_users_list,
                                                   count_users, count_banned_users,
                                                   del_user, del_banned_user)
+from unzipper.helpers_nexa.database.thumbnail import save_thumbnail, get_thumbnail, del_thumbnail
 from unzipper.helpers_nexa.database.upload_mode import get_upload_mode
 from unzipper.helpers_nexa.unzip_help import humanbytes
 from .bot_data import Buttons, Messages
@@ -56,6 +57,39 @@ async def extract_dis_archive(_, message: Message):
         await unzip_msg.edit("**What do you want?**", reply_markup=Buttons.CHOOSE_E_F__BTNS)
     else:
         await unzip_msg.edit("`Hold up! What Should I Extract 😳?`")
+
+
+# Thumbnail stuff
+@Client.on_message(filters.private & filters.command(["save", "set_thumb"]))
+async def save_dis_thumb(_, message: Message):
+    prs_msg = await message.reply("`Processing ⚙️...`", reply_to_message_id=message.id)
+    rply = message.reply_to_message
+    if not rply or not rply.photo:
+        return await prs_msg.edit("`Reply to an image file to save it as a thumbnail!`")
+    await save_thumbnail(message.from_user.id, rply)
+    await prs_msg.edit("**Successfully saved the thumbnail ✅!**")
+
+
+@Client.on_message(filters.private & filters.command(["thget", "get_thumb"]))
+async def give_my_thumb(_, message: Message):
+    prs_msg = await message.reply("`Processing ⚙️...`", reply_to_message_id=message.id)
+    gthumb = await get_thumbnail(message.from_user.id)
+    if not gthumb:
+        return await prs_msg.edit("No thumbnails found. Please set one using `/set_thumb` command!")
+    await prs_msg.delete()
+    await message.reply_photo(gthumb)
+    os.remove(gthumb)
+
+
+@Client.on_message(filters.private & filters.command(["thdel", "del_thumb"]))
+async def delete_my_thumb(_, message: Message):
+    prs_msg = await message.reply("`Processing ⚙️...`", reply_to_message_id=message.id)
+    texist = await get_thumbnail(message.from_user.id)
+    if not texist:
+        return await prs_msg.edit("`When saving a thumbnail?`")
+    await del_thumbnail(message.from_user.id)
+    os.remove(texist)
+    await prs_msg.edit("**Successfully deleted the thumbnail ✅!**")
 
 
 # Database Commands
