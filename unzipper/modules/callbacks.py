@@ -178,7 +178,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                 shutil.rmtree(f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}")
             except:
                 pass
-            return await query.message.edit("`I've already sent you those files 😐, Don't ask me to resend 😒!`")
+            return await query.message.edit("**Successfully Uploaded!** \n\n **Join @NexaBotsUpdates ❤️**")
         i_e_buttons = await make_keyboard(paths=rpaths, user_id=query.from_user.id, chat_id=query.message.chat.id)
         await query.message.edit("Select Files to Upload!", reply_markup=i_e_buttons)
 
@@ -191,7 +191,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                 shutil.rmtree(f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}")
             except:
                 pass
-            return await query.message.edit("**Successfully Uploaded!** \n\n **Join @NexaBotsUpdates ❤️**")
+            return await query.message.edit("`I've already sent you those files 😐, Don't ask me to resend 😒!`")
         await query.answer("Trying to send all files to you. Please wait!")
         for file in paths:
             await send_file(unzip_bot=unzip_bot,
