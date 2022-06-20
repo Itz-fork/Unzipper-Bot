@@ -50,7 +50,7 @@ async def send_file(unzip_bot, c_id, doc_f, query, full_path):
             try:
                 ga = Async_Gofile()
                 gfio = await ga.upload(doc_f)
-                await upmsg.edit("**Your file has been uploaded to gofile! Click on the below button to download it 👇**", reply_markup=Buttons().GOFILE_BTN(gfio))
+                await upmsg.edit("**Your file has been uploaded to gofile! Click on the below button to download it 👇**", reply_markup=Buttons().GOFILE_BTN(gfio["downloadPage"]))
             except:
                 await upmsg.edit("`Upload failed, Better luck next time 😔!`")
                 os.remove(doc_f)
