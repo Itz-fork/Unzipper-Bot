@@ -36,7 +36,16 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
         await query.edit_message_text(text=Messages.START_TEXT.format(query.from_user.mention), reply_markup=Buttons.START_BUTTON)
 
     elif query.data == "helpcallback":
-        await query.edit_message_text(text=Messages.HELP_TXT, reply_markup=Buttons.ME_GOIN_HOME)
+        await query.edit_message_text(text=Messages.HELP_TXT, reply_markup=Buttons.HELP_BTNS)
+
+    elif query.data == "extracthelp":
+        await query.edit_message_text(text=Messages.EXTRACT_HELP, reply_markup=Buttons.HELP_MENU_BTN)
+
+    elif query.data == "upmodhelp":
+        await query.edit_message_text(text=Messages.UPMODE_HELP, reply_markup=Buttons.HELP_MENU_BTN)
+
+    elif query.data == "thumbhelp":
+        await query.edit_message_text(text=Messages.THUMB_HELP, reply_markup=Buttons.HELP_MENU_BTN)
 
     elif query.data == "aboutcallback":
         await query.edit_message_text(text=Messages.ABOUT_TXT, reply_markup=Buttons.ME_GOIN_HOME, disable_web_page_preview=True)
