@@ -4,59 +4,74 @@
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 # Inline buttons
+
+
 class Buttons:
     START_BUTTON = InlineKeyboardMarkup([
-            [
-                InlineKeyboardButton("Help 📜", callback_data="helpcallback"),
-                InlineKeyboardButton("About ⁉️", callback_data="aboutcallback")
-            ]
-        ])
-    
+        [
+            InlineKeyboardButton("Help 📜", callback_data="helpcallback"),
+            InlineKeyboardButton("About ⁉️", callback_data="aboutcallback")
+        ]
+    ])
+
     CHOOSE_E_F__BTNS = InlineKeyboardMarkup([
-            [
-                InlineKeyboardButton("File Extract 📂", callback_data="extract_file|tg_file|no_pass"),
-            ],
-            [
-                InlineKeyboardButton("File (Password) Extract 📂", callback_data="extract_file|tg_file|with_pass")
-            ],
-            [
-                InlineKeyboardButton("Cancel ❌", callback_data="cancel_dis")
-            ]
-        ])
+        [
+            InlineKeyboardButton(
+                "File Extract 📂", callback_data="extract_file|tg_file|no_pass"),
+        ],
+        [
+            InlineKeyboardButton(
+                "File (Password) Extract 📂", callback_data="extract_file|tg_file|with_pass")
+        ],
+        [
+            InlineKeyboardButton("Cancel ❌", callback_data="cancel_dis")
+        ]
+    ])
 
     CHOOSE_E_U__BTNS = InlineKeyboardMarkup([
-            [
-                InlineKeyboardButton("🔗 Url Extract 📂", callback_data="extract_file|url|no_pass"),
-            ],
-            [
-                InlineKeyboardButton("🔗 (Password) Url Extract 📂", callback_data="extract_file|url|with_pass")
-            ],
-            [
-                InlineKeyboardButton("Cancel ❌", callback_data="cancel_dis")
-            ]
-        ])
+        [
+            InlineKeyboardButton(
+                "🔗 Url Extract 📂", callback_data="extract_file|url|no_pass"),
+        ],
+        [
+            InlineKeyboardButton(
+                "🔗 (Password) Url Extract 📂", callback_data="extract_file|url|with_pass")
+        ],
+        [
+            InlineKeyboardButton("Cancel ❌", callback_data="cancel_dis")
+        ]
+    ])
 
     CLN_BTNS = InlineKeyboardMarkup([
-            [
-                InlineKeyboardButton("Clean My Files 😇", callback_data="cancel_dis")
-            ],
-            [
-                InlineKeyboardButton("TF! Nooo 😳", callback_data="nobully")
-            ]
-        ])
-    
+        [
+            InlineKeyboardButton("Clean My Files 😇",
+                                 callback_data="cancel_dis")
+        ],
+        [
+            InlineKeyboardButton("TF! Nooo 😳", callback_data="nobully")
+        ]
+    ])
+
     ME_GOIN_HOME = InlineKeyboardMarkup([
-            [
-                InlineKeyboardButton("Back 🏡", callback_data="megoinhome")
-            ]
-        ])
+        [
+            InlineKeyboardButton("Back 🏡", callback_data="megoinhome")
+        ]
+    ])
 
     SET_UPLOAD_MODE_BUTTONS = InlineKeyboardMarkup([
+        [
+            InlineKeyboardButton("As Doc 📁", callback_data="set_mode|doc")
+        ],
+        [
+            InlineKeyboardButton(
+                "As Video 📹", callback_data="set_mode|video")
+        ]
+    ])
+
+    def GOFILE_BTN(glink):
+        return InlineKeyboardMarkup([
             [
-                InlineKeyboardButton("As Doc 📁", callback_data="set_mode|doc")
-            ],
-            [
-                InlineKeyboardButton("As Video 📹", callback_data="set_mode|video")
+                InlineKeyboardButton("Gofile link 🔗", url=glink)
             ]
         ])
 
@@ -168,4 +183,4 @@ Hi **{}**, I'm **Nexa Unzipper Bot** 😇!
 ERROR_MSGS = [
     "Error",
     "Can't open as archive"
-    ]
+]

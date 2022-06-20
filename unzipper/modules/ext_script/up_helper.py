@@ -8,13 +8,14 @@ import subprocess
 
 from asyncio import sleep
 from config import Config
+from gofile2 import Async_Gofile
 from pyrogram.errors import FloodWait
+from unzipper.modules.bot_data import Buttons
 from unzipper.helpers_nexa.database.thumbnail import get_thumbnail
 from unzipper.helpers_nexa.database.upload_mode import get_upload_mode
 
+
 # To get video duration and thumbnail
-
-
 async def run_shell_cmds(command):
     run = subprocess.Popen(command, stdout=subprocess.PIPE,
                            stderr=subprocess.PIPE, shell=True)
@@ -41,10 +42,20 @@ async def send_file(unzip_bot, c_id, doc_f, query, full_path):
         # Checks if url file size is bigger than 2GB (Telegram limit)
         u_file_size = os.stat(doc_f).st_size
         if Config.TG_MAX_SIZE < int(u_file_size):
-            return await unzip_bot.send_message(
+            # Uploads the file to gofile.io
+            upmsg = await unzip_bot.send_message(
                 chat_id=c_id,
-                text="`File Size is too large to send in telegram 🥶!` \n\n**Sorry, but I can't do anything about this as it's a telegram limitation 😔!**"
+                text="`File Size is too large to send in telegram 🥶! Trying to upload this file to gofile.io now 😉!`"
             )
+            try:
+                ga = Async_Gofile()
+                gfio = await ga.upload(doc_f)
+                await upmsg.edit("**Your file has been uploaded to gofile! Click on the below button to download it 👇**", reply_markup=Buttons().GOFILE_BTN(gfio))
+            except:
+                await upmsg.edit("`Upload failed, Better luck next time 😔!`")
+                os.remove(doc_f)
+            return
+
         sthumb = await return_thumb(c_id, doc_f)
         if cum == "video":
             vid_duration = await run_shell_cmds(f"ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 {doc_f}")

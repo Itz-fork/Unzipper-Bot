@@ -8,3 +8,4 @@ pykeyboard
 aiohttp
 aiofiles
 Pillow
+gofile2
