@@ -43,7 +43,7 @@ async def get_thumbnail(user_id):
     if gtm:
         return await download_thumbnail(gtm["path"])
     else:
-        return ""
+        return None
 
 
 async def del_thumbnail(user_id):

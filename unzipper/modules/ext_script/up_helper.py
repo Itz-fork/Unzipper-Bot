@@ -8,6 +8,7 @@ import subprocess
 
 from asyncio import sleep
 from config import Config
+from pyrogram import Client
 from gofile2 import Async_Gofile
 from pyrogram.errors import FloodWait
 from unzipper.modules.bot_data import Buttons
@@ -39,14 +40,14 @@ async def return_thumb(uid, doc_f, isvid=False):
 
 
 # Send file to a user
-async def send_file(unzip_bot, c_id, doc_f, query, full_path):
+async def send_file(c_id, doc_f, query, full_path):
     try:
         cum = await get_upload_mode(c_id)
         # Checks if url file size is bigger than 2GB (Telegram limit)
         u_file_size = os.stat(doc_f).st_size
         if Config.TG_MAX_SIZE < int(u_file_size):
             # Uploads the file to gofile.io
-            upmsg = await unzip_bot.send_message(
+            upmsg = await Client.send_message(
                 chat_id=c_id,
                 text="`File Size is too large to send in telegram 🥶! Trying to upload this file to gofile.io now 😉!`"
             )
@@ -63,21 +64,21 @@ async def send_file(unzip_bot, c_id, doc_f, query, full_path):
         if cum == "video":
             sthumb = await return_thumb(c_id, doc_f, True)
             vid_duration = await run_shell_cmds(f"ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 {doc_f}")
-            await unzip_bot.send_video(chat_id=c_id, video=doc_f, caption="**Extracted by @NexaUnzipper_Bot**", duration=int(vid_duration) if vid_duration.isnumeric() else 0, thumb=sthumb)
+            await Client.send_video(chat_id=c_id, video=doc_f, caption="**Extracted by @NexaUnzipper_Bot**", duration=int(vid_duration) if vid_duration.isnumeric() else 0, thumb=sthumb)
         # Upload type: Document
         else:
             sthumb = await return_thumb(c_id, doc_f)
-            await unzip_bot.send_document(chat_id=c_id, document=doc_f, caption="**Extracted by @NexaUnzipper_Bot**", thumb=sthumb)
+            await Client.send_document(chat_id=c_id, document=doc_f, caption="**Extracted by @NexaUnzipper_Bot**", thumb=sthumb)
         os.remove(doc_f)
         os.remove(sthumb)
     except FloodWait as f:
         sleep(f.x)
-        return await send_file(c_id, doc_f)
+        return await send_file(c_id, doc_f, query, full_path)
     except FileNotFoundError:
         try:
             return await query.answer("Sorry! I can't find that file", show_alert=True)
         except:
-            return await unzip_bot.send_message(c_id, "Sorry! I can't find that file")
+            return await Client.send_message(c_id, "Sorry! I can't find that file")
     except BaseException:
         shutil.rmtree(full_path)
 

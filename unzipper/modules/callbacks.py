@@ -162,8 +162,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
             return await query.message.edit("`I've already sent you those files 😐, Don't ask me to resend 😒!`")
 
         await query.answer("Sending that file to you. Please wait!")
-        await send_file(unzip_bot=unzip_bot,
-                        c_id=spl_data[2],
+        await send_file(c_id=spl_data[2],
                         doc_f=paths[int(spl_data[3])],
                         query=query,
                         full_path=f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}"
@@ -194,8 +193,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
             return await query.message.edit("`I've already sent you those files 😐, Don't ask me to resend 😒!`")
         await query.answer("Trying to send all files to you. Please wait!")
         for file in paths:
-            await send_file(unzip_bot=unzip_bot,
-                            c_id=spl_data[2],
+            await send_file(c_id=spl_data[2],
                             doc_f=file,
                             query=query,
                             full_path=f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}"
