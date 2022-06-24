@@ -12,6 +12,7 @@
 - Extract various types of archives like `rar`, `zip`, `tar`, `7z`, `tar.xz` etc.
 - Password support for extracting
 - Extract archives from direct links
+- Upload files larger than 2GB to gofile.io
 - Custom thumbnail support
 - Broadcast Messages to users
 - Ban / Unban users from using your bot
