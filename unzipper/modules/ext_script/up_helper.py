@@ -6,12 +6,14 @@ import re
 import shutil
 import subprocess
 
+from time import time
 from asyncio import sleep
 from config import Config
 from gofile2 import Async_Gofile
 from unzipper import unzipperbot
 from pyrogram.errors import FloodWait
 from unzipper.modules.bot_data import Buttons
+from unzipper.helpers_nexa.unzip_help import progress_for_pyrogram
 from unzipper.helpers_nexa.database.thumbnail import get_thumbnail
 from unzipper.helpers_nexa.database.upload_mode import get_upload_mode
 
@@ -61,16 +63,30 @@ async def send_file(c_id, doc_f, query, full_path):
             os.remove(doc_f)
             return
 
+        tgupmsg = await unzipperbot.send_message("`Processing ⚙️...`")
         # Uplaod type: Video
         if cum == "video":
             sthumb = await get_or_gen_thumb(c_id, doc_f, True)
             vid_duration = await run_shell_cmds(f"ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 {doc_f}")
-            await unzipperbot.send_video(chat_id=c_id, video=doc_f, caption="**Extracted by @NexaUnzipper_Bot**", duration=int(vid_duration) if vid_duration.isnumeric() else 0, thumb=sthumb)
+            await unzipperbot.send_video(
+                chat_id=c_id,
+                video=doc_f,
+                caption="**Extracted by @NexaUnzipper_Bot**",
+                duration=int(vid_duration) if vid_duration.isnumeric() else 0,
+                thumb=sthumb,
+                progress=progress_for_pyrogram,
+                progress_args=("**Trying to upload 😇** \n", tgupmsg, time()))
         # Upload type: Document
         else:
             sthumb = await get_or_gen_thumb(c_id, doc_f)
-            await unzipperbot.send_document(chat_id=c_id, document=doc_f, caption="**Extracted by @NexaUnzipper_Bot**", thumb=sthumb)
-        
+            await unzipperbot.send_document(
+                chat_id=c_id,
+                document=doc_f,
+                caption="**Extracted by @NexaUnzipper_Bot**",
+                thumb=sthumb,
+                progress=progress_for_pyrogram,
+                progress_args=("**Trying to upload 😇** \n", tgupmsg, time()))
+
         # Cleanup (Added try except as thumbnail is sucking this codes base's duck)
         try:
             os.remove(doc_f)
