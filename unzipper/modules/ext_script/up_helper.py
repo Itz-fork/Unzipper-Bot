@@ -61,7 +61,7 @@ async def send_file(unzip_bot, c_id, doc_f, query, full_path):
 
         # Uplaod type: Video
         if cum == "video":
-            sthumb = await return_thumb(c_id, doc_f)
+            sthumb = await return_thumb(c_id, doc_f, True)
             vid_duration = await run_shell_cmds(f"ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 {doc_f}")
             await unzip_bot.send_video(chat_id=c_id, video=doc_f, caption="**Extracted by @NexaUnzipper_Bot**", duration=int(vid_duration) if vid_duration.isnumeric() else 0, thumb=sthumb)
         # Upload type: Document
