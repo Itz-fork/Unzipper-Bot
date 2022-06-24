@@ -13,9 +13,9 @@ from gofile2 import Async_Gofile
 from unzipper import unzipperbot
 from pyrogram.errors import FloodWait
 from unzipper.modules.bot_data import Buttons
-from unzipper.helpers_nexa.unzip_help import progress_for_pyrogram
 from unzipper.helpers_nexa.database.thumbnail import get_thumbnail
 from unzipper.helpers_nexa.database.upload_mode import get_upload_mode
+from unzipper.helpers_nexa.unzip_help import progress_for_pyrogram, TimeFormatter
 
 
 # To get video duration and thumbnail
@@ -63,7 +63,8 @@ async def send_file(c_id, doc_f, query, full_path):
             os.remove(doc_f)
             return
 
-        tgupmsg = await unzipperbot.send_message("`Processing ⚙️...`")
+        tgupmsg = await unzipperbot.send_message(c_id, "`Processing ⚙️...`")
+        stm = time()
         # Uplaod type: Video
         if cum == "video":
             sthumb = await get_or_gen_thumb(c_id, doc_f, True)
@@ -75,7 +76,7 @@ async def send_file(c_id, doc_f, query, full_path):
                 duration=int(vid_duration) if vid_duration.isnumeric() else 0,
                 thumb=sthumb,
                 progress=progress_for_pyrogram,
-                progress_args=("**Trying to upload 😇** \n", tgupmsg, time()))
+                progress_args=("**Trying to upload 😇** \n", tgupmsg, stm))
         # Upload type: Document
         else:
             sthumb = await get_or_gen_thumb(c_id, doc_f)
@@ -85,9 +86,19 @@ async def send_file(c_id, doc_f, query, full_path):
                 caption="**Extracted by @NexaUnzipper_Bot**",
                 thumb=sthumb,
                 progress=progress_for_pyrogram,
-                progress_args=("**Trying to upload 😇** \n", tgupmsg, time()))
+                progress_args=("**Trying to upload 😇** \n", tgupmsg, stm))
+        etm = time()
+        # Edit the progress message
+        await tgupmsg.edit(f"""
+        **Successfully uploaded!**
+        
+        **File name:** `{os.path.basename(doc_f)}`
+        **Uploaded in:** `{TimeFormatter(etm - stm)}`
 
-        # Cleanup (Added try except as thumbnail is sucking this codes base's duck)
+
+        **Join @NexaBotsUpdates ❤️**
+        """)
+        # Cleanup (Added try except as thumbnail is sucking this code's duck)
         try:
             os.remove(doc_f)
             if sthumb:
