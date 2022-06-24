@@ -90,13 +90,13 @@ async def send_file(c_id, doc_f, query, full_path):
         etm = time()
         # Edit the progress message
         await tgupmsg.edit(f"""
-        **Successfully uploaded!**
+**Successfully uploaded!**
         
-        **File name:** `{os.path.basename(doc_f)}`
-        **Uploaded in:** `{TimeFormatter(round(etm - stm))}`
+**File name:** `{os.path.basename(doc_f)}`
+**Uploaded in:** `{TimeFormatter(round(etm - stm))}`
 
 
-        **Join @NexaBotsUpdates ❤️**
+**Join @NexaBotsUpdates ❤️**
         """)
         # Cleanup (Added try except as thumbnail is sucking this code's duck)
         try:
