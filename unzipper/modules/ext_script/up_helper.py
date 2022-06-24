@@ -71,9 +71,13 @@ async def send_file(c_id, doc_f, query, full_path):
             sthumb = await get_or_gen_thumb(c_id, doc_f)
             await unzipperbot.send_document(chat_id=c_id, document=doc_f, caption="**Extracted by @NexaUnzipper_Bot**", thumb=sthumb)
         
-        # Cleanup
-        os.remove(doc_f)
-        os.remove(sthumb)
+        # Cleanup (Added try except as thumbnail is sucking this codes base's duck)
+        try:
+            os.remove(doc_f)
+            if sthumb:
+                os.remove(sthumb)
+        except:
+            pass
     except FloodWait as f:
         sleep(f.x)
         return await send_file(c_id, doc_f, query, full_path)
@@ -82,7 +86,8 @@ async def send_file(c_id, doc_f, query, full_path):
             return await query.answer("Sorry! I can't find that file", show_alert=True)
         except:
             return await unzipperbot.send_message(c_id, "Sorry! I can't find that file")
-    except BaseException:
+    except BaseException as e:
+        print(e)
         shutil.rmtree(full_path)
 
 
