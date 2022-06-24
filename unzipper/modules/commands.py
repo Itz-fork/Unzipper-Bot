@@ -47,6 +47,9 @@ async def clean_ma_files(_, message: Message):
 @Client.on_message(filters.incoming & filters.private & filters.regex(https_url_regex) | filters.document)
 async def extract_dis_archive(_, message: Message):
     unzip_msg = await message.reply("`Processing ⚙️...`", reply_to_message_id=message.id)
+    # Due to https://t.me/Nexa_bots/38823
+    if not message.from_user:
+        return await unzip_msg.edit("`Ayo, you ain't a user 🤨?")
     user_id = message.from_user.id
     download_path = f"{Config.DOWNLOAD_LOCATION}/{user_id}"
     if os.path.isdir(download_path):

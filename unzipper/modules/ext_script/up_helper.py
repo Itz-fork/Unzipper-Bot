@@ -24,15 +24,18 @@ async def run_shell_cmds(command):
 
 
 # Returns thumbnail path
-async def return_thumb(uid, doc_f):
+async def return_thumb(uid, doc_f, isvid=False):
     dbthumb = await get_thumbnail(int(uid))
     if dbthumb:
         return dbthumb
-    thmb_pth = f"Dump/thumbnail_{os.path.basename(doc_f)}.jpg"
-    if os.path.exists(thmb_pth):
-        os.remove(thmb_pth)
-    await run_shell_cmds(f"ffmpeg -ss 00:00:01.00 -i {doc_f} -vf 'scale=320:320:force_original_aspect_ratio=decrease' -vframes 1 {thmb_pth}")
-    return thmb_pth
+    elif isvid:
+        thmb_pth = f"Dump/thumbnail_{os.path.basename(doc_f)}.jpg"
+        if os.path.exists(thmb_pth):
+            os.remove(thmb_pth)
+        await run_shell_cmds(f"ffmpeg -ss 00:00:01.00 -i {doc_f} -vf 'scale=320:320:force_original_aspect_ratio=decrease' -vframes 1 {thmb_pth}")
+        return thmb_pth
+    else:
+        return None
 
 
 # Send file to a user
@@ -56,11 +59,14 @@ async def send_file(unzip_bot, c_id, doc_f, query, full_path):
             os.remove(doc_f)
             return
 
-        sthumb = await return_thumb(c_id, doc_f)
+        # Uplaod type: Video
         if cum == "video":
+            sthumb = await return_thumb(c_id, doc_f)
             vid_duration = await run_shell_cmds(f"ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 {doc_f}")
             await unzip_bot.send_video(chat_id=c_id, video=doc_f, caption="**Extracted by @NexaUnzipper_Bot**", duration=int(vid_duration) if vid_duration.isnumeric() else 0, thumb=sthumb)
+        # Upload type: Document
         else:
+            sthumb = await return_thumb(c_id, doc_f)
             await unzip_bot.send_document(chat_id=c_id, document=doc_f, caption="**Extracted by @NexaUnzipper_Bot**", thumb=sthumb)
         os.remove(doc_f)
         os.remove(sthumb)
