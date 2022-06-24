@@ -13,7 +13,8 @@ thumb_db = unzipper_db["thumbnails_db"]
 
 async def download_thumbnail(mid):
     msg = await unzipperbot.get_messages(Config.DB_CHANNEL, mid)
-    return await msg.download()
+    dmsg = await msg.download()
+    return dmsg
 
 
 def prepare_thumb(kw):

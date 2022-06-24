@@ -43,6 +43,7 @@ async def get_or_gen_thumb(uid, doc_f, isvid=False):
 async def send_file(c_id, doc_f, query, full_path):
     try:
         cum = await get_upload_mode(c_id)
+
         # Checks if url file size is bigger than 2GB (Telegram limit)
         u_file_size = os.stat(doc_f).st_size
         if Config.TG_MAX_SIZE < int(u_file_size):
@@ -69,6 +70,8 @@ async def send_file(c_id, doc_f, query, full_path):
         else:
             sthumb = await get_or_gen_thumb(c_id, doc_f)
             await unzipperbot.send_document(chat_id=c_id, document=doc_f, caption="**Extracted by @NexaUnzipper_Bot**", thumb=sthumb)
+        
+        # Cleanup
         os.remove(doc_f)
         os.remove(sthumb)
     except FloodWait as f:
