@@ -101,7 +101,7 @@ If you found a bug in this bot please open an [issue](https://github.com/Itz-for
 ## License & Copyright 👮
 
 ```
-Copyright (c) 2021 Itz-fork
+Copyright (c) 2022 Itz-fork
 
 This Unzipper-Bot repository is licensed under GPLv3 License (https://github.com/Itz-fork/Unzipper-Bot/blob/master/LICENSE)
 Copying or Modifying Any Part of the code without permission is strictly prohibited
