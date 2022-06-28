@@ -31,11 +31,7 @@ class CloudBackup:
         # Gofile client
         gf = Async_Gofile(await self._get_gofile_token())
         gf_id = await self._create_gofile_folder(gf)
-        tu = await get_files(self.ext_dir)
-        # Checks if the files exists
-        if not tu:
-            raise ValueError("Output is empty!")
-        links = await gf.upload_folder(tu, gf_id)
+        links = await gf.upload_folder(self.ext_dir, gf_id)
         return links[0]["downloadPage"]
 
     async def _create_gofile_folder(self, client: Async_Gofile):
