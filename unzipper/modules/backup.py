@@ -36,8 +36,9 @@ class CloudBackup:
 
     async def _create_gofile_folder(self, client: Async_Gofile):
         rtfid = (await client.get_Account())["rootFolder"]
-        cf = await client.create_folder(rtfid, "Backup of {} in {}".format(self.id, strftime("%b %d, %Y %l:%M%p")))
-        return cf["id"]
+        cf = (await client.create_folder(rtfid, "Backup of {} in {}".format(self.id, strftime("%b %d, %Y %l:%M%p"))))["id"]
+        await client.set_folder_options(cf, "public", "true")
+        return cf
 
     async def _get_gofile_token(self):
         gdb = GofileDB(self.id)
