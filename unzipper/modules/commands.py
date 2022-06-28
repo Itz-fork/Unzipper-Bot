@@ -76,7 +76,7 @@ async def extract_dis_archive(_, message: Message):
                 "**Trying to Download!** \n", unzip_msg, s_time)
         )
         e_time = time()
-        await unzip_msg.edit("**Downloaded this part of the archive in `{}`".format(TimeFormatter(round(e_time-s_time) * 1000)))
+        await unzip_msg.edit("**Downloaded this part of the archive in** `{}`".format(TimeFormatter(round(e_time-s_time) * 1000)))
         return
 
     if os.path.isdir(download_path):
