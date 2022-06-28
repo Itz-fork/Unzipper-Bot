@@ -53,7 +53,7 @@ async def get_files(path):
 # Make keyboard
 async def make_keyboard(paths, user_id, chat_id):
     num = 0
-    i_kbd = InlineKeyboard(row_width=1)
+    i_kbd = InlineKeyboard(row_width=2)
     data = []
     data.append(
         InlineKeyboardButton(f"Upload All ♻️", f"ext_a|{user_id}|{chat_id}")
@@ -63,7 +63,7 @@ async def make_keyboard(paths, user_id, chat_id):
     )
     for file in paths:
         # Temp fix for REPLY_MARKUP_TOO_LONG error
-        if num > 96:
+        if num > 90:
             break
         data.append(
             InlineKeyboardButton(f"{num} - {os.path.basename(file)}".encode(
