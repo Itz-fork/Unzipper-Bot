@@ -19,7 +19,7 @@ async def get_split_arc_user(uid: int):
     if gsau:
         return True, gsau["file_name"], gsau["password"]
     else:
-        return False, None
+        return False, None, None
 
 
 async def del_split_arc_user(uid: int):
