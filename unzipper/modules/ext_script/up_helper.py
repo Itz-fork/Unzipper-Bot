@@ -124,7 +124,7 @@ async def rm_mark_chars(text: str):
 
 
 # Function to answer queries
-async def answer_query(query, message_text: str, btns: list, answer_only: bool = False, unzip_client=None):
+async def answer_query(query, message_text: str, answer_only: bool = False, unzip_client=None, btns: list = None):
     try:
         if answer_only:
             await query.answer(await rm_mark_chars(message_text), show_alert=True)

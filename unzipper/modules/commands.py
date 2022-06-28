@@ -66,7 +66,7 @@ async def extract_dis_archive(_, message: Message):
 @Client.on_message(filters.private & filters.command(["gofile", "gf_settings"]))
 async def gofile_settings(_, message: Message):
     prs_msg = await message.reply("`Processing ⚙️...`", reply_to_message_id=message.id)
-    await prs_msg.edit("**Gofile.io settings ⚙️**", Buttons.GOFILE_ST_BTNS)
+    await prs_msg.edit("**Gofile.io settings ⚙️**", reply_markup=Buttons.GOFILE_ST_BTNS)
 
 
 # Thumbnail stuff
