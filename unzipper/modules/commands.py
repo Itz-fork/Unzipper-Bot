@@ -103,8 +103,9 @@ async def extracted_dis_spl_archive(_, message: Message):
     # Path checks
     if not is_spl:
         return await spl_umsg.edit("`Bruh, why are you sending this command 🤔?`")
-    if not os.path.exists(arc_path):
-        return await spl_umsg.edit("`Sorry, It looks like your files have been removed from the server 😔!`")
+    if not os.path.isdir(arc_path):
+        await spl_umsg.edit("`Sorry, It looks like your files have been removed from the server 😔!`")
+        return await del_split_arc_user(user_id)
     # Remove user record from the database
     await del_split_arc_user(user_id)
     # Extract the archive
