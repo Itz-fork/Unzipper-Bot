@@ -13,6 +13,7 @@
 - Password support for extracting
 - Extract archives from direct links
 - Upload files larger than 2GB to gofile.io
+- Backup extracted files to gofile.io
 - Custom thumbnail support
 - Broadcast Messages to users
 - Ban / Unban users from using your bot

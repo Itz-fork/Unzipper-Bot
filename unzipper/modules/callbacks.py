@@ -228,6 +228,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
             clb = CloudBackup(query.from_user.id)
             to = query.data.split("|")[1]
             if to == "gofile":
+                await answer_query(query, "`Uploading extracted files to gofile.io! Please wait...`")
                 glnk = await clb.gofile_backup()
                 await answer_query(query, Messages.BACKUP_OK_TXT.format(glnk), btns=Buttons.GOFILE_BTN(glnk))
         except Exception as e:
