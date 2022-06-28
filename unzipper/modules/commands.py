@@ -62,6 +62,13 @@ async def extract_dis_archive(_, message: Message):
         await unzip_msg.edit("`Hold up! What Should I Extract 😳?`")
 
 
+# Backup stuff
+@Client.on_message(filters.private & filters.command(["gofile", "gf_settings"]))
+async def gofile_settings(_, message: Message):
+    prs_msg = await message.reply("`Processing ⚙️...`", reply_to_message_id=message.id)
+    await prs_msg.edit("**Gofile.io settings ⚙️**", Buttons.GOFILE_ST_BTNS)
+
+
 # Thumbnail stuff
 @Client.on_message(filters.private & filters.command(["save", "set_thumb"]))
 async def save_dis_thumb(_, message: Message):

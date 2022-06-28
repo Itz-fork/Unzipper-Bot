@@ -62,6 +62,9 @@ async def make_keyboard(paths, user_id, chat_id):
         InlineKeyboardButton("Cancel ❌", "cancel_dis")
     )
     for file in paths:
+        # Temp fix for REPLY_MARKUP_TOO_LONG error
+        if num > 96:
+            break
         data.append(
             InlineKeyboardButton(f"{num} - {os.path.basename(file)}".encode(
                 "utf-8").decode("utf-8"), f"ext_f|{user_id}|{chat_id}|{num}")

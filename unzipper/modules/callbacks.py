@@ -6,18 +6,21 @@ import re
 import shutil
 
 from time import time
+from config import Config
+from pyrogram import Client
 from aiohttp import ClientSession
 from aiofiles import open as openfile
-from pyrogram import Client
 from pyrogram.types import CallbackQuery
-
-from .bot_data import Buttons, Messages, ERROR_MSGS
-from .ext_script.ext_helper import extr_files, get_files, make_keyboard
-from .ext_script.up_helper import send_file, answer_query
-from .commands import https_url_regex
-from unzipper.helpers_nexa.unzip_help import progress_for_pyrogram, TimeFormatter, humanbytes
+from unzipper.helpers_nexa.database.cloud import GofileDB
 from unzipper.helpers_nexa.database.upload_mode import set_upload_mode
-from config import Config
+from unzipper.helpers_nexa.unzip_help import (TimeFormatter, humanbytes,
+                                              progress_for_pyrogram)
+
+from .backup import CloudBackup
+from .commands import https_url_regex
+from .bot_data import ERROR_MSGS, Buttons, Messages
+from .ext_script.up_helper import answer_query, send_file
+from .ext_script.ext_helper import extr_files, get_files, make_keyboard
 
 
 # Function to download files from direct link using aiohttp
@@ -43,6 +46,9 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
 
     elif query.data == "upmodhelp":
         await query.edit_message_text(text=Messages.UPMODE_HELP, reply_markup=Buttons.HELP_MENU_BTN)
+    
+    elif query.data == "backuphelp":
+        await query.edit_message_text(text=Messages.BACKUP_HELP, reply_markup=Buttons.HELP_MENU_BTN)
 
     elif query.data == "thumbhelp":
         await query.edit_message_text(text=Messages.THUMB_HELP, reply_markup=Buttons.HELP_MENU_BTN)
@@ -203,6 +209,29 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
             shutil.rmtree(f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}")
         except Exception as e:
             await query.message.edit(Messages.ERROR_TXT.format(e))
+
+    elif query.data.startswith("gf_setting"):
+        gf = GofileDB(query.from_user.id)
+        mode = query.data.split("-")[1]
+        if mode == "set":
+            tkn = await unzip_bot.ask(chat_id=query.message.chat.id, text="**Please send me your gofile.io token**")
+            await gf.save_token(tkn)
+            await tkn.delete()
+        elif mode == "del":
+            await gf.del_token()
+        elif mode == "get":
+            return await answer_query(query, "**Your gofile token:** `{}`".format(await gf.get_token()))
+        await answer_query(query, "**Done ✅!**")
+
+    elif query.data.startswith("cloudbackup"):
+        try:
+            clb = CloudBackup(query.from_user.id)
+            to = query.data.split("|")[1]
+            if to == "gofile":
+                glnk = await clb.gofile_backup()
+                await answer_query(query, Messages.BACKUP_OK_TXT.format(glnk), Buttons.GOFILE_BTN(glnk))
+        except Exception as e:
+            await answer_query(query, e)
 
     elif query.data == "cancel_dis":
         try:

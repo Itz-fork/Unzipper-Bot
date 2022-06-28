@@ -57,7 +57,7 @@ async def send_file(c_id, doc_f, query, full_path):
             try:
                 ga = Async_Gofile()
                 gfio = await ga.upload(doc_f)
-                await upmsg.edit("**Your file has been uploaded to gofile! Click on the below button to download it 👇**", reply_markup=Buttons().GOFILE_BTN(gfio["downloadPage"]))
+                await upmsg.edit("**Your file has been uploaded to gofile! Click on the below button to download it 👇**", reply_markup=Buttons.GOFILE_BTN(gfio["downloadPage"]))
             except:
                 await upmsg.edit("`Upload failed, Better luck next time 😔!`")
             os.remove(doc_f)
@@ -124,12 +124,14 @@ async def rm_mark_chars(text: str):
 
 
 # Function to answer queries
-async def answer_query(query, message_text: str, answer_only: bool = False, unzip_client=None):
+async def answer_query(query, message_text: str, btns: list, answer_only: bool = False, unzip_client=None):
     try:
         if answer_only:
             await query.answer(await rm_mark_chars(message_text), show_alert=True)
         else:
-            await query.message.edit(message_text)
+            await query.message.edit(message_text, reply_markup=btns)
     except:
         if unzip_client:
-            await unzip_client.send_message(chat_id=query.message.chat.id, text=message_text)
+            await unzip_client.send_message(chat_id=query.message.chat.id, text=message_text, reply_markup=btns)
+        else:
+            await unzipperbot.send_message(chat_id=query.message.chat.id, text=message_text, reply_markup=btns)
