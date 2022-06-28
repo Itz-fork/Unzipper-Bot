@@ -229,7 +229,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
             to = query.data.split("|")[1]
             if to == "gofile":
                 glnk = await clb.gofile_backup()
-                await answer_query(query, Messages.BACKUP_OK_TXT.format(glnk), Buttons.GOFILE_BTN(glnk))
+                await answer_query(query, Messages.BACKUP_OK_TXT.format(glnk), btns=Buttons.GOFILE_BTN(glnk))
         except Exception as e:
             await answer_query(query, e)
 
