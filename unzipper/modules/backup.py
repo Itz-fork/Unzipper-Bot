@@ -4,7 +4,6 @@
 from time import strftime
 from config import Config
 from gofile2 import Async_Gofile
-from .ext_script.ext_helper import get_files
 from unzipper.helpers_nexa.database.cloud import GofileDB
 
 

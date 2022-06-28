@@ -155,7 +155,7 @@ Hi **{}**, I'm **Nexa Unzipper Bot** 😇!
 **How To Backup My Files 🤔**
 
 This bot's server do a clean restart every 24 hours (heroku). Which means your files will be completely removed after sometime.
-Before that happens, you can backup all of your files to gofile.io .
+Before that happens, you can backup all of your files to gofile.io
 
 **1.** `Send` **/gofile** `command to the bot.`
 **2.** `Select the appropriate option.`

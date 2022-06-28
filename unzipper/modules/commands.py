@@ -68,7 +68,8 @@ async def do_backup_files(_, message: Message):
     prs_msg = await message.reply("`Processing ⚙️...`", reply_to_message_id=message.id)
     await prs_msg.edit("**Select the provider ☁️**", reply_markup=Buttons.BACKUP_BTNS)
 
-@Client.on_message(filters.private & filters.command(["gofile", "gf_settings"]))
+
+@Client.on_message(filters.private & filters.command(["gofile", "gfsets"]))
 async def gofile_settings(_, message: Message):
     prs_msg = await message.reply("`Processing ⚙️...`", reply_to_message_id=message.id)
     await prs_msg.edit("**Gofile.io settings ⚙️**", reply_markup=Buttons.GOFILE_ST_BTNS)
