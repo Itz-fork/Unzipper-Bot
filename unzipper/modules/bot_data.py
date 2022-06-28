@@ -202,6 +202,12 @@ If you want to set-up your own thumbnail, you can do so using following commands
 **Folder link:** {}
 """
 
+    SPLITTED_FILE_TXT = """
+**Splitted archive detected!**
+
+`The bot detected this file as a splitted archive, please follow correct steps to continue the process!`
+"""
+
     AFTER_OK_DL_TXT = """
 **Successfully Downloaded**
 

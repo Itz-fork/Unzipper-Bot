@@ -17,11 +17,12 @@ def __run_cmds_unzipper(ar):
 
 
 # Extract with 7z
-async def _extract_with_7z_helper(path, archive_path, password=None):
+async def _extract_with_7z_helper(path, archive_path, password=None, splitted=False):
     if password:
         command = f"7z x -o{path} -p{password} {archive_path} -y"
     else:
         command = f"7z x -o{path} {archive_path} -y"
+    command += " -tsplit" if splitted else ""
     return await run_cmds_on_cr(__run_cmds_unzipper, cmd=command)
 
 
@@ -32,14 +33,14 @@ async def _extract_with_zstd(path, archive_path):
 
 
 # Main function to extract files
-async def extr_files(path, archive_path, password=None):
+async def extr_files(path, archive_path, password=None, splitted=False):
     file_path = os.path.splitext(archive_path)[1]
     if file_path == ".zst":
         os.mkdir(path)
         ex = await _extract_with_zstd(path, archive_path)
         return ex
     else:
-        ex = await _extract_with_7z_helper(path, archive_path, password)
+        ex = await _extract_with_7z_helper(path, archive_path, password, splitted)
         return ex
 
 

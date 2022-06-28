@@ -15,6 +15,7 @@ from unzipper.helpers_nexa.database.cloud import GofileDB
 from unzipper.helpers_nexa.database.upload_mode import set_upload_mode
 from unzipper.helpers_nexa.unzip_help import (TimeFormatter, humanbytes,
                                               progress_for_pyrogram)
+from unzipper.helpers_nexa.database.split_arc import add_split_arc_user
 
 from .backup import CloudBackup
 from .commands import https_url_regex
@@ -46,7 +47,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
 
     elif query.data == "upmodhelp":
         await query.edit_message_text(text=Messages.UPMODE_HELP, reply_markup=Buttons.HELP_MENU_BTN)
-    
+
     elif query.data == "backuphelp":
         await query.edit_message_text(text=Messages.BACKUP_HELP, reply_markup=Buttons.HELP_MENU_BTN)
 
@@ -55,7 +56,6 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
 
     elif query.data == "aboutcallback":
         await query.edit_message_text(text=Messages.ABOUT_TXT, reply_markup=Buttons.ME_GOIN_HOME, disable_web_page_preview=True)
-
     elif query.data.startswith("set_mode"):
         user_id = query.from_user.id
         mode = query.data.split("|")[1]
@@ -70,6 +70,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
         splitted_data = query.data.split("|")
 
         try:
+            arc_name = ""
             if splitted_data[1] == "url":
                 url = r_message.text
                 # Double check
@@ -91,9 +92,9 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                         # Send logs
                         await unzip_bot.send_message(chat_id=Config.LOGS_CHANNEL, text=Messages.LOG_TXT.format(user_id, url, u_file_size))
                         s_time = time()
-                        archive = f"{download_path}/archive_from_{user_id}{os.path.splitext(url)[1]}"
+                        arc_name = f"{download_path}/archive_from_{user_id}{os.path.splitext(url)[1]}"
                         await answer_query(query, f"**Trying to download!** \n\n**Url:** `{url}` \n\n`This may take a while, Go and grab a coffee ☕️!`", unzip_client=unzip_bot)
-                        await download(url, archive)
+                        await download(url, arc_name)
                         e_time = time()
                     else:
                         return await query.message.edit("**Sorry I can't download that URL 🥺!**")
@@ -107,16 +108,29 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                 log_msg = await r_message.forward(chat_id=Config.LOGS_CHANNEL)
                 await log_msg.reply(Messages.LOG_TXT.format(user_id, r_message.document.file_name, humanbytes(r_message.document.file_size)))
                 s_time = time()
+                arc_name = f"{download_path}/archive_from_{user_id}{os.path.splitext(r_message.document.file_name)[1]}"
                 archive = await r_message.download(
-                    file_name=f"{download_path}/archive_from_{user_id}{os.path.splitext(r_message.document.file_name)[1]}",
+                    file_name=arc_name,
                     progress=progress_for_pyrogram, progress_args=(
                         "**Trying to Download!** \n", query.message, s_time)
                 )
                 e_time = time()
             else:
-                await answer_query(query, "Can't Find Details! Please contact support group!", answer_only=True, unzip_client=unzip_bot)
+                return await answer_query(query, "Can't Find Details! Please contact support group!", answer_only=True, unzip_client=unzip_bot)
 
             await answer_query(query, Messages.AFTER_OK_DL_TXT.format(TimeFormatter(round(e_time-s_time) * 1000)), unzip_client=unzip_bot)
+
+            # Checks if the archive is a splitted one
+            arc_ext = os.path.splitext(arc_name)[1]
+            if arc_ext.replace(".", "").isnumeric():
+                password = ""
+                if splitted_data[2] == "with_pass":
+                    password = (await unzip_bot.ask(chat_id=query.message.chat.id, text="**Please send me the password 🔑:**")).text
+                await answer_query(query, Messages.SPLITTED_FILE_TXT)
+                narc = f"splitted_archive_from_{user_id}{arc_ext}"
+                os.rename(arc_name, narc)
+                await add_split_arc_user(user_id, narc, password)
+                return
 
             if splitted_data[2] == "with_pass":
                 password = await unzip_bot.ask(chat_id=query.message.chat.id, text="**Please send me the password 🔑:**")

@@ -6,18 +6,26 @@ import shutil
 import psutil
 import asyncio
 
+from time import time
 from config import Config
+from pyrogram.types import Message
 from pyrogram import Client, filters
 from pyrogram.errors import FloodWait
-from pyrogram.types import Message
-from unzipper.helpers_nexa.database.users import (add_banned_user,  # Banned Users db
-                                                  check_user, get_users_list,
-                                                  count_users, count_banned_users,
-                                                  del_user, del_banned_user)
-from unzipper.helpers_nexa.database.thumbnail import save_thumbnail, get_thumbnail, del_thumbnail
+from unzipper.helpers_nexa.database.split_arc import (del_split_arc_user,
+                                                      get_split_arc_user)
+from unzipper.helpers_nexa.database.thumbnail import (del_thumbnail,
+                                                      get_thumbnail,
+                                                      save_thumbnail)
 from unzipper.helpers_nexa.database.upload_mode import get_upload_mode
-from unzipper.helpers_nexa.unzip_help import humanbytes
+from unzipper.helpers_nexa.database.users import (check_user, add_banned_user,
+                                                  count_banned_users,
+                                                  count_users, del_banned_user,
+                                                  del_user, get_users_list)
+from unzipper.helpers_nexa.unzip_help import (TimeFormatter, humanbytes,
+                                              progress_for_pyrogram)
+from .ext_script.ext_helper import extr_files, get_files, make_keyboard
 from .bot_data import Buttons, Messages
+
 
 # Regex for http/https urls
 https_url_regex = ("((http|https)://)(www.)?" +
@@ -26,9 +34,8 @@ https_url_regex = ("((http|https)://)(www.)?" +
                    "{2,6}\\b([-a-zA-Z0-9@:%" +
                    "._\\+~#?&//=]*)")
 
+
 # Function to check user status (is banned or not)
-
-
 @Client.on_message(filters.private)
 async def _(_, message: Message):
     await check_user(message)
@@ -47,11 +54,31 @@ async def clean_ma_files(_, message: Message):
 @Client.on_message(filters.incoming & filters.private & filters.regex(https_url_regex) | filters.document)
 async def extract_dis_archive(_, message: Message):
     unzip_msg = await message.reply("`Processing ⚙️...`", reply_to_message_id=message.id)
+    if not message.document:
+        return await unzip_msg.edit("`Is this even an archive 🤨?")
     # Due to https://t.me/Nexa_bots/38823
     if not message.from_user:
         return await unzip_msg.edit("`Ayo, you ain't a user 🤨?")
     user_id = message.from_user.id
     download_path = f"{Config.DOWNLOAD_LOCATION}/{user_id}"
+
+    # Splitted files
+    is_spl, lfn, ps = await get_split_arc_user(user_id)
+    if is_spl:
+        await unzip_msg.edit(f"`Since you sent me {lfn}, I have to do some file merge stuff!`")
+        arc_name = f"{os.path.splitext(lfn)[0]}{os.path.splitext(message.document.file_name)[1]}"
+        if os.path.isfile(arc_name):
+            return await unzip_msg.edit("`Dawg, I already have this file!`")
+        s_time = time()
+        await message.download(
+            file_name=arc_name,
+            progress=progress_for_pyrogram, progress_args=(
+                "**Trying to Download!** \n", unzip_msg, s_time)
+        )
+        e_time = time()
+        await unzip_msg.edit(Messages.AFTER_OK_DL_TXT.format(TimeFormatter(round(e_time-s_time) * 1000)))
+        return
+
     if os.path.isdir(download_path):
         return await unzip_msg.edit("`Already one process is going on, Don't spam you idiot 😑!` \n\nWanna Clear You Files from my server? Then just send **/clean** command!")
     if message.text and (re.match(https_url_regex, message.text)):
@@ -60,6 +87,34 @@ async def extract_dis_archive(_, message: Message):
         await unzip_msg.edit("**What do you want?**", reply_markup=Buttons.CHOOSE_E_F__BTNS)
     else:
         await unzip_msg.edit("`Hold up! What Should I Extract 😳?`")
+
+
+@Client.on_message(filters.private & filters.command("done"))
+async def extracted_dis_spl_archive(_, message: Message):
+    spl_umsg = await message.reply("`Processing ⚙️...`", reply_to_message_id=message.id)
+    # User checks
+    if not message.from_user:
+        return await spl_umsg.edit("`Ayo, you ain't a user 🤨?")
+    user_id = message.from_user.id
+    # Retrive data from database
+    is_spl, lfn, ps = await get_split_arc_user(user_id)
+    ext_path = f"{Config.DOWNLOAD_LOCATION}/{user_id}/extracted"
+    arc_path = os.path.dirname(lfn)
+    # Path checks
+    if not is_spl:
+        return await spl_umsg.edit("`Bruh, why are you sending this command 🤔?`")
+    if not os.path.exists(arc_path):
+        return await spl_umsg.edit("`Sorry, It looks like your files have been removed from the server 😔!`")
+    # Remove user record from the database
+    await del_split_arc_user(user_id)
+    # Extract the archive
+    s_time = time()
+    await extr_files(ext_path, arc_path, ps, True)
+    e_time = time()
+    await spl_umsg.edit(Messages.EXT_OK_TXT.format(TimeFormatter(round(e_time-s_time) * 1000)))
+    paths = await get_files(ext_path)
+    i_e_btns = await make_keyboard(paths, user_id, message.chat.id)
+    await spl_umsg.edit("`Select Files to Upload!`", reply_markup=i_e_btns)
 
 
 # Backup stuff
