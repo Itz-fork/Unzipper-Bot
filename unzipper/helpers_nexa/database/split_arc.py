@@ -17,7 +17,7 @@ async def add_split_arc_user(uid: int, fn: str, passw: str):
 async def get_split_arc_user(uid: int):
     gsau = await spl_db.find_one({"_id": uid})
     if gsau:
-        return True, gsau["file_name"]
+        return True, gsau["file_name"], gsau["password"]
     else:
         return False, None
 
