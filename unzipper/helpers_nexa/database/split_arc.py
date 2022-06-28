@@ -8,7 +8,7 @@ spl_db = unzipper_db["splitted_archive_users"]
 
 async def add_split_arc_user(uid: int, fn: str, passw: str):
     is_exist = await spl_db.find_one({"_id": uid})
-    if is_exist:
+    if not is_exist:
         await spl_db.insert_one({"_id": uid, "file_name": fn, "password": passw})
     else:
         raise ValueError("Data already exists!")
