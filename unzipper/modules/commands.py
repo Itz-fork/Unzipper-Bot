@@ -68,7 +68,7 @@ async def extract_dis_archive(_, message: Message):
         await unzip_msg.edit(f"`Since you sent me {lfn}, I have to do some file merge stuff!`")
         arc_name = f"{os.path.splitext(lfn)[0]}{os.path.splitext(message.document.file_name)[1]}"
         if os.path.isfile(arc_name):
-            return await unzip_msg.edit("`Dawg, I already have this file!`")
+            return await unzip_msg.edit("`Dawg, I already have this file 😑!`")
         s_time = time()
         await message.download(
             file_name=arc_name,
@@ -76,7 +76,7 @@ async def extract_dis_archive(_, message: Message):
                 "**Trying to Download!** \n", unzip_msg, s_time)
         )
         e_time = time()
-        await unzip_msg.edit(Messages.AFTER_OK_DL_TXT.format(TimeFormatter(round(e_time-s_time) * 1000)))
+        await unzip_msg.edit("**Downloaded this part of the archive in `{}`".format(TimeFormatter(round(e_time-s_time) * 1000)))
         return
 
     if os.path.isdir(download_path):

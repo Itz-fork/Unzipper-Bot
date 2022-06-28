@@ -129,7 +129,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                 await answer_query(query, Messages.SPLITTED_FILE_TXT)
                 narc = f"splitted_archive_from_{user_id}{arc_ext}"
                 os.rename(arc_name, narc)
-                await add_split_arc_user(user_id, narc, password)
+                await add_split_arc_user(user_id, f"{download_path}/{narc}", password)
                 return
 
             if splitted_data[2] == "with_pass":
