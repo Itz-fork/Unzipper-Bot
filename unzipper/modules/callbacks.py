@@ -15,8 +15,7 @@ from unzipper.helpers_nexa.database.cloud import GofileDB
 from unzipper.helpers_nexa.database.upload_mode import set_upload_mode
 from unzipper.helpers_nexa.unzip_help import (TimeFormatter, humanbytes,
                                               progress_for_pyrogram)
-from unzipper.helpers_nexa.database.split_arc import add_split_arc_user
-
+from unzipper.helpers_nexa.database.split_arc import add_split_arc_user, del_split_arc_user
 from .backup import CloudBackup
 from .commands import https_url_regex
 from .bot_data import ERROR_MSGS, Buttons, Messages
@@ -250,6 +249,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
 
     elif query.data == "cancel_dis":
         try:
+            await del_split_arc_user(query.from_user.id)
             shutil.rmtree(f"{Config.DOWNLOAD_LOCATION}/{query.from_user.id}")
             await query.message.edit(Messages.CANCELLED_TXT.format("Process Cancelled"))
         except:

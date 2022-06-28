@@ -66,7 +66,10 @@ async def extract_dis_archive(_, message: Message):
     is_spl, lfn, ps = await get_split_arc_user(user_id)
     if is_spl:
         await unzip_msg.edit(f"`Since you sent me {lfn}, I have to do some file merge stuff!`")
-        arc_name = f"{os.path.splitext(lfn)[0]}{os.path.splitext(message.document.file_name)[1]}"
+        taext = os.path.splitext(message.document.file_name)[1]
+        arc_name = f"{os.path.splitext(lfn)[0]}{taext}"
+        if not taext.replace(".", "").isnumeric():
+            return await unzip_msg.edit("`Dawg, this isn't a part of your splitted archive 😑!`")
         if os.path.isfile(arc_name):
             return await unzip_msg.edit("`Dawg, I already have this file 😑!`")
         s_time = time()

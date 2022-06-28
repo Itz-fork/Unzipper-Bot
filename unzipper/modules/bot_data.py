@@ -205,7 +205,8 @@ If you want to set-up your own thumbnail, you can do so using following commands
     SPLITTED_FILE_TXT = """
 **Splitted archive detected!**
 
-`The bot detected this file as a splitted archive, please follow correct steps to continue the process!`
+
+`Now you can send the other parts of the archive one by one! Wanna cancel the process?` Hit **/clean** `command!`
 """
 
     AFTER_OK_DL_TXT = """
