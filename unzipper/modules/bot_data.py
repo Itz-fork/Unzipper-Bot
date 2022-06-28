@@ -141,7 +141,7 @@ Hi **{}**, I'm **Nexa Unzipper Bot** 😇!
     
     **2.** `Please don't send corrupted files! If you sent a one by a mistake just send` **/clean** `command!`
     
-    **3.** `If your archive have 95 or more files in it then bot can't show all of extracted files to select from. So in that case if you can't see your file in the buttons just click on` "Upload All ♻️" `button. It'll send all extracted files to you!`
+    **3.** `If your archive have more than 90 files in it then bot can't show all of extracted files to select from. So in that case if you can't see your file in the buttons just click on` "Upload All ♻️" `button. It'll send all extracted files to you!`
     """
 
     UPMODE_HELP = """
