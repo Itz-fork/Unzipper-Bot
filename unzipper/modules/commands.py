@@ -213,8 +213,7 @@ async def send_stats(_, message: Message):
 
 **🎛 Hardware Usage,**
  ↳**CPU Usage:** `{cpu_usage}%`
- ↳**RAM Usage:** `{ram_usage}%`"""
-                         )
+ ↳**RAM Usage:** `{ram_usage}%`""")
 
 
 async def _do_broadcast(message, user):
