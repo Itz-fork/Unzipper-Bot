@@ -174,27 +174,32 @@ async def set_up_mode_for_user(_, message: Message):
     await message.reply(Messages.SELECT_UPLOAD_MODE_TXT.format(upload_mode), reply_markup=Buttons.SET_UPLOAD_MODE_BUTTONS)
 
 
-@Client.on_message(filters.private & filters.command("stats") & filters.user(Config.BOT_OWNER))
+@Client.on_message(filters.private & filters.command("stats"))
 async def send_stats(_, message: Message):
     stats_msg = await message.reply("`Processing ⚙️...`")
+    # Is message from owner?
+    frmow = False
+    if message.from_user and message.from_user.id == Config.BOT_OWNER:
+        frmow = True
+    # Disk usage
     total, used, free = shutil.disk_usage(".")
     total = humanbytes(total)
     used = humanbytes(used)
     free = humanbytes(free)
-    net_usage = psutil.net_io_counters()
+    # Hardware usage
     cpu_usage = psutil.cpu_percent()
     ram_usage = psutil.virtual_memory().percent
     disk_usage = psutil.disk_usage('/').percent
+    # Bandwith usage
+    net_usage = psutil.net_io_counters()
+    # Users count
     total_users = await count_users()
     total_banned_users = await count_banned_users()
+    # Show status
     await stats_msg.edit(f"""
 **💫 Current Bot Stats 💫**
 
-**👥 Users:** 
- ↳**Users in Database:** `{total_users}`
- ↳**Total Banned Users:** `{total_banned_users}`
-
-
+{"**👥 Users:** \n ↳**Users in Database:** `{total_users}`\n ↳**Total Banned Users:** `{total_banned_users}`\n\n" if frmow else ""}
 **🌐 Bandwith Usage,**
  ↳ **Sent:** `{humanbytes(net_usage.bytes_sent)}`
  ↳ **Received:** `{humanbytes(net_usage.bytes_recv)}`
