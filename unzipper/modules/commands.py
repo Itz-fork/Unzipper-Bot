@@ -23,6 +23,7 @@ from unzipper.helpers_nexa.database.users import (add_banned_user, check_user,
                                                   del_user, get_users_list)
 from unzipper.helpers_nexa.unzip_help import (TimeFormatter, humanbytes,
                                               progress_for_pyrogram)
+from .callbacks import download
 from .bot_data import Buttons, Messages
 from .ext_script.ext_helper import extr_files, get_files, make_keyboard
 
@@ -54,26 +55,32 @@ async def clean_ma_files(_, message: Message):
 @Client.on_message(filters.incoming & filters.private & filters.regex(https_url_regex) | filters.document)
 async def extract_dis_archive(_, message: Message):
     unzip_msg = await message.reply("`Processing ⚙️...`", reply_to_message_id=message.id)
-    if not message.document:
-        return await unzip_msg.edit("`Is this even an archive 🤨?")
     # Due to https://t.me/Nexa_bots/38823
     if not message.from_user:
         return await unzip_msg.edit("`Ayo, you ain't a user 🤨?")
+    
     user_id = message.from_user.id
     download_path = f"{Config.DOWNLOAD_LOCATION}/{user_id}"
+    is_url = message.text and (re.match(https_url_regex, message.text))
+    is_doc = message.document
 
     # Splitted files
     is_spl, lfn, ps = await get_split_arc_user(user_id)
     if is_spl:
         await unzip_msg.edit(f"`Since you sent me {lfn}, I have to do some file merge stuff!`")
-        taext = os.path.splitext(message.document.file_name)[1]
-        arc_name = f"{os.path.splitext(lfn)[0]}{taext}"
+        # File extension
+        taext = os.path.splitext(message.document.file_name if is_doc else os.path.basename(message.text))[1]
         if not taext.replace(".", "").isnumeric():
             return await unzip_msg.edit("`Dawg, this isn't a part of your splitted archive 😑!`")
+        arc_name = f"{download_path}/archive_from_{user_id}_{message.document.file_name if is_doc else os.path.basename(message.text)}"
         if os.path.isfile(arc_name):
             return await unzip_msg.edit("`Dawg, I already have this file 😑!`")
+        # Download the file
         s_time = time()
-        await message.download(
+        if is_url:
+            await download(message.text, arc_name)
+        else:
+            await message.download(
             file_name=arc_name,
             progress=progress_for_pyrogram, progress_args=(
                 "**Trying to Download!** \n", unzip_msg, s_time)
@@ -84,9 +91,9 @@ async def extract_dis_archive(_, message: Message):
 
     if os.path.isdir(download_path):
         return await unzip_msg.edit("`Already one process is going on, Don't spam you idiot 😑!` \n\nWanna Clear You Files from my server? Then just send **/clean** command!")
-    if message.text and (re.match(https_url_regex, message.text)):
+    if is_url:
         await unzip_msg.edit("**What do you want?**", reply_markup=Buttons.CHOOSE_E_U__BTNS)
-    elif message.document:
+    elif is_doc:
         await unzip_msg.edit("**What do you want?**", reply_markup=Buttons.CHOOSE_E_F__BTNS)
     else:
         await unzip_msg.edit("`Hold up! What Should I Extract 😳?`")

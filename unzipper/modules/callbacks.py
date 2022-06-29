@@ -91,7 +91,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                         # Send logs
                         await unzip_bot.send_message(chat_id=Config.LOGS_CHANNEL, text=Messages.LOG_TXT.format(user_id, url, u_file_size))
                         s_time = time()
-                        arc_name = f"{download_path}/archive_from_{user_id}{os.path.splitext(url)[1]}"
+                        arc_name = f"{download_path}/archive_from_{user_id}_{os.path.basename(url)}"
                         await answer_query(query, f"**Trying to download!** \n\n**Url:** `{url}` \n\n`This may take a while, Go and grab a coffee ☕️!`", unzip_client=unzip_bot)
                         await download(url, arc_name)
                         e_time = time()
@@ -107,8 +107,8 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                 log_msg = await r_message.forward(chat_id=Config.LOGS_CHANNEL)
                 await log_msg.reply(Messages.LOG_TXT.format(user_id, r_message.document.file_name, humanbytes(r_message.document.file_size)))
                 s_time = time()
-                arc_name = f"{download_path}/archive_from_{user_id}{os.path.splitext(r_message.document.file_name)[1]}"
-                archive = await r_message.download(
+                arc_name = f"{download_path}/archive_from_{user_id}_{r_message.document.file_name}"
+                await r_message.download(
                     file_name=arc_name,
                     progress=progress_for_pyrogram, progress_args=(
                         "**Trying to Download!** \n", query.message, s_time)
@@ -126,19 +126,17 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                 if splitted_data[2] == "with_pass":
                     password = (await unzip_bot.ask(chat_id=query.message.chat.id, text="**Please send me the password 🔑:**")).text
                 await answer_query(query, Messages.SPLITTED_FILE_TXT)
-                narc = f"{download_path}/splitted_archive_from_{user_id}{arc_ext}"
-                os.rename(arc_name, narc)
-                await add_split_arc_user(user_id, narc, password)
+                await add_split_arc_user(user_id, arc_name, password)
                 return
 
             if splitted_data[2] == "with_pass":
                 password = await unzip_bot.ask(chat_id=query.message.chat.id, text="**Please send me the password 🔑:**")
                 ext_s_time = time()
-                extractor = await extr_files(path=ext_files_dir, archive_path=archive, password=password.text)
+                extractor = await extr_files(path=ext_files_dir, archive_path=arc_name, password=password.text)
                 ext_e_time = time()
             else:
                 ext_s_time = time()
-                extractor = await extr_files(path=ext_files_dir, archive_path=archive)
+                extractor = await extr_files(path=ext_files_dir, archive_path=arc_name)
                 ext_e_time = time()
             # Checks if there is an error happend while extracting the archive
             if any(err in extractor for err in ERROR_MSGS):
