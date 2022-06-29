@@ -12,6 +12,7 @@
 - Extract various types of archives like `rar`, `zip`, `tar`, `7z`, `tar.xz` etc.
 - Password support for extracting
 - Extract archives from direct links
+- Support for multipart archives (archives ending with `.001`, `.002`, etc.)
 - Upload files larger than 2GB to gofile.io
 - Backup extracted files to gofile.io
 - Custom thumbnail support
