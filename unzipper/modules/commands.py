@@ -195,7 +195,7 @@ async def send_stats(_, message: Message):
     # Users count
     total_users = await count_users()
     total_banned_users = await count_banned_users()
-    usrtxt = """
+    usrtxt = f"""
 **👥 Users:** 
  ↳**Users in Database:** `{total_users}`
  ↳**Total Banned Users:** `{total_banned_users}`
