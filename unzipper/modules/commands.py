@@ -120,6 +120,7 @@ async def extracted_dis_spl_archive(_, message: Message):
     # Extract the archive
     s_time = time()
     await extr_files(ext_path, lfn, ps, True)
+    await extr_files(ext_path, os.path.splitext(lfn)[0], ps, True)
     e_time = time()
     await spl_umsg.edit(Messages.EXT_OK_TXT.format(TimeFormatter(round(e_time-s_time) * 1000)))
     paths = await get_files(ext_path)
