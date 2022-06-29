@@ -9,27 +9,17 @@ from time import time
 from config import Config
 from pyrogram import Client
 from aiohttp import ClientSession
-from aiofiles import open as openfile
 from pyrogram.types import CallbackQuery
 from unzipper.helpers_nexa.database.cloud import GofileDB
 from unzipper.helpers_nexa.database.upload_mode import set_upload_mode
 from unzipper.helpers_nexa.unzip_help import (TimeFormatter, humanbytes,
-                                              progress_for_pyrogram)
+                                              progress_for_pyrogram, download)
 from unzipper.helpers_nexa.database.split_arc import add_split_arc_user, del_split_arc_user
 from .backup import CloudBackup
 from .commands import https_url_regex
 from .bot_data import ERROR_MSGS, Buttons, Messages
 from .ext_script.up_helper import answer_query, send_file
 from .ext_script.ext_helper import extr_files, get_files, make_keyboard
-
-
-# Function to download files from direct link using aiohttp
-async def download(url, path):
-    async with ClientSession() as session:
-        async with session.get(url, timeout=None) as resp:
-            async with openfile(path, mode="wb") as file:
-                async for chunk in resp.content.iter_chunked(Config.CHUNK_SIZE):
-                    await file.write(chunk)
 
 
 # Callbacks

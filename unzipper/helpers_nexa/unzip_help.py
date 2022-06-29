@@ -6,7 +6,9 @@ import time
 
 from pyrogram import enums
 from functools import partial
+from aiohttp import ClientSession
 from asyncio import get_running_loop
+from aiofiles import open as openfile
 from unzipper import unzipperbot as client
 from config import Config
 
@@ -65,6 +67,15 @@ def TimeFormatter(milliseconds: int) -> str:
         ((str(seconds) + "s, ") if seconds else "") + \
         ((str(milliseconds) + "ms, ") if milliseconds else "")
     return tmp[:-2]
+
+
+# Function to download files from direct link using aiohttp
+async def download(url, path):
+    async with ClientSession() as session:
+        async with session.get(url, timeout=None) as resp:
+            async with openfile(path, mode="wb") as file:
+                async for chunk in resp.content.iter_chunked(Config.CHUNK_SIZE):
+                    await file.write(chunk)
 
 
 # Execute blocking functions asynchronously

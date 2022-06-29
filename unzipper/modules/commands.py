@@ -22,8 +22,7 @@ from unzipper.helpers_nexa.database.users import (add_banned_user, check_user,
                                                   count_users, del_banned_user,
                                                   del_user, get_users_list)
 from unzipper.helpers_nexa.unzip_help import (TimeFormatter, humanbytes,
-                                              progress_for_pyrogram)
-from .callbacks import download
+                                              progress_for_pyrogram, download)
 from .bot_data import Buttons, Messages
 from .ext_script.ext_helper import extr_files, get_files, make_keyboard
 
