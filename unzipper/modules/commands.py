@@ -200,12 +200,10 @@ async def send_stats(_, message: Message):
  ↳**Users in Database:** `{total_users}`
  ↳**Total Banned Users:** `{total_banned_users}`
 
-
 """
     # Show status
     await stats_msg.edit(f"""
 **💫 Current Bot Stats 💫**
-
 {usrtxt if frmow else ""}
 **🌐 Bandwith Usage,**
  ↳ **Sent:** `{humanbytes(net_usage.bytes_sent)}`
