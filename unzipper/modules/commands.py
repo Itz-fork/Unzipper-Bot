@@ -57,7 +57,7 @@ async def extract_dis_archive(_, message: Message):
     # Due to https://t.me/Nexa_bots/38823
     if not message.from_user:
         return await unzip_msg.edit("`Ayo, you ain't a user 🤨?")
-    
+
     user_id = message.from_user.id
     download_path = f"{Config.DOWNLOAD_LOCATION}/{user_id}"
     is_url = message.text and (re.match(https_url_regex, message.text))
@@ -68,7 +68,8 @@ async def extract_dis_archive(_, message: Message):
     if is_spl:
         await unzip_msg.edit(f"`Since you sent me {lfn}, I have to do some file merge stuff!`")
         # File extension
-        taext = os.path.splitext(message.document.file_name if is_doc else os.path.basename(message.text))[1]
+        taext = os.path.splitext(
+            message.document.file_name if is_doc else os.path.basename(message.text))[1]
         if not taext.replace(".", "").isnumeric():
             return await unzip_msg.edit("`Dawg, this isn't a part of your splitted archive 😑!`")
         arc_name = f"{download_path}/archive_from_{user_id}_{message.document.file_name if is_doc else os.path.basename(message.text)}"
@@ -80,10 +81,10 @@ async def extract_dis_archive(_, message: Message):
             await download(message.text, arc_name)
         else:
             await message.download(
-            file_name=arc_name,
-            progress=progress_for_pyrogram, progress_args=(
-                "**Trying to Download!** \n", unzip_msg, s_time)
-        )
+                file_name=arc_name,
+                progress=progress_for_pyrogram, progress_args=(
+                    "**Trying to Download!** \n", unzip_msg, s_time)
+            )
         e_time = time()
         await unzip_msg.edit("**Downloaded this part of the archive in** `{}`".format(TimeFormatter(round(e_time-s_time) * 1000)))
         return
@@ -120,9 +121,15 @@ async def extracted_dis_spl_archive(_, message: Message):
     # Extract the archive
     s_time = time()
     await extr_files(ext_path, lfn, ps, True)
-    await extr_files(ext_path, os.path.splitext(lfn)[0], ps, True)
+    extdarc = f"{ext_path}/{os.path.splitext(os.path.basename(lfn))[0]}"
+    await extr_files(ext_path, extdarc, ps)
     e_time = time()
     await spl_umsg.edit(Messages.EXT_OK_TXT.format(TimeFormatter(round(e_time-s_time) * 1000)))
+    # Try to remove merged archive
+    try:
+        os.remove(extdarc)
+    except:
+        pass
     paths = await get_files(ext_path)
     i_e_btns = await make_keyboard(paths, user_id, message.chat.id)
     await spl_umsg.edit("`Select Files to Upload!`", reply_markup=i_e_btns)
