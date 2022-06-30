@@ -106,7 +106,7 @@ async def send_file(c_id, doc_f, query, full_path):
         except:
             pass
     except FloodWait as f:
-        sleep(f.x)
+        await sleep(f.x)
         return await send_file(c_id, doc_f, query, full_path)
     except FileNotFoundError:
         try:
