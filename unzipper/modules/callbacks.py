@@ -82,7 +82,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                         await unzip_bot.send_message(chat_id=Config.LOGS_CHANNEL, text=Messages.LOG_TXT.format(user_id, url, u_file_size))
                         s_time = time()
                         arc_name = f"{download_path}/archive_from_{user_id}_{os.path.basename(url)}"
-                        await answer_query(query, f"**Trying to download!** \n\n**Url:** `{url}` \n\n`This may take a while, Go and grab a coffee ☕️!`", unzip_client=unzip_bot)
+                        await answer_query(query, f"**Trying to download!** \n\n**Url:** `{url}` \n\n`This may take a while, In the meantime go and grab a coffee ☕️!`", unzip_client=unzip_bot)
                         await download(url, arc_name)
                         e_time = time()
                     else:

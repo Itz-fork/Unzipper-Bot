@@ -206,7 +206,11 @@ If you want to set-up your own thumbnail, you can do so using following commands
 **Splitted archive detected!**
 
 
-`Now you can send the other parts of the archive one by one! Wanna cancel the process?` Hit **/clean** `command!`
+**1.** `Send the other parts of the archive one by one.`
+**2.** `When you're done, send` **/done** `command.`
+
+
+`Wanna cancel the process?` Hit **/clean** `command!`
 """
 
     AFTER_OK_DL_TXT = """

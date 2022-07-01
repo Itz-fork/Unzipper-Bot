@@ -4,9 +4,9 @@ import os
 import re
 import shutil
 import psutil
-import asyncio
 
 from time import time
+from asyncio import sleep
 from config import Config
 from pyrogram.types import Message
 from pyrogram import Client, filters
@@ -240,7 +240,7 @@ async def _do_broadcast(message, user):
         await message.copy(chat_id=int(user))
         return 200
     except FloodWait as e:
-        asyncio.sleep(e.x)
+        await sleep(e.x)
         return _do_broadcast(message, user)
     except Exception:
         await del_user(user)
@@ -254,7 +254,7 @@ async def broadcast_dis(_, message: Message):
         return await bc_msg.edit("`Reply to a message to broadcast!`")
     users_list = await get_users_list()
     # trying to broadcast
-    await bc_msg.edit("`Broadcasting has started, This may take while 🥱!`")
+    await bc_msg.edit("`Broadcasting has started, This may take a while 🥱!`")
     success_no = 0
     failed_no = 0
     total_users = await count_users()
