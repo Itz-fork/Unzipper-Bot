@@ -239,9 +239,11 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
         try:
             await del_split_arc_user(query.from_user.id)
             shutil.rmtree(f"{Config.DOWNLOAD_LOCATION}/{query.from_user.id}")
-            await query.message.edit(Messages.CANCELLED_TXT.format("Process Cancelled"))
-        except:
-            return await query.answer("There is nothing to remove lmao!", show_alert=True)
+            await answer_query(query, Messages.CANCELLED_TXT.format("Process Cancelled"))
+        except FileNotFoundError:
+            return await answer_query(query, "There is nothing to remove lmao!", True)
+        except BaseException:
+            return await answer_query(query, "Oops, An error occured! It would be great if you can report this at the support group!", True)
 
     elif query.data == "nobully":
         await query.message.edit("**Ok Ok! I won't delete those files 😂!**")
