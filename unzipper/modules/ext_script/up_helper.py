@@ -115,7 +115,7 @@ async def send_file(c_id, doc_f, query, full_path):
             return await unzipperbot.send_message(c_id, "Sorry! I can't find that file")
     except BaseException as e:
         print(e)
-        shutil.rmtree(full_path)
+        await answer_query(query, f"**Error:** \n`{e}`")
 
 
 # Function to remove basic markdown characters from a string
@@ -124,7 +124,7 @@ async def rm_mark_chars(text: str):
 
 
 # Function to answer queries
-async def answer_query(query, message_text: str, answer_only: bool = False, unzip_client=None, btns = None):
+async def answer_query(query, message_text: str, answer_only: bool = False, unzip_client=None, btns=None):
     try:
         if answer_only:
             await query.answer(await rm_mark_chars(message_text), show_alert=True)
