@@ -3,7 +3,6 @@
 
 import os
 import re
-import shutil
 import subprocess
 
 from time import time
