@@ -70,7 +70,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                     # Get the file size
                     unzip_head = await ses.head(url)
                     f_size = unzip_head.headers.get('content-length')
-                    u_file_size = f_size if f_size else "undefined"
+                    u_file_size = humanbytes(int(f_size)) if f_size else "undefined"
                     # Checks if file is an archive using content-type header
                     unzip_resp = await ses.get(url, timeout=None)
                     if "application/" not in unzip_resp.headers.get('content-type'):
@@ -83,7 +83,7 @@ async def unzipper_cb(unzip_bot: Client, query: CallbackQuery):
                         s_time = time()
                         arc_name = f"{download_path}/archive_from_{user_id}_{os.path.basename(url)}"
                         await answer_query(query, f"**Trying to download!** \n\n**Url:** `{url}` \n\n`This may take a while, In the meantime go and grab a coffee ☕️!`", unzip_client=unzip_bot)
-                        await download(url, arc_name)
+                        await download(url, arc_name, "**Trying to Download!** \n", query.message)
                         e_time = time()
                     else:
                         return await query.message.edit("**Sorry I can't download that URL 🥺!**")

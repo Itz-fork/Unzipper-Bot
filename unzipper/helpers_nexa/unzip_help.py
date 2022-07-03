@@ -70,12 +70,18 @@ def TimeFormatter(milliseconds: int) -> str:
 
 
 # Function to download files from direct link using aiohttp
-async def download(url, path):
+async def download(url, path, udt, message):
     async with ClientSession() as session:
         async with session.get(url, timeout=None) as resp:
+            total = resp.headers["Content-Length"]
+            curr = 0
+            st = time.time()
             async with openfile(path, mode="wb") as file:
                 async for chunk in resp.content.iter_chunked(Config.CHUNK_SIZE):
                     await file.write(chunk)
+                    if total:
+                        curr += len(chunk)
+                        await progress_for_pyrogram(curr, total, udt, message, st)
 
 
 # Execute blocking functions asynchronously
