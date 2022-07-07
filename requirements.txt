@@ -1,6 +1,5 @@
 pyrogram
 TgCrypto
-pyromod
 motor
 dnspython
 psutil

@@ -23,7 +23,6 @@ from gofile2 import Async_Gofile
 from pyrogram.types import Message
 from pyrogram.errors import FloodWait
 from pyrogram.types import CallbackQuery
-from pyromod import listen
 
 from .database.users import check_user
 from .helpers_nexa.buttons import Buttons
