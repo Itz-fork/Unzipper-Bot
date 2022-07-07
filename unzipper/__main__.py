@@ -10,11 +10,12 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>   #
 # ===================================================================== #
 
-from pyrogram import idle
-from . import unzip_client
-from os import path, makedirs
-from .helpers_nexa.checks import check_log_channel
 from config import Config
+from pyrogram import idle
+from os import makedirs, path
+from unzipper import unzip_client
+from .helpers_nexa.checks import check_log_channel
+
 
 if __name__ == "__main__":
     if not path.isdir(Config.DOWNLOAD_LOCATION):
