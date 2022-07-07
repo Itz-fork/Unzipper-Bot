@@ -1,21 +1,19 @@
 # Copyright (c) 2022 Itz-fork
 # Don't kang this else your dad is gae
+# Credits: SpEcHiDe's AnyDL-Bot
 
-import math
-import time
-
-from pyrogram import enums
+from re import sub
+from time import time
+from math import floor
 from functools import partial
-from aiohttp import ClientSession
+from os import path, walk, remove
+from subprocess import Popen, PIPE
 from asyncio import get_running_loop
-from aiofiles import open as openfile
-from unzipper import unzipperbot as client
-from config import Config
+from unzipper.database.thumbnail import get_thumbnail
 
 
-# Credits: SpEcHiDe's AnyDL-Bot for Progress bar + Time formatter
 async def progress_for_pyrogram(current, total, ud_type, message, start):
-    now = time.time()
+    now = time()
     diff = now - start
     if round(diff % 10.00) == 0 or current == total:
         percentage = current * 100 / total
@@ -28,8 +26,8 @@ async def progress_for_pyrogram(current, total, ud_type, message, start):
         estimated_total_time = TimeFormatter(milliseconds=estimated_total_time)
 
         progress = "[{0}{1}] \n**Process**: {2}%\n".format(
-            ''.join(["█" for i in range(math.floor(percentage / 5))]),
-            ''.join(["░" for i in range(20 - math.floor(percentage / 5))]),
+            ''.join(["█" for i in range(floor(percentage / 5))]),
+            ''.join(["░" for i in range(20 - floor(percentage / 5))]),
             round(percentage, 2))
 
         tmp = progress + "{0} of {1}\n**Speed:** {2}/s\n**ETA:** {3}\n".format(
@@ -69,44 +67,70 @@ def TimeFormatter(milliseconds: int) -> str:
     return tmp[:-2]
 
 
-# Function to download files from direct link using aiohttp
-async def download(url, path, udt, message):
-    async with ClientSession() as session:
-        async with session.get(url, timeout=None) as resp:
-            total = resp.headers["Content-Length"]
-            curr = 0
-            st = time.time()
-            async with openfile(path, mode="wb") as file:
-                async for chunk in resp.content.iter_chunked(Config.CHUNK_SIZE):
-                    await file.write(chunk)
-                    if total:
-                        curr += len(chunk)
-                        await progress_for_pyrogram(curr, total, udt, message, st)
+def run_shell_cmds(command):
+    """
+    Execute shell commands and returns the output
+    """
+    run = Popen(command, stdout=PIPE,
+                stderr=PIPE, shell=True)
+    shell_ouput = run.stdout.read()[:-1].decode("utf-8")
+    return shell_ouput
 
 
-# Execute blocking functions asynchronously
-async def run_cmds_on_cr(func, **kwargs):
+async def run_cmds_on_cr(func, *args, **kwargs):
+    """
+    Execute blocking functions asynchronously
+    """
     loop = get_running_loop()
     return await loop.run_in_executor(
         None,
-        partial(func, kwargs)
+        partial(func, *args, **kwargs)
     )
 
 
-# Checking log channel
-def check_logs():
-    try:
-        if Config.LOGS_CHANNEL:
-            c_info = client.get_chat(chat_id=Config.LOGS_CHANNEL)
-            if c_info.type != enums.ChatType.CHANNEL:
-                return print("TF? Chat is not a channel")
-            elif c_info.username is not None:
-                return print("TF? Chat is not private")
-            else:
-                client.send_message(
-                    chat_id=Config.LOGS_CHANNEL, text="`Unzipper-Bot has Successfully Started!` \n\n**Powered by @NexaBotsUpdates**")
-        else:
-            print("No Log Channel ID is Given! Imma leaving Now!")
-            exit()
-    except:
-        print("Error Happend while checking Log Channel! Make sure you're not dumb enough to provide a wrong Log Channel ID!")
+async def get_files(path: str):
+    """
+    Returns files in a folder
+
+    Parameters:
+
+        - `path` - Path to the folder
+    """
+    path_list = [val for sublist in [[path.join(
+        i[0], j) for j in i[2]] for i in walk(path)] for val in sublist]
+    return sorted(path_list)
+
+
+async def rm_mark_chars(text: str):
+    """
+    Remove basic markdown characters
+
+    Parameters:
+
+        - `text` - Text
+    """
+    return sub("[*`_]", "", text)
+
+
+async def get_or_gen_thumb(uid: int, doc_f: str, isvid: bool = False):
+    """
+    Get saved thumbnail from the database. If there isn't any thumbnail saved, None will be returned.
+    For video files, a thumbnail will be generated using ffmpeg
+
+    Parameters:
+
+        - `uid` - User id
+        - `doc_f` - File path
+        - `isvid` - Pass True if file is a video
+    """
+    dbthumb = await get_thumbnail(int(uid))
+    if dbthumb:
+        return dbthumb
+    elif isvid:
+        thmb_pth = f"Dump/thumbnail_{path.basename(doc_f)}.jpg"
+        if path.exists(thmb_pth):
+            remove(thmb_pth)
+        await run_shell_cmds(f"ffmpeg -ss 00:00:01.00 -i {doc_f} -vf 'scale=320:320:force_original_aspect_ratio=decrease' -vframes 1 {thmb_pth}")
+        return thmb_pth
+    else:
+        return None

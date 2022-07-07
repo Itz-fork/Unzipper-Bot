@@ -4,16 +4,14 @@
 from time import strftime
 from config import Config
 from gofile2 import Async_Gofile
-from unzipper.helpers_nexa.database.cloud import GofileDB
+from unzipper.database.cloud import GofileDB
 
 
 class CloudBackup:
     """
-    ### About
-
     Utility class to backup extracted files to cloud
 
-    ### Arguments
+    Parameters:
 
         - `id` - User id
     """
