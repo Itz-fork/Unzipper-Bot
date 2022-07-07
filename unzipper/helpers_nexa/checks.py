@@ -13,19 +13,19 @@
 
 from pyrogram import enums
 from config import Config
-from unzipper import unzipperbot
+from unzipper import unzip_client
 
 
 def check_log_channel():
     try:
         if Config.LOGS_CHANNEL:
-            c_info = unzipperbot.get_chat(chat_id=Config.LOGS_CHANNEL)
+            c_info = unzip_client.get_chat(chat_id=Config.LOGS_CHANNEL)
             if c_info.type != enums.ChatType.CHANNEL:
                 return print("Chat is not a channel!")
             elif c_info.username is not None:
                 return print("Chat is not private!")
             else:
-                unzipperbot.send_message(
+                unzip_client.send_message(
                     chat_id=Config.LOGS_CHANNEL, text="`Unzipper-Bot has Successfully Started!` \n\n**Powered by @NexaBotsUpdates**")
         else:
             print("No Log Channel ID is Given! Imma leaving Now!")

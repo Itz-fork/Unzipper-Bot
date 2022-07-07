@@ -15,7 +15,7 @@ from shutil import disk_usage as sdisk_usage
 
 from config import Config
 from pyrogram import filters
-from unzipper import unzipperbot
+from unzipper import unzip_client
 from pyrogram.types import Message
 from pyrogram.errors import FloodWait
 from unzipper.helpers_nexa.utils import humanbytes
@@ -25,9 +25,9 @@ from unzipper.database.users import (add_banned_user, count_banned_users,
 from psutil import cpu_percent, disk_usage, net_io_counters, virtual_memory
 
 
-@unzipperbot.on_message(filters.private & filters.command("stats"))
+@unzip_client.on_message(filters.private & filters.command("stats"))
 async def send_stats(_, message: Message):
-    stats_msg = await message.reply(await unzipperbot.get_string("processing"))
+    stats_msg = await message.reply(await unzip_client.get_string("processing"))
     # Is message from owner?
     frmow = False
     if message.from_user and message.from_user.id == Config.BOT_OWNER:
@@ -83,15 +83,15 @@ async def _do_broadcast(message, user):
         await del_user(user)
 
 
-@unzipperbot.on_message(filters.private & filters.command("broadcast") & filters.user(Config.BOT_OWNER))
+@unzip_client.on_message(filters.private & filters.command("broadcast") & filters.user(Config.BOT_OWNER))
 async def broadcast_dis(_, message: Message):
-    bc_msg = await message.reply(await unzipperbot.get_string("processing"))
+    bc_msg = await message.reply(await unzip_client.get_string("processing"))
     r_msg = message.reply_to_message
     if not r_msg:
-        return await bc_msg.edit(await unzipperbot.get_string("no_replied_msg"))
+        return await bc_msg.edit(await unzip_client.get_string("no_replied_msg"))
     users_list = await get_users_list()
     # trying to broadcast
-    await bc_msg.edit(await unzipperbot.get_string("broadcast_started"))
+    await bc_msg.edit(await unzip_client.get_string("broadcast_started"))
     success_no = 0
     failed_no = 0
     total_users = await count_users()
@@ -101,26 +101,26 @@ async def broadcast_dis(_, message: Message):
             success_no += 1
         else:
             failed_no += 1
-    await bc_msg.edit((await unzipperbot.get_string("boradcast_results")).format(total_users, success_no, failed_no))
+    await bc_msg.edit((await unzip_client.get_string("boradcast_results")).format(total_users, success_no, failed_no))
 
 
-@unzipperbot.on_message(filters.private & filters.command("ban") & filters.user(Config.BOT_OWNER))
+@unzip_client.on_message(filters.private & filters.command("ban") & filters.user(Config.BOT_OWNER))
 async def ban_user(_, message: Message):
-    ban_msg = await message.reply(await unzipperbot.get_string("processing"))
+    ban_msg = await message.reply(await unzip_client.get_string("processing"))
     try:
         user_id = message.text.split(None, 1)[1]
     except:
-        return await ban_msg.edit(await unzipperbot.get_string("no_userid"))
+        return await ban_msg.edit(await unzip_client.get_string("no_userid"))
     await add_banned_user(user_id)
-    await ban_msg.edit((await unzipperbot.get_string("ok_ban")).format(user_id))
+    await ban_msg.edit((await unzip_client.get_string("ok_ban")).format(user_id))
 
 
-@unzipperbot.on_message(filters.private & filters.command("unban") & filters.user(Config.BOT_OWNER))
+@unzip_client.on_message(filters.private & filters.command("unban") & filters.user(Config.BOT_OWNER))
 async def unban_user(_, message: Message):
-    unban_msg = await message.reply(await unzipperbot.get_string("processing"))
+    unban_msg = await message.reply(await unzip_client.get_string("processing"))
     try:
         user_id = message.text.split(None, 1)[1]
     except:
-        return await unban_msg.edit(await unzipperbot.get_string("no_userid"))
+        return await unban_msg.edit(await unzip_client.get_string("no_userid"))
     await del_banned_user(user_id)
-    await unban_msg.edit((await unzipperbot.get_string("ok_unban")).format(user_id))
+    await unban_msg.edit((await unzip_client.get_string("ok_unban")).format(user_id))

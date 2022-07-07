@@ -193,7 +193,7 @@ class UnzipBot(Client):
             return jsn.get(key)
 
 
-unzipperbot = UnzipBot(
+unzip_client = UnzipBot(
     "UnzipperBot",
     bot_token=Config.BOT_TOKEN,
     api_id=Config.APP_ID,

@@ -10,7 +10,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>   #
 # ===================================================================== #
 
-from . import unzipper_db, unzipperbot, Config
+from . import unzipper_db, unzip_client, Config
 
 
 user_db = unzipper_db["users_db"]
@@ -104,7 +104,7 @@ async def check_user(message):
     if not is_in_db:
         try:
             await add_user(message.from_user.id)
-            await unzipperbot.send_message(
+            await unzip_client.send_message(
                 chat_id=Config.LOGS_CHANNEL,
                 text=f"**#NEW_USER** 🎙 \n\n**User Profile:** `{message.from_user.mention}` \n**User ID:** `{message.from_user.id}` \n**Profile Url:** [Click here](tg://user?id={message.from_user.id})",
                 disable_web_page_preview=True

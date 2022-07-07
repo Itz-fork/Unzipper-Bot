@@ -13,7 +13,7 @@
 from PIL import Image
 from os.path import splitext
 from pyrogram.types import Message
-from . import unzipper_db, unzipperbot, Config
+from . import unzipper_db, unzip_client, Config
 from unzipper.helpers_nexa.utils import run_cmds_on_cr
 
 
@@ -21,7 +21,7 @@ thumb_db = unzipper_db["thumbnails_db"]
 
 
 async def download_thumbnail(mid: int):
-    msg = await unzipperbot.get_messages(Config.DB_CHANNEL, mid)
+    msg = await unzip_client.get_messages(Config.DB_CHANNEL, mid)
     dmsg = await msg.download()
     return dmsg
 
@@ -39,7 +39,7 @@ async def save_thumbnail(uid: int, message: Message):
     # Download the image
     ip = await message.download()
     thumb = await run_cmds_on_cr(prepare_thumb, ip)
-    frwd_thumb = await unzipperbot.send_photo(Config.DB_CHANNEL, thumb)
+    frwd_thumb = await unzip_client.send_photo(Config.DB_CHANNEL, thumb)
     is_exist = await thumb_db.find_one({"_id": uid})
     if is_exist:
         await thumb_db.update_one({"_id": uid}, {"$set": {"path": frwd_thumb.id}})

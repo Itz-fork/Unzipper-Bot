@@ -11,7 +11,7 @@
 # ===================================================================== #
 
 from config import Config
-from unzipper import unzipperbot
+from unzipper import unzip_client
 from motor.motor_asyncio import AsyncIOMotorClient
 
 mongodb = AsyncIOMotorClient(Config.MONGODB_URL)
