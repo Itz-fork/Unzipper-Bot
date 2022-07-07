@@ -1,6 +1,8 @@
 echo "
 ||| Unzipper Bot |||
 
+v1.0 - Preview
+
 Copyright (c) 2022 Itz-fork
 
 --> Join @NexaBotsUpdates
