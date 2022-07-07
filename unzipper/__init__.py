@@ -18,8 +18,8 @@ from asyncio import sleep, wait_for, get_event_loop
 
 from config import Config
 from aiofiles import open
-from pyrogram import Client
 from gofile2 import Async_Gofile
+from pyrogram import Client, enums
 from pyrogram.types import Message
 from pyrogram.errors import FloodWait
 from pyrogram.types import CallbackQuery
@@ -37,8 +37,9 @@ class UnzipBot(Client):
     # Bot version
     nx_version = "v1.0"
 
-    def __init__(self, name: str, api_id: Union[int, str], api_hash: str, bot_token: str, plugins: dict, sleep_threshold: int):
-        super().__init__(name, api_id, api_hash, bot_token, plugins, sleep_threshold)
+    def __init__(self, name: str, api_id: Union[int, str] = None, api_hash: str = None, app_version: str = ..., device_model: str = ..., system_version: str = ..., lang_code: str = ..., ipv6: bool = False, proxy: dict = None, test_mode: bool = False, bot_token: str = None, session_string: str = None, in_memory: bool = None, phone_number: str = None, phone_code: str = None, password: str = None, workers: int = ..., workdir: str = ..., plugins: dict = None, parse_mode: "enums.ParseMode" = ..., no_updates: bool = None, takeout: bool = None, sleep_threshold: int = ..., hide_password: bool = False):
+        super().__init__(name, api_id, api_hash, app_version, device_model, system_version, lang_code, ipv6, proxy, test_mode, bot_token, session_string,
+                         in_memory, phone_number, phone_code, password, workers, workdir, plugins, parse_mode, no_updates, takeout, sleep_threshold, hide_password)
 
     def handler_func(self) -> Callable:
         """
