@@ -6,3 +6,4 @@
 - Better logging
 - Multi-language support
 - Fixed various bugs
+- Changed thumbnail database to [telegra.ph](https://telegra.ph/)

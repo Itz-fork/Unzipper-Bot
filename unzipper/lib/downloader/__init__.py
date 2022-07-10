@@ -41,7 +41,7 @@ class Downloader:
                          "{2,6}\\b([-a-zA-Z0-9@:%" +
                          "._\\+~#?&//=]*)")
 
-    async def from_direct_link(self, url: str, path: str, message: Message, udt: str = "**Trying to Download!** \n"):
+    async def from_direct_link(self, url: str, path: str, cont_type: str = "application/", message: Message = None, udt: str = "**Trying to Download!** \n"):
         """
         Download a file from direct link
 
@@ -62,7 +62,7 @@ class Downloader:
                 if resp.status != 200:
                     raise HttpStatusError
                 # Raise InvalidContentType if the content isn't an archive
-                if not "application/" in resp.content_type:
+                if not cont_type in resp.content_type:
                     raise InvalidContentType
                 # Handle content length header
                 total = resp.content_length
@@ -77,4 +77,5 @@ class Downloader:
                     async for chunk in resp.content.iter_chunked(Config.CHUNK_SIZE):
                         await file.write(chunk)
                         curr += len(chunk)
-                        await progress_for_pyrogram(curr, total, udt, message, st)
+                        if message:
+                            await progress_for_pyrogram(curr, total, udt, message, st)

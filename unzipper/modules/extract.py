@@ -38,13 +38,12 @@ async def extract_dis_archive(unzipperbot, message: Message):
     # Splitted files
     is_spl, lfn, ps = await get_split_arc_user(user_id)
     if is_spl:
-        fn = path.basename(message.text)
+        file_name = is_doc.file_name if is_doc else path.basename(message.text)
         await unzip_msg.edit(await unzipperbot.get_string("alert_downloading_part"))
-        # File extension
-        taext = path.splitext(is_doc.file_name if is_doc else fn)[1]
-        if not taext.replace(".", "").isnumeric():
+        # Check file extension
+        if not path.splitext(file_name)[1].replace(".", "").isnumeric():
             return await unzip_msg.edit(await unzipperbot.get_string("no_splitted_arc"))
-        arc_name = f"{download_path}/archive_from_{user_id}_{is_doc.file_name if is_doc else fn}"
+        arc_name = f"{download_path}/archive_from_{user_id}_{file_name}"
         if path.isfile(arc_name):
             return await unzip_msg.edit(await unzipperbot.get_string("alert_part_exists"))
         # Download the file
@@ -58,7 +57,7 @@ async def extract_dis_archive(unzipperbot, message: Message):
                     "**Trying to Download!** \n", unzip_msg, s_time)
             )
         e_time = time()
-        await unzip_msg.edit((await unzipperbot.get_string("ok_download")).format(fn, TimeFormatter(round(e_time-s_time) * 1000)))
+        await unzip_msg.edit((await unzipperbot.get_string("ok_download")).format(file_name, TimeFormatter(round(e_time-s_time) * 1000)))
         return
 
     if path.isdir(download_path):

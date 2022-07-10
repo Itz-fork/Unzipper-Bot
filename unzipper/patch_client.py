@@ -54,24 +54,6 @@ class CustomMethods:
 
         return decorator
 
-    # async def ask_user(self: Client, c_id: int, text: str, timeout: float = None, *args, **kwargs):
-    #     """
-    #     Get an input from a user
-
-    #     Parameters:
-
-    #         - `c_id` - Chat id
-    #         - `text` - Message text
-    #         - `timeout` - Timeout in seconds
-    #     """
-    #     async def listen_to(timeout: float):
-    #         future = get_event_loop().create_future()
-    #         return await wait_for(future, timeout)
-
-    #     await unzip_client.send_message(c_id, text, *args, **kwargs)
-    #     resp = await listen_to(timeout)
-    #     return resp
-
     async def send_file(self: Client, c_id: int, doc_f: str, query: CallbackQuery):
         """
         Send a file to the user

@@ -13,7 +13,6 @@ class Config(object):
     GOFILE_TOKEN = os.environ.get("GOFILE_TOKEN")
     # Optional
     MAX_DOWNLOAD_SIZE = int(os.environ.get("MAX_DOWNLOAD_SIZE")) or 5368709120
-    DB_CHANNEL = int(os.environ.get("DB_CHANNEL")) or LOGS_CHANNEL
     # Constents
     DOWNLOAD_LOCATION = f"{os.path.dirname(__file__)}/NexaBots"
     TG_MAX_SIZE = 2040108421

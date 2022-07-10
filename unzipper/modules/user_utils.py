@@ -37,7 +37,7 @@ async def save_dis_thumb(unzipperbot, message: Message):
 @unzip_client.on_message(filters.private & filters.command(["thget", "get_thumb"]))
 async def give_my_thumb(unzipperbot, message: Message):
     prs_msg = await message.reply(await unzipperbot.get_string("processing"), reply_to_message_id=message.id)
-    gthumb = await get_thumbnail(message.from_user.id)
+    gthumb = await get_thumbnail(message.from_user.id, True)
     if not gthumb:
         return await prs_msg.edit(await unzipperbot.get_string("no_thumb"))
     await prs_msg.delete()

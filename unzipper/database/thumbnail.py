@@ -11,20 +11,24 @@
 # ===================================================================== #
 
 from PIL import Image
+from . import unzipper_db
+from requests import post
 from os import path, remove
-from unzipper import unzip_client
 from pyrogram.types import Message
-from . import unzipper_db, Config
+from unzipper.lib.downloader import Downloader
 from unzipper.helpers_nexa.utils import run_cmds_on_cr, run_shell_cmds
 
 
 thumb_db = unzipper_db["thumbnails_db"]
 
 
-async def download_thumbnail(mid: int):
-    msg = await unzip_client.get_messages(Config.DB_CHANNEL, mid)
-    dmsg = await msg.download()
-    return dmsg
+def upload_thumbnail(img: str):
+    with open(img, "rb") as file:
+        rs = post(
+            "https://telegra.ph/upload",
+            files={"file": file}
+        ).json()[0]
+        return f"https://telegra.ph{rs['src']}"
 
 
 def prepare_thumb(ipath):
@@ -40,18 +44,22 @@ async def save_thumbnail(uid: int, message: Message):
     # Download the image
     ip = await message.download()
     thumb = await run_cmds_on_cr(prepare_thumb, ip)
-    frwd_thumb = await unzip_client.send_photo(Config.DB_CHANNEL, thumb)
+    up_thumb = await run_cmds_on_cr(upload_thumbnail, thumb)
     is_exist = await thumb_db.find_one({"_id": uid})
     if is_exist:
-        await thumb_db.update_one({"_id": uid}, {"$set": {"path": frwd_thumb.id}})
+        await thumb_db.update_one({"_id": uid}, {"$set": {"url": up_thumb}})
     else:
-        await thumb_db.insert_one({"_id": uid, "path": frwd_thumb.id})
+        await thumb_db.insert_one({"_id": uid, "url": up_thumb})
 
 
-async def get_thumbnail(user_id: int):
+async def get_thumbnail(user_id: int, download: bool = False):
     gtm = await thumb_db.find_one({"_id": user_id})
     if gtm:
-        return await download_thumbnail(gtm["path"])
+        if download:
+            dimg = f"Dump/thumbnail_{path.basename(gtm['url'])}"
+            await Downloader().from_direct_link(gtm["url"], dimg, "image/")
+            return dimg
+        return gtm["url"]
     else:
         return None
 
@@ -75,7 +83,7 @@ async def get_or_gen_thumb(uid: int, doc_f: str, isvid: bool = False):
         - `doc_f` - File path
         - `isvid` - Pass True if file is a video
     """
-    dbthumb = await get_thumbnail(int(uid))
+    dbthumb = await get_thumbnail(int(uid), True)
     if dbthumb:
         return dbthumb
     elif isvid:
