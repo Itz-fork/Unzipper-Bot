@@ -156,7 +156,7 @@ async def unzipper_cb(unzipperbot, query: CallbackQuery):
             return await unzipperbot.answer_query(query, await unzipperbot.get_string("alert_empty_files"))
 
         await unzipperbot.answer_query(query, await unzipperbot.get_string("alert_sending_file"))
-        await unzipperbot.send_file(c_id=spl_data[2], doc_f=paths[int(spl_data[3])], query=query,)
+        await unzipperbot.send_file(spl_data[2], files[int(spl_data[3])], query)
 
         # Refreshing Inline keyboard
         await unzipperbot.answer_query(query, await unzipperbot.get_string("refreshing"))
