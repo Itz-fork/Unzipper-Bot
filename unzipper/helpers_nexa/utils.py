@@ -12,7 +12,7 @@
 # Credits: SpEcHiDe's AnyDL-Bot
 
 from re import sub
-from os import walk
+from os import path, walk
 from time import time
 from math import floor
 from functools import partial
@@ -96,16 +96,16 @@ async def run_cmds_on_cr(func, *args, **kwargs):
     )
 
 
-async def get_files(path: str):
+async def get_files(fpath: str):
     """
     Returns files in a folder
 
     Parameters:
 
-        - `path` - Path to the folder
+        - `fpath` - Path to the folder
     """
-    path_list = [val for sublist in [[path.join(
-        i[0], j) for j in i[2]] for i in walk(path)] for val in sublist]
+    path_list = [val for sublist in [
+        [path.join(i[0], j) for j in i[2]] for i in walk(fpath)] for val in sublist]
     return sorted(path_list)
 
 

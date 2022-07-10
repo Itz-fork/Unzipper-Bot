@@ -122,7 +122,7 @@ async def unzipper_cb(unzipperbot, query: CallbackQuery):
             if splitted_data[2] == "with_pass":
                 password = (await unzipperbot.ask(query.message.chat.id, await unzipperbot.get_string("ask_password"))).text
                 ext_s_time = time()
-                await exter.extract(arc_name, ext_files_dir, password.text)
+                await exter.extract(arc_name, ext_files_dir, password)
                 ext_e_time = time()
             else:
                 ext_s_time = time()
