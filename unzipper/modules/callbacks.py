@@ -112,7 +112,7 @@ async def unzipper_cb(unzipperbot, query: CallbackQuery):
             if arc_ext.replace(".", "").isnumeric():
                 password = ""
                 if splitted_data[2] == "with_pass":
-                    password = (await unzipperbot.ask_user(query.message.chat.id, await unzipperbot.get_string("ask_password"))).text
+                    password = (await unzipperbot.ask(query.message.chat.id, await unzipperbot.get_string("ask_password"))).text
                 await unzipperbot.answer_query(query, await unzipperbot.get_string("alert_splitted_arc"))
                 await add_split_arc_user(user_id, arc_name, password)
                 return
@@ -120,7 +120,7 @@ async def unzipper_cb(unzipperbot, query: CallbackQuery):
             # Extract
             exter = Extractor()
             if splitted_data[2] == "with_pass":
-                password = (await unzipperbot.ask_user(query.message.chat.id, await unzipperbot.get_string("ask_password"))).text
+                password = (await unzipperbot.ask(query.message.chat.id, await unzipperbot.get_string("ask_password"))).text
                 ext_s_time = time()
                 await exter.extract(arc_name, ext_files_dir, password.text)
                 ext_e_time = time()
@@ -132,7 +132,7 @@ async def unzipper_cb(unzipperbot, query: CallbackQuery):
             await unzipperbot.answer_query(query, (await unzipperbot.get_string("ok_extract")).format(TimeFormatter(round(ext_e_time-ext_s_time) * 1000)))
 
             # Upload extracted files
-            files = await get_files(path=ext_files_dir)
+            files = await get_files(ext_files_dir)
             i_e_buttons = await Buttons.make_keyboard(files, user_id, query.message.chat.id)
             await unzipperbot.answer_query(query, await unzipperbot.get_string("select_files"), reply_markup=i_e_buttons)
 
@@ -191,7 +191,7 @@ async def unzipper_cb(unzipperbot, query: CallbackQuery):
         gf = GofileDB(query.from_user.id)
         mode = qdat.split("-")[1]
         if mode == "set":
-            tkn = await unzipperbot.ask_user(query.message.chat.id, await unzipperbot.get_string("ask_gofile_token"))
+            tkn = await unzipperbot.ask(query.message.chat.id, await unzipperbot.get_string("ask_gofile_token"))
             await gf.save_token(tkn.text)
             await tkn.delete()
         elif mode == "del":
