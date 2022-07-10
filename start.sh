@@ -3,7 +3,7 @@
 echo "
 ||| Unzipper Bot |||
 
-v1.0 - Preview
+v1.0 - Beta
 
 Copyright (c) 2022 Itz-fork
 

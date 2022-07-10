@@ -10,6 +10,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>   #
 # ===================================================================== #
 
+import logging
 from unzipper import unzip_client
 from . import unzipper_db, Config
 
@@ -110,5 +111,5 @@ async def check_user(message):
                 disable_web_page_preview=True
             )
         except Exception as e:
-            print(f"Unable to add user to the database due to: \n{e}")
+            logging.warn(f"Unable to add user to the database due to: \n{e}")
     await message.continue_propagation()

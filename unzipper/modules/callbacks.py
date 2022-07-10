@@ -10,12 +10,12 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>   #
 # ===================================================================== #
 
+import logging
 from time import time
 from shutil import rmtree
 from os import makedirs, path
 
 from config import Config
-from pyrogram import Client
 from aiohttp import ClientSession
 from unzipper import unzip_client
 
@@ -143,7 +143,7 @@ async def unzipper_cb(unzipperbot, query: CallbackQuery):
                 await unzipperbot.answer_query(query, (await unzipperbot.get_string("failed_main")).format(e))
                 rmtree(download_path)
             except Exception as er:
-                print(er)
+                logging.warn(er)
 
     elif qdat.startswith("ext_f"):
         spl_data = qdat.split("|")

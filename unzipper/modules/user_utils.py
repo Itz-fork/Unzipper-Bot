@@ -65,4 +65,4 @@ async def do_backup_files(unzipperbot, message: Message):
 @unzip_client.on_message(filters.private & filters.command("clean"))
 async def clean_ma_files(unzipperbot, message: Message):
     prs_msg = await message.reply(await unzipperbot.get_string("processing"), reply_to_message_id=message.id)
-    await prs_msg.edit(await unzipperbot.get_string("ask_clean"), reply_markup=Buttons.CLN_BTNS)
+    await prs_msg.edit(await unzipperbot.get_string("ask_clean"), reply_markup=Buttons.CLEAN)

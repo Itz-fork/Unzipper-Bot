@@ -36,7 +36,6 @@ class Buttons:
 
     async def make_keyboard(files: str, user_id: int, chat_id: int):
         texts = Buttons.get_text()
-        num = 0
         i_kbd = InlineKeyboard(row_width=2)
         data = []
         data.append(
@@ -46,7 +45,7 @@ class Buttons:
         data.append(
             InlineKeyboardButton(texts["cancel"], "cancel_dis")
         )
-        for file in files:
+        for num, file in enumerate(files):
             # Temp fix for REPLY_MARKUP_TOO_LONG error
             if num > 90:
                 break
@@ -54,7 +53,6 @@ class Buttons:
                 InlineKeyboardButton(f"{num} - {basename(file)}".encode(
                     "utf-8").decode("utf-8"), f"ext_f|{user_id}|{chat_id}|{num}")
             )
-            num += 1
         i_kbd.add(*data)
         return i_kbd
 

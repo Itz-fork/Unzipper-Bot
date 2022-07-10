@@ -10,6 +10,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>   #
 # ===================================================================== #
 
+import logging
 from time import time
 from json import loads
 from typing import Callable
@@ -33,7 +34,7 @@ from .helpers_nexa.utils import (TimeFormatter, progress_for_pyrogram,
 
 
 class CustomMethods:
-    version = "v1.0"
+    version = "v1.0 - Beta"
 
     def __init__(self) -> None:
         super().__init__()
@@ -48,7 +49,7 @@ class CustomMethods:
                 await check_user(message)
                 await func(client, message)
             except Exception as e:
-                print(e)
+                logging.warn(e)
                 await self.send_message(message.chat.id, (await self.get_string("failed_main")).format(e))
 
         return decorator
@@ -152,7 +153,7 @@ class CustomMethods:
             except:
                 return await self.send_message(c_id, "Sorry! I can't find that file")
         except BaseException as e:
-            print(e)
+            logging.warn(e)
             await self.answer_query(query, f"**Error:** \n`{e}`")
 
     async def answer_query(self: Client, query: CallbackQuery, text: str, alert: bool = False, *args, **kwargs):
