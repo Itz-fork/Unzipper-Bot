@@ -11,10 +11,11 @@
 # ===================================================================== #
 
 from PIL import Image
-from os.path import splitext
+from os import path, remove
+from unzipper import unzip_client
 from pyrogram.types import Message
-from . import unzipper_db, unzip_client, Config
-from unzipper.helpers_nexa.utils import run_cmds_on_cr
+from . import unzipper_db, Config
+from unzipper.helpers_nexa.utils import run_cmds_on_cr, run_shell_cmds
 
 
 thumb_db = unzipper_db["thumbnails_db"]
@@ -27,7 +28,7 @@ async def download_thumbnail(mid: int):
 
 
 def prepare_thumb(ipath):
-    tpath = f"{splitext(ipath)[0]}.thumb.jpg"
+    tpath = f"{path.splitext(ipath)[0]}.thumb.jpg"
     with Image.open(ipath) as im:
         rim = im.convert("RGB")
         rim.thumbnail((320, 320))
@@ -61,3 +62,27 @@ async def del_thumbnail(user_id: int):
         await thumb_db.delete_one({"_id": user_id})
     else:
         return
+
+
+async def get_or_gen_thumb(uid: int, doc_f: str, isvid: bool = False):
+    """
+    Get saved thumbnail from the database. If there isn't any thumbnail saved, None will be returned.
+    For video files, a thumbnail will be generated using ffmpeg
+
+    Parameters:
+
+        - `uid` - User id
+        - `doc_f` - File path
+        - `isvid` - Pass True if file is a video
+    """
+    dbthumb = await get_thumbnail(int(uid))
+    if dbthumb:
+        return dbthumb
+    elif isvid:
+        thmb_pth = f"Dump/thumbnail_{path.basename(doc_f)}.jpg"
+        if path.exists(thmb_pth):
+            remove(thmb_pth)
+        await run_shell_cmds(f"ffmpeg -ss 00:00:01.00 -i {doc_f} -vf 'scale=320:320:force_original_aspect_ratio=decrease' -vframes 1 {thmb_pth}")
+        return thmb_pth
+    else:
+        return None

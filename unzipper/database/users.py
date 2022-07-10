@@ -10,8 +10,8 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>   #
 # ===================================================================== #
 
-from . import unzipper_db, unzip_client, Config
-
+from unzipper import unzip_client
+from . import unzipper_db, Config
 
 user_db = unzipper_db["users_db"]
 

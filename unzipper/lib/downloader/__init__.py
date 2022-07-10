@@ -62,14 +62,14 @@ class Downloader:
                 if resp.status != 200:
                     raise HttpStatusError
                 # Raise InvalidContentType if the content isn't an archive
-                if not "application/" in resp.headers["Content-Type"]:
+                if not "application/" in resp.content_type:
                     raise InvalidContentType
                 # Handle content length header
-                total = resp.headers["Content-Length"]
+                total = resp.content_length
                 if not total:
                     raise FileSizeNotFound
                 # Raise FileTooLarge if the content size exceeds Config.MAX_DOWNLOAD_SIZE
-                if total > Config.MAX_DOWNLOAD_SIZE:
+                if int(total) > Config.MAX_DOWNLOAD_SIZE:
                     raise FileTooLarge
                 curr = 0
                 st = time()

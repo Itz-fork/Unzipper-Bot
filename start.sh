@@ -1,3 +1,5 @@
+#!/usr/bin/bash
+
 echo "
 ||| Unzipper Bot |||
 

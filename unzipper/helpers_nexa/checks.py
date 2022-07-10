@@ -12,8 +12,8 @@
 
 
 from pyrogram import enums
-from config import Config
 from unzipper import unzip_client
+from config import Config
 
 
 def check_log_channel():
@@ -30,5 +30,6 @@ def check_log_channel():
         else:
             print("No Log Channel ID is Given! Imma leaving Now!")
             exit()
-    except:
+    except Exception as e:
         print("Error Happend while checking Log Channel! Make sure you're not dumb enough to provide a wrong Log Channel ID!")
+        print(f"Error: \n{e}")
