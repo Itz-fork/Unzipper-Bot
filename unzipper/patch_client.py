@@ -53,6 +53,20 @@ class CustomMethods:
                 await self.send_message(message.chat.id, (await self.get_string("failed_main")).format(e))
 
         return decorator
+    
+    def handle_callbacks(self: Client, func: Callable) -> Callable:
+        """
+        Handle erros and database updates of users
+        """
+
+        async def decorator(client: Client, query: CallbackQuery):
+            try:
+                await func(client, query)
+            except Exception as e:
+                logging.warn(e)
+                await self.send_message(query.message.chat.id, (await self.get_string("failed_main")).format(e))
+
+        return decorator
 
     async def send_file(self: Client, c_id: int, doc_f: str, query: CallbackQuery):
         """

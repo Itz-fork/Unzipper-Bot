@@ -28,6 +28,7 @@ from unzipper.database.split_arc import del_split_arc_user, get_split_arc_user
 
 
 @unzip_client.on_message(filters.incoming & filters.private & filters.regex(dl_regex) | filters.document)
+@unzip_client.handle_erros
 async def extract_dis_archive(unzipperbot, message: Message):
     unzip_msg = await message.reply(await unzipperbot.get_string("processing"), reply_to_message_id=message.id)
     user_id = message.from_user.id
@@ -71,6 +72,7 @@ async def extract_dis_archive(unzipperbot, message: Message):
 
 
 @unzip_client.on_message(filters.private & filters.command("done"))
+@unzip_client.handle_erros
 async def extracted_dis_spl_archive(unzipperbot, message: Message):
     spl_umsg = await message.reply(await unzipperbot.get_string("processing"), reply_to_message_id=message.id)
     user_id = message.from_user.id

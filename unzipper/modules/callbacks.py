@@ -34,6 +34,7 @@ from unzipper.lib.extractor import Extractor, ExtractionFailed
 
 # Callbacks
 @unzip_client.on_callback_query()
+@unzip_client.handle_callbacks
 async def unzipper_cb(unzipperbot, query: CallbackQuery):
     qdat = query.data
 
@@ -59,7 +60,8 @@ async def unzipper_cb(unzipperbot, query: CallbackQuery):
         await query.edit_message_text((await unzipperbot.get_string("about")).format(unzipperbot.version), reply_markup=Buttons.BACK, disable_web_page_preview=True)
 
     elif qdat.startswith("set_mode"):
-        await set_upload_mode(query.from_user.id, qdat.split("|")[1])
+        mode = qdat.split("|")[1]
+        await set_upload_mode(query.from_user.id, mode)
         await unzipperbot.answer_query(query, (await unzipperbot.get_string("changed_upmode")).format(mode))
 
     elif qdat.startswith("extract_file"):

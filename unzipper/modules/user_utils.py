@@ -25,6 +25,7 @@ async def start_bot(unzipperbot, message: Message):
 
 
 @unzip_client.on_message(filters.private & filters.command(["save", "set_thumb"]))
+@unzip_client.handle_erros
 async def save_dis_thumb(unzipperbot, message: Message):
     prs_msg = await message.reply(await unzipperbot.get_string("processing"), reply_to_message_id=message.id)
     rply = message.reply_to_message
@@ -35,6 +36,7 @@ async def save_dis_thumb(unzipperbot, message: Message):
 
 
 @unzip_client.on_message(filters.private & filters.command(["thget", "get_thumb"]))
+@unzip_client.handle_erros
 async def give_my_thumb(unzipperbot, message: Message):
     prs_msg = await message.reply(await unzipperbot.get_string("processing"), reply_to_message_id=message.id)
     gthumb = await get_thumbnail(message.from_user.id, True)
@@ -46,6 +48,7 @@ async def give_my_thumb(unzipperbot, message: Message):
 
 
 @unzip_client.on_message(filters.private & filters.command(["thdel", "del_thumb"]))
+@unzip_client.handle_erros
 async def delete_my_thumb(unzipperbot, message: Message):
     prs_msg = await message.reply(await unzipperbot.get_string("processing"), reply_to_message_id=message.id)
     texist = await get_thumbnail(message.from_user.id)

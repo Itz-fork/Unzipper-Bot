@@ -28,6 +28,7 @@ from psutil import cpu_percent, disk_usage, net_io_counters, virtual_memory
 
 
 @unzip_client.on_message(filters.private & filters.command("stats"))
+@unzip_client.handle_erros
 async def send_stats(unzipperbot, message: Message):
     stats_msg = await message.reply(await unzipperbot.get_string("processing"))
     # Is message from owner?
@@ -86,6 +87,7 @@ async def _do_broadcast(message, user):
 
 
 @unzip_client.on_message(filters.private & filters.command("broadcast") & filters.user(Config.BOT_OWNER))
+@unzip_client.handle_erros
 async def broadcast_dis(unzipperbot, message: Message):
     bc_msg = await message.reply(await unzipperbot.get_string("processing"))
     r_msg = message.reply_to_message
@@ -107,6 +109,7 @@ async def broadcast_dis(unzipperbot, message: Message):
 
 
 @unzip_client.on_message(filters.private & filters.command("ban") & filters.user(Config.BOT_OWNER))
+@unzip_client.handle_erros
 async def ban_user(unzipperbot, message: Message):
     ban_msg = await message.reply(await unzipperbot.get_string("processing"))
     try:
@@ -118,6 +121,7 @@ async def ban_user(unzipperbot, message: Message):
 
 
 @unzip_client.on_message(filters.private & filters.command("unban") & filters.user(Config.BOT_OWNER))
+@unzip_client.handle_erros
 async def unban_user(unzipperbot, message: Message):
     unban_msg = await message.reply(await unzipperbot.get_string("processing"))
     try:
