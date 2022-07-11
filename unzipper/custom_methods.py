@@ -188,7 +188,7 @@ class CustomMethods:
             return jsn.get(key)
 
 
-def patchit():
+def apply_patch():
     """
     Apply custom methods defined in CustomMethods class to pyrogram.Client class
     """

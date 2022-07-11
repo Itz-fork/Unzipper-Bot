@@ -25,15 +25,15 @@ logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 
 if __name__ == "__main__":
-    logging.info(" Copyright (c) 2022 Itz-fork ")
+    logging.info("\n\n Copyright (c) 2022 Itz-fork \n\n")
 
     logging.info(" >> Checking download location...")
     if not path.isdir(Config.DOWNLOAD_LOCATION):
         makedirs(Config.DOWNLOAD_LOCATION)
 
     logging.info(" >> Applying custom methods...")
-    from .patch_client import patchit
-    patchit()
+    from .custom_methods import apply_patch
+    apply_patch()
 
     logging.info(" >> Starting client...")
     unzip_client.start()
