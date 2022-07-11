@@ -49,7 +49,7 @@ async def extract_dis_archive(unzipperbot, message: Message):
         # Download the file
         s_time = time()
         if is_url:
-            await Downloader().from_direct_link(message.text, arc_name, unzip_msg)
+            await Downloader().from_direct_link(message.text, arc_name, message=unzip_msg)
         else:
             await message.download(
                 file_name=arc_name,

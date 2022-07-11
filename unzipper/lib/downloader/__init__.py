@@ -17,7 +17,7 @@ from aiohttp import ClientSession
 from pyrogram.types import Message
 from aiofiles import open as openfile
 from unzipper.helpers_nexa.utils import progress_for_pyrogram
-from .errors import InvalidContentType, FileSizeNotFound, FileTooLarge, InvalidUrl, HttpStatusError
+from .errors import InvalidContentType, FileTooLarge, InvalidUrl, HttpStatusError
 
 
 # Http/Https url regex
@@ -66,15 +66,16 @@ class Downloader:
                     raise InvalidContentType
                 # Handle content length header
                 total = resp.content_length
-                if not total:
-                    raise FileSizeNotFound
                 # Raise FileTooLarge if the content size exceeds Config.MAX_DOWNLOAD_SIZE
-                if int(total) > Config.MAX_DOWNLOAD_SIZE:
+                if total and int(total) > Config.MAX_DOWNLOAD_SIZE:
                     raise FileTooLarge
                 curr = 0
                 st = time()
                 async with openfile(path, mode="wb") as file:
                     async for chunk in resp.content.iter_chunked(Config.CHUNK_SIZE):
+                        # Raise FileTooLarge if the content size exceeds Config.MAX_DOWNLOAD_SIZE
+                        if curr > Config.MAX_DOWNLOAD_SIZE:
+                            raise FileTooLarge
                         await file.write(chunk)
                         curr += len(chunk)
                         if message:
