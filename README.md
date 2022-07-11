@@ -47,7 +47,7 @@ Deploying is easy 🤫! You can deploy this bot in Heroku or in a linux VPS ♥�
 
 #### With Heroku
 
-<a href="https://www.heroku.com/deploy?template=https://github.com/Itz-fork/Unzipper-Bot/tree/arch">
+<a href="https://www.heroku.com/deploy?template=https://github.com/Itz-fork/Unzip-Bot/tree/arch">
   <img src="https://www.herokucdn.com/deploy/button.svg">
 </a>
 
@@ -60,8 +60,8 @@ Deploying is easy 🤫! You can deploy this bot in Heroku or in a linux VPS ♥�
 > It's recomended to use a arch linux based distro to deploy this bot as the original author of the p7zip package has not made an update since 2016, but the arch linux's version is packaged from an active fork.
 
 ```bash
-git clone -b arch https://github.com/Itz-fork/Unzipper-Bot.git
-cd Unzipper-Bot
+git clone -b arch https://github.com/Itz-fork/Unzip-Bot.git
+cd Unzip-Bot
 pip3 install -r requirements.txt
 
 # Arch linux
@@ -89,7 +89,7 @@ bash start.sh
 
 ## Found a bug 🐞?
 
-If you found a bug in this bot please open an [issue](https://github.com/Itz-fork/Unzipper-Bot/issues) or report it at the [Support Group](#support).
+If you found a bug in this bot please open an [issue](https://github.com/Itz-fork/Unzip-Bot/issues) or report it at the [Support Group](#support).
 
 </br>
 
@@ -111,6 +111,6 @@ If you found a bug in this bot please open an [issue](https://github.com/Itz-for
 ```
 Copyright (c) 2022 Itz-fork
 
-This Unzipper-Bot repository is licensed under GPLv3 License (https://github.com/Itz-fork/Unzipper-Bot/blob/master/LICENSE)
+This Unzip-Bot repository is licensed under GPLv3 License (https://github.com/Itz-fork/Unzip-Bot/blob/master/LICENSE)
 Copying or Modifying Any Part of the code without permission is strictly prohibited
 ```

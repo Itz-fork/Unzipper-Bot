@@ -29,7 +29,7 @@ def check_log_channel():
                 exit()
             else:
                 unzip_client.send_message(
-                    chat_id=Config.LOGS_CHANNEL, text="`Unzipper-Bot has Successfully Started!` \n\n**Powered by @NexaBotsUpdates**")
+                    chat_id=Config.LOGS_CHANNEL, text="`Unzip-Bot has Successfully Started!` \n\n**Powered by @NexaBotsUpdates**")
         else:
             logging.warn("No Log Channel ID is Given! Imma leaving Now!")
             exit()

@@ -9,7 +9,7 @@
         "unarchive bot"
     ],
     "website": "https://t.me/NexaBotsUpdates",
-    "repository": "https://github.com/Itz-fork/Unzipper-Bot",
+    "repository": "https://github.com/Itz-fork/Unzip-Bot",
     "success_url": "https://t.me/NexaBotsUpdates",
     "env": {
         "APP_ID": {
