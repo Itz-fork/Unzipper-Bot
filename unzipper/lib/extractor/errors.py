@@ -2,4 +2,4 @@
 
 class ExtractionFailed(Exception):
     def __init__(self) -> None:
-        super().__init__("Extraction failed due to an unknow error! Please make sure that your archive isn't corrupted")
+        super().__init__("Extraction failed due to an unknown error! Please make sure that your archive isn't corrupted")
