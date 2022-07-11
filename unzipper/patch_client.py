@@ -13,9 +13,9 @@
 import logging
 from time import time
 from json import loads
+from asyncio import sleep
 from typing import Callable
 from os import path, remove, stat
-from asyncio import get_event_loop, sleep, wait_for
 
 from aiofiles import open
 from config import Config
@@ -47,7 +47,7 @@ class CustomMethods:
         async def decorator(client: Client, message: Message):
             try:
                 await check_user(message)
-                await func(client, message)
+                return await func(client, message)
             except Exception as e:
                 logging.warn(e)
                 await self.send_message(message.chat.id, (await self.get_string("failed_main")).format(e))

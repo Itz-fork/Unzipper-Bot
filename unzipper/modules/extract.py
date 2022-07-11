@@ -78,11 +78,11 @@ async def extracted_dis_spl_archive(unzipperbot, message: Message):
     user_id = message.from_user.id
     # Retrive data from database
     is_spl, lfn, ps = await get_split_arc_user(user_id)
-    ext_path = f"{Config.DOWNLOAD_LOCATION}/{user_id}/extracted"
-    arc_path = path.dirname(lfn)
     # Path checks
     if not is_spl:
         return await spl_umsg.edit("`Bruh, why are you sending this command 🤔?`")
+    ext_path = f"{Config.DOWNLOAD_LOCATION}/{user_id}/extracted"
+    arc_path = path.dirname(lfn)
     if not path.isdir(arc_path):
         await spl_umsg.edit(await unzipperbot.get_string("alert_empty_files"))
         return await del_split_arc_user(user_id)

@@ -212,7 +212,10 @@ async def unzipper_cb(unzipperbot, query: CallbackQuery):
 
     elif qdat == "cancel_dis":
         await del_split_arc_user(query.from_user.id)
-        rmtree(f"{Config.DOWNLOAD_LOCATION}/{query.from_user.id}")
+        try:
+            rmtree(f"{Config.DOWNLOAD_LOCATION}/{query.from_user.id}")
+        except:
+            pass
         await unzipperbot.answer_query(query, (await unzipperbot.get_string("canceled")).format("Process cancelled"))
 
     elif qdat == "nobully":
