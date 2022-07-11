@@ -13,11 +13,12 @@
 - Password support for extracting
 - Extract archives from direct links
 - Support for multipart archives (archives ending with `.001`, `.002`, etc.)
+- Custom thumbnail support
 - Upload files larger than 2GB to gofile.io
 - Backup extracted files to gofile.io
-- Custom thumbnail support
-- Broadcast Messages to users
+- Broadcast messages to users
 - Ban / Unban users from using your bot
+- Check stats of the bot (users, hardware usage, etc.)
 - Send logs in a private channel
 
 And Some other features 🔥!
@@ -42,12 +43,7 @@ And Some other features 🔥!
 
 ## Deploy 👀
 
-Deploying is easy 🤫! You can deploy this bot in Heroku or in a VPS ♥️! **Star 🌟 Fork 🍴 and Deploy**
-
-> Note ⚠️
-> This branch is using arch linux.
-> 
-> But Why 🤔? Cuz arch's p7zip package is the only maintained version of [original p7zip](http://p7zip.sourceforge.net/) package with some additional features
+Deploying is easy 🤫! You can deploy this bot in Heroku or in a linux VPS ♥️! **Star 🌟 Fork 🍴 and Deploy**
 
 #### With Heroku
 
@@ -59,13 +55,23 @@ Deploying is easy 🤫! You can deploy this bot in Heroku or in a VPS ♥️! **
 
 #### Self-Hosting
 
+> Note ⚠️
+> 
+> It's recomended to use a arch linux based distro to deploy this bot as the original author of the p7zip package has not made an update since 2016, but the arch linux's version is packaged from an active fork.
+
 ```bash
 git clone -b arch https://github.com/Itz-fork/Unzipper-Bot.git
 cd Unzipper-Bot
 pip3 install -r requirements.txt
 
-# Arch linux only
-sudo pacman -S p7zip
+# Arch linux
+sudo pacman -Syyu
+sudo pacman -S zstd p7zip
+
+# Ubuntu
+sudo add-apt-repository universe
+sudo apt update
+sudo apt install p7zip-full p7zip-rar
 ```
 
 <h4 align="center">Edit config.py with your own values</h4>
