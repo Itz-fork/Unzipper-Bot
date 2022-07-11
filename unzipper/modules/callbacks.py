@@ -174,7 +174,7 @@ async def unzipper_cb(unzipperbot, query: CallbackQuery):
     elif qdat.startswith("ext_a"):
         spl_data = qdat.split("|")
         file_path = f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}/extracted"
-        paths = await get_files(path=file_path)
+        paths = await get_files(file_path)
         if not paths:
             if path.isdir(f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}"):
                 rmtree(f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}")
