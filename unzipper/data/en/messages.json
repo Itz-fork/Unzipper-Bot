@@ -49,7 +49,7 @@
     "broadcast_started": "`Broadcasting has started, This may take a while 🥱!`",
     "boradcast_results": "**Broadcast Completed ✅!**\n\n**Total Users:** `{}`\n**Successful Responses:** `{}`\n**Failed Responses:** `{}`",
     
-    "alert_splitted_arc": "**Splitted archive detected!**\n\n\n**1.** `Send the other parts of the archive one by one.`\n**2.** `When you're done, send` **/done** `command.`\n\n\n`Wanna cancel the process?` Hit **/clean** `command!`",
+    "alert_splitted_arc": "**Splitted archive detected!**\n\n\n**1.** `Send the other parts of the archive one by one.`\n**2.** `When you're done, send` **/done** `command.`\n\n\n`Wanna cancel the process? Hit` **/clean** `command!`",
     "alert_process_running_already": "`Already one process is going on, Don't spam you idiot 😑!` \n\nWanna terminate the current process? Just send **/clean** command!",
     "alert_downloading_part": "`Looks like another process is going on 👀, though I can't cancel process since this a splitted archive.`",
     "alert_part_exists": "`Dawg, I already have this file 😑!`",
