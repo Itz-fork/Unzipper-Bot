@@ -169,7 +169,7 @@ class CustomMethods:
                 await query.message.edit(text, *args, **kwargs)
         except:
             try:
-                query.message.delete()
+                await query.message.delete()
             except:
                 pass
             await self.send_message(query.message.chat.id, text, *args, **kwargs)
