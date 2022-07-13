@@ -23,7 +23,7 @@ class Buttons:
         Get the dict that contains the strings of buttons according to the saved language type
         """
         lang = "en"
-        with open(f"unzipper/data/{lang}/buttons.json") as ls:
+        with open(f"unzipper/localization/{lang}/buttons.json") as ls:
             return loads(ls.read())
 
     async def make_button(text: str, *args, **kwargs):

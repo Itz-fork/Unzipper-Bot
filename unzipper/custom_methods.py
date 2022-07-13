@@ -182,7 +182,7 @@ class CustomMethods:
             - `key` - String key
         """
         lang = "en"
-        async with open(f"unzipper/data/{lang}/messages.json") as ls:
+        async with open(f"unzipper/localization/{lang}/messages.json") as ls:
             jsn = loads(await ls.read())
             return jsn.get(key)
 
