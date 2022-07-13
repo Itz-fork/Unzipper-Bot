@@ -157,7 +157,7 @@ async def unzipper_cb(unzipperbot, query: CallbackQuery):
                 rmtree(f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}")
             return await unzipperbot.answer_query(query, await unzipperbot.get_string("alert_empty_files"))
 
-        await unzipperbot.answer_query(query, await unzipperbot.get_string("alert_sending_file"))
+        await unzipperbot.answer_query(query, await unzipperbot.get_string("alert_sending_file"), True)
         await unzipperbot.send_file(spl_data[2], files[int(spl_data[3])], query)
 
         # Refreshing Inline keyboard
@@ -182,7 +182,7 @@ async def unzipper_cb(unzipperbot, query: CallbackQuery):
                 rmtree(f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}")
             return await unzipperbot.answer_query(query, await unzipperbot.get_string("alert_empty_files"))
 
-        await unzipperbot.answer_query(query, await unzipperbot.get_string("alert_sending_files"))
+        await unzipperbot.answer_query(query, await unzipperbot.get_string("alert_sending_files"), True)
         for file in paths:
             await unzipperbot.send_file(spl_data[2], file, query)
 
