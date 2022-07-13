@@ -32,13 +32,12 @@ from .helpers_nexa.utils import (TimeFormatter, progress_for_pyrogram,
                                  rm_mark_chars, run_shell_cmds)
 
 
-
 class CustomMethods:
     version = "v1.0 - Beta"
 
     def __init__(self) -> None:
         super().__init__()
-    
+
     def handle_erros(self: Client, func: Callable) -> Callable:
         """
         Handle erros and database updates of users
@@ -53,7 +52,7 @@ class CustomMethods:
                 await self.send_message(message.chat.id, (await self.get_string("failed_main")).format(e))
 
         return decorator
-    
+
     def handle_callbacks(self: Client, func: Callable) -> Callable:
         """
         Handle erros and database updates of users

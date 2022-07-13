@@ -16,6 +16,7 @@ from os import path, remove
 
 from config import Config
 from pyrogram import filters
+from aiohttp import ClientSession
 from unzipper import unzip_client
 from pyrogram.types import Message
 
@@ -23,7 +24,7 @@ from unzipper.lib.extractor import Extractor
 from unzipper.helpers_nexa.buttons import Buttons
 from unzipper.lib.downloader import Downloader, dl_regex
 from unzipper.helpers_nexa.utils import (TimeFormatter, get_files,
-                                         progress_for_pyrogram)
+                                         progress_for_pyrogram, humanbytes)
 from unzipper.database.split_arc import del_split_arc_user, get_split_arc_user
 
 
@@ -50,8 +51,15 @@ async def extract_dis_archive(unzipperbot, message: Message):
         # Download the file
         s_time = time()
         if is_url:
-            await Downloader().from_direct_link(message.text, arc_name, message=unzip_msg)
+            async with ClientSession() as ses:
+                cleng = (await ses.head(message.text)).headers.get("Content-Length")
+                fsize = humanbytes(cleng) if cleng else "undefined"
+                # Send logs
+                await unzipperbot.send_message(Config.LOGS_CHANNEL, (await unzipperbot.get_string("log")).format(user_id, file_name, fsize))
+            await Downloader().from_direct_link(message.text, arc_name, unzip_msg)
         else:
+            # Send logs
+            await unzipperbot.send_message(Config.LOGS_CHANNEL, (await unzipperbot.get_string("log")).format(user_id, file_name, humanbytes(is_doc.file_size)))
             await message.download(
                 file_name=arc_name,
                 progress=progress_for_pyrogram, progress_args=(
