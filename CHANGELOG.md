@@ -5,5 +5,8 @@
 - Better error handling
 - Better logging
 - Multi-language support
-- Fixed various bugs
 - Changed thumbnail database to [telegra.ph](https://telegra.ph/)
+- Fixed various bugs
+    - Fixed RPCErrors:
+        - `REPLY_MARKUP_TOO_LONG`
+        - `ENTITY_BOUNDS_INVALID`
