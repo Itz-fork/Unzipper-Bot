@@ -78,7 +78,7 @@ async def unzipper_cb(unzipperbot, query: CallbackQuery):
                 async with ClientSession() as ses:
                     # Get the file size
                     cleng = (await ses.head(url)).headers.get("Content-Length")
-                    fsize = humanbytes(cleng) if cleng else "undefined"
+                    fsize = humanbytes(int(cleng)) if cleng else "undefined"
                     # Makes download dir
                     makedirs(download_path)
                     # Send logs

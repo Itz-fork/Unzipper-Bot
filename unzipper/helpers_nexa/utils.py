@@ -63,7 +63,7 @@ async def progress_for_pyrogram(current, total, ud_type, message, start):
             pass
 
 
-def humanbytes(size):
+def humanbytes(size: int):
     if not size:
         return ""
     power = 2**10
