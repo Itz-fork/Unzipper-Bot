@@ -1,12 +1,13 @@
 {
-    "name": "Unzipper Bot",
+    "name": "Unzip Bot",
     "description": "A Telegram Bot to Extract Various Types Of Archives",
     "logo": "https://telegra.ph/file/dab7c08182e6d9e03bcef.jpg",
     "keywords": [
         "7z",
         "Telegram Bot",
         "unzip bot",
-        "unarchive bot"
+        "unarchive bot",
+        "extractor bot"
     ],
     "website": "https://t.me/NexaBotsUpdates",
     "repository": "https://github.com/Itz-fork/Unzip-Bot",
