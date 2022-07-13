@@ -85,7 +85,7 @@ def TimeFormatter(milliseconds: int) -> str:
         ((str(minutes) + "m, ") if minutes else "") + \
         ((str(seconds) + "s, ") if seconds else "") + \
         ((str(milliseconds) + "ms, ") if milliseconds else "")
-    return tmp[:-2]
+    return tmp[:-2] if tmp[:-2] else "0s"
 
 
 def run_shell_cmds(command):
