@@ -93,14 +93,13 @@ async def broadcast_dis(unzipperbot, message: Message):
     r_msg = message.reply_to_message
     if not r_msg:
         return await bc_msg.edit(await unzipperbot.get_string("no_replied_msg"))
-    users_list = await get_users_list()
-    # trying to broadcast
+    # Starting the broadcast
     await bc_msg.edit(await unzipperbot.get_string("broadcast_started"))
     success_no = 0
     failed_no = 0
     total_users = await count_users()
-    for user in users_list:
-        b_cast = await _do_broadcast(message=r_msg, user=user["user_id"])
+    async for user in await get_users_list():
+        b_cast = await _do_broadcast(r_msg, user)
         if b_cast == 200:
             success_no += 1
         else:

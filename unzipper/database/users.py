@@ -18,11 +18,11 @@ user_db = unzipper_db["users_db"]
 
 
 async def add_user(user_id: int):
-    is_exist = await user_db.find_one({"user_id": int(user_id)})
+    is_exist = await user_db.find_one({"user_id": user_id})
     if is_exist:
         return
     else:
-        await user_db.insert_one({"user_id": int(user_id)})
+        await user_db.insert_one({"user_id": user_id})
 
 
 async def del_user(user_id: int):
@@ -46,7 +46,8 @@ async def count_users():
 
 
 async def get_users_list():
-    return [users_list async for users_list in user_db.find({})]
+    async for user in user_db.find({}):
+        yield user["user_id"]
 
 
 # Banned users database (I don't know why tf i added this, but who cares)
