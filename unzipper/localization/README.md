@@ -1,3 +1,6 @@
 # Available languages
 
-English - [en](en)
+| Language |  Folder  | Status |
+| -------- | -------- | ------ |
+| English  | [en](en) | `100%` |
+| Sinhala  | [si](si) | `40%`  |

@@ -1,0 +1,61 @@
+{
+    "start": "හායි **{}**, මම **Nexa Unzipper Bot** 😇!\n\n`මට zip, rar, tar වැනි ෆයිල්ස් extract කරන්න පුලුවන්`\n\n**Made with ❤️ by @NexaBotsUpdates**",
+    "about": "**Nexa Unzipper Bot ගැන,**\n\n✘ **Version:** `{}`\n✘ **Language:** [Python](https://www.python.org/)\n✘ **Framework:** [Pyrogram](https://docs.pyrogram.org/)\n✘ **Developer:** [Itz-fork](https://github.com/Itz-fork)\n✘ **Source Code:** [Itz-fork/Unzip-Bot](https://github.com/Itz-fork/Unzip-Bot)\n\n\n**Made with ❤️ by @NexaBotsUpdates**",
+    
+    "processing": "`සකසමින් ⚙️...`",
+    "refreshing": "`Refresh කරමින් ⏳...`",
+    "gofile_token": "**ඔබේ gofile ටෝකනය:** `{}`",
+    "canceled": "**{} ✅!**\n\n`දැන් ඔබේ ෆයිල්ස් සියල්ලම මගේ සර්වර් එකෙන් ඉවත් කර ඇත 😏!`",
+    "log": "**Extract Log 📝!**\n\n**User ID:** `{}`\n**File Name:** `{}`\n**File Size:** `{}`",
+    
+    "help_head": "පහත බටන් ක්ලික් කිරීමෙන් උදව් ලබා ගන්න 😇",
+    "help_extract": "**Extract කරන්නේ කොහොමද?? 🤔**\n\n**1.** `Extract කිරීමට අවශ්‍ය ෆයිල් එක හෝ url එක එවන්න.`\n**2.** `Extract බටන් එක මත ක්ලික් කරන්න (Url එකක් නම් \"Url Extract\" බටන් එක, ෆයිල් එකක් නම් \"File Extract\" බටන් එක).`\n\n\n**සටහන:**\n    **1.** `ඔබේ archive එක පාස්වර්ඩ් මගින් ආරක්ෂා කොට ඇති නම්` **(Password) Extract 📂** `මාදිලිය තෝරන්න.`\n    \n    **2.** `කරුණාකර corrupted archives එවන්න එපා. වැරදීමකින් එව්වොත්` **/clean** `කමාන්ඩ් එක එවා එය සර්වර් එකෙන් ඉවත් කරගන්න.`\n    \n    **3.** `ඔබ එවූ archive එකේ ෆයිල්ස් 90වකට වඩා ඇති නම් බොට් හට ඒ සියල්ලම පෙන්විය නොහැක. එවැනි අවස්ථාවකදී` \"Upload All ♻️\" `බටන් එක ක්ලික් කර සියලුම ෆයිල්ස් ටෙලිග්‍රෑම් වෙත අප්ලෝඩ් කරගන්න.`",
+    "help_upmode": "**Upload කරන මාදිලිය වෙනස් කරගන්නේ කොහොමද? 🤔**\n\n**1.** `බොට් හට` */mode** `කමාන්ඩ් එක එවන්න.`\n**2.** `ඔබට අවශ්‍ය මාදිලිය තෝරාගන්න.`",
+    "help_backup": "**මගේ ෆයිල්ස් backup කරගන්නේ කොහොමද? 🤔**\n\nමේ බොට්ගේ සර්වර් එක සෑම පැය 24කට වරක්ම restart වනවා. එමනිසා ඔබගේ ෆයිල්ස් සර්වර් එකෙන් ඉක්මනින් ඉවත් වීමට පුලුවන්.\nඑවැනි දෙයක් වීමට කලින් ඔබට ඔබගේ ෆයිල්ස් gofile හි backup කර තබා ගන්න පුලුවන්\n\n**1.** `බොට් හට` */backup** `කමාන්ඩ් එක එවන්න.`\n**2.** `සුදුසු option එක තෝරාගන්න`",
+    "help_thumb": "**මගෙ thumbnail එක වෙනස් කරගන්නේ කොහොමද? 🤔**\n\nවීඩියෝ ffmpeg මගින් generate කරන ලද එකක් භාවිතා කරන අතර ෆයිල්ස් සදහා thumbnail එකක් නොමැත.\nඔබට ඔබගේ thumbnail එකක් භාවිතා කිරීමට අවශ්‍ය නම් පහත කමාන්ඩ්ස් භාවිතා කරන්න 👇,\n\n\n    • **/set_thumb** - Thumbnail එකක් සේව් කරන්න\n\n    • **/get_thumb** - දැනට පවතින Thumbnail එක ගන්න\n\n    • **/del_thumb** - දැනට පවතින Thumbnail එක delete කරන්න",
+    
+    "ok_backup": "**Backup successfull ✅!** \n\n**Link 🔗:** {}",
+    "ok_download": "**Successfully Downloaded**\n\n**📂 File name:** `{}`\n**⬇️ Downloaded in:** `{}`",
+    "ok_extract": "**Successfully Extracted!**\n\n**🕐 Extracted in:** `{}`\n\n\n**Made with ❤️ by @NexaBotsUpdates**",
+    "ok_upload": "**Successfully Uploaded!** \n\n **Join @NexaBotsUpdates ❤️**",
+    "ok_saving_thumb": "**Successfully saved the thumbnail ✅!**",
+    "ok_deleting_thumb": "**Successfully deleted the thumbnail ✅!**",
+    "ok_ban": "**Successfully banned that user ✅!** \n\n**User ID:** `{}`",
+    "ok_unban": "**Successfully unbanned that user ✅!** \n\n**User ID:** `{}`",
+    "ok_wont_delete": "**Ah fine, I won't delete your files 😂!**",
+    
+    "failed_main": "**Error Happend 😕!**\n\n**ERROR:** {}\n\n\n**Please report this at @Nexa_bots**",
+    "failed_extract": "**Extraction Failed 😕!**\n\n**What to do?**\n\n - `Please make sure archive isn't corrupted`\n - `Please make sure that you selected the right mode!`\n - `May be Your archive format isn't supported 😔`\n\n**Please report this at @Nexa_bots**",
+    
+    "no_thumb": "No thumbnails found. Please set one using `/set_thumb` command!",
+    "no_userid": "`Give a user id!`",
+    "no_archive": "`This isn't an archive 😑`",
+    "no_replied_msg": "`Reply to a message!`",
+    "no_splitted_arc": "`Dawg, this isn't a part of your splitted archive 😑!`",
+    
+    "ask_clean": "**Do you really want to delete your files from my server 🤔?**\n\n**Note:** `This action cannot be undone!`",
+    "ask_password": "**Please send me the password 🔑:**",
+    "ask_gofile_token": "**Please send me your gofile.io token**",
+    "ask_what_you_want": "**What do you want?**",
+    
+    "select_upmode": "`Please select the upload mode by clicking on below buttons!`\n\n**Current Upload mode is:** `{}`",
+    "select_lang": "`Select your language`",
+    "select_files": "`Select files to upload!`",
+    "select_provider": "**Select the cloud provider ☁️**",
+    
+    "changed_upmode": "**Successfully changed upload mode to** `{}` **✅!**",
+    "changed_lang": "**Successfully changed language to** `{}` **✅!**",
+
+    "broadcast_started": "`Broadcasting has started, This may take a while 🥱!`",
+    "boradcast_results": "**Broadcast Completed ✅!**\n\n**Total Users:** `{}`\n**Successful Responses:** `{}`\n**Failed Responses:** `{}`",
+    
+    "alert_splitted_arc": "**Splitted archive detected!**\n\n\n**1.** `Send the other parts of the archive one by one.`\n**2.** `When you're done, send` **/done** `command.`\n\n\n`Wanna cancel the process? Hit` **/clean** `command!`",
+    "alert_process_running_already": "`Already one process is going on, Don't spam you idiot 😑!` \n\nWanna terminate the current process? Just send **/clean** command!",
+    "alert_downloading_part": "`Looks like another process is going on 👀, though I can't cancel process since this a splitted archive.`",
+    "alert_part_exists": "`Dawg, I already have this file 😑!`",
+    "alert_sending_file": "Sending the selected file to you. Please wait!",
+    "alert_sending_files": "Sending all files to you. Please wait!",
+    "alert_file_too_large": "`File Size is too large to send in telegram 🥶! Trying to upload this file to gofile.io now 😉!`",
+    "alert_empty_files": "`Sorry, It looks like your files have been removed from the server 😔!`",
+    "alert_uploading_to_gofile": "`Uploading extracted files to gofile.io! Please wait...`"
+}
