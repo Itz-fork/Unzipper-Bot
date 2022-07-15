@@ -12,9 +12,9 @@
 # Credits: SpEcHiDe's AnyDL-Bot
 
 from re import sub
-from os import path, walk
 from time import time
 from math import floor
+from os import path, walk
 from functools import partial
 from subprocess import Popen, PIPE
 from asyncio import get_running_loop
@@ -31,9 +31,8 @@ async def progress_for_pyrogram(current, total, ud_type, message, start):
             time_to_completion = round((total - current) / speed) * 1000
             estimated_total_time = elapsed_time + time_to_completion
 
-            elapsed_time = TimeFormatter(milliseconds=elapsed_time)
-            estimated_total_time = TimeFormatter(
-                milliseconds=estimated_total_time)
+            elapsed_time = TimeFormatter(elapsed_time)
+            estimated_total_time = TimeFormatter(estimated_total_time)
 
             progress = "[{0}{1}] \n**Process**: {2}%\n".format(
                 ''.join(["█" for i in range(floor(percentage / 5))]),
@@ -47,18 +46,18 @@ async def progress_for_pyrogram(current, total, ud_type, message, start):
                 estimated_total_time if estimated_total_time != '' else "0 s"
             )
             try:
-                await message.edit(text="{}\n {} \n\n**Powered by @NexaBotsUpdates**".format(ud_type, tmp))
+                await message.edit("{}\n {} \n\n**Powered by @NexaBotsUpdates**".format(ud_type, tmp))
             except:
                 pass
     else:
         tmp = "{0} of {1}\n**Speed:** {2}/s\n**ETA:** {3}\n".format(
-                humanbytes(current),
-                "?",
-                humanbytes(speed),
-                "unknown"
-            )
+            humanbytes(current),
+            "?",
+            humanbytes(speed),
+            "unknown"
+        )
         try:
-            await message.edit(text="{}\n {} \n\n**Powered by @NexaBotsUpdates**".format(ud_type, tmp))
+            await message.edit("{}\n {} \n\n**Powered by @NexaBotsUpdates**".format(ud_type, tmp))
         except:
             pass
 

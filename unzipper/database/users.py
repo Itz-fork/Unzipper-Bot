@@ -26,15 +26,15 @@ async def add_user(user_id: int):
 
 
 async def del_user(user_id: int):
-    is_exist = await user_db.find_one({"user_id": int(user_id)})
+    is_exist = await user_db.find_one({"user_id": user_id})
     if is_exist:
-        await user_db.delete_one({"user_id": int(user_id)})
+        await user_db.delete_one({"user_id": user_id})
     else:
         return
 
 
-async def is_user_in_db(user_id):
-    is_exist = await user_db.find_one({"user_id": int(user_id)})
+async def is_user_in_db(user_id: int):
+    is_exist = await user_db.find_one({"user_id": user_id})
     if is_exist:
         return True
     else:
@@ -42,8 +42,7 @@ async def is_user_in_db(user_id):
 
 
 async def count_users():
-    users = await user_db.count_documents({})
-    return users
+    return await user_db.count_documents({})
 
 
 async def get_users_list():
@@ -54,24 +53,24 @@ async def get_users_list():
 b_user_db = unzipper_db["banned_users_db"]
 
 
-async def add_banned_user(user_id):
-    is_exist = await b_user_db.find_one({"banned_user_id": int(user_id)})
+async def add_banned_user(user_id: int):
+    is_exist = await b_user_db.find_one({"banned_user_id": user_id})
     if is_exist:
         return
     else:
-        await b_user_db.insert_one({"banned_user_id": int(user_id)})
+        await b_user_db.insert_one({"banned_user_id": user_id})
 
 
-async def del_banned_user(user_id):
-    is_exist = await b_user_db.find_one({"banned_user_id": int(user_id)})
+async def del_banned_user(user_id: int):
+    is_exist = await b_user_db.find_one({"banned_user_id": user_id})
     if is_exist:
-        await b_user_db.delete_one({"banned_user_id": int(user_id)})
+        await b_user_db.delete_one({"banned_user_id": user_id})
     else:
         return
 
 
-async def is_user_in_bdb(user_id):
-    is_exist = await b_user_db.find_one({"banned_user_id": int(user_id)})
+async def is_user_in_bdb(user_id: int):
+    is_exist = await b_user_db.find_one({"banned_user_id": user_id})
     if is_exist:
         return True
     else:
@@ -79,8 +78,7 @@ async def is_user_in_bdb(user_id):
 
 
 async def count_banned_users():
-    users = await b_user_db.count_documents({})
-    return users
+    return await b_user_db.count_documents({})
 
 
 async def get_banned_users_list():
@@ -94,15 +92,15 @@ class MFYouAreBanned(Exception):
 
 async def check_user(message):
     # Checking if user is banned
-    is_banned = await is_user_in_bdb(message.from_user.id)
+    is_banned = await is_user_in_bdb(int(message.from_user.id))
     if is_banned:
         await message.reply("**Sorry You're Banned!** \n\nReport this at @Nexa_bots if you think this is a mistake")
         raise MFYouAreBanned
     # Chacking if user already in db
-    is_in_db = await is_user_in_db(message.from_user.id)
+    is_in_db = await is_user_in_db(int(message.from_user.id))
     if not is_in_db:
         try:
-            await add_user(message.from_user.id)
+            await add_user(int(message.from_user.id))
             await unzip_client.send_message(
                 chat_id=Config.LOGS_CHANNEL,
                 text=f"**#NEW_USER** 🎙 \n\n**User Profile:** `{message.from_user.mention}` \n**User ID:** `{message.from_user.id}` \n**Profile Url:** [Click here](tg://user?id={message.from_user.id})",

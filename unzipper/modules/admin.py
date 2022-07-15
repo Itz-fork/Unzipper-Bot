@@ -83,7 +83,7 @@ async def _do_broadcast(message, user):
         await sleep(e.x)
         return _do_broadcast(message, user)
     except Exception:
-        await del_user(user)
+        await del_user(int(user))
 
 
 @unzip_client.on_message(filters.private & filters.command("broadcast") & filters.user(Config.BOT_OWNER))
@@ -116,7 +116,10 @@ async def ban_user(unzipperbot, message: Message):
         user_id = message.text.split(None, 1)[1]
     except:
         return await ban_msg.edit(await unzipperbot.get_string("no_userid"))
-    await add_banned_user(user_id)
+    # Return if user_id string is not numeric
+    if not user_id.isnumeric():
+        return await ban_msg.edit(await unzipperbot.get_string("no_userid"))
+    await add_banned_user(int(user_id))
     await ban_msg.edit((await unzipperbot.get_string("ok_ban")).format(user_id))
 
 
@@ -128,5 +131,8 @@ async def unban_user(unzipperbot, message: Message):
         user_id = message.text.split(None, 1)[1]
     except:
         return await unban_msg.edit(await unzipperbot.get_string("no_userid"))
-    await del_banned_user(user_id)
+    # Return if user_id string is not numeric
+    if not user_id.isnumeric():
+        return await unban_msg.edit(await unzipperbot.get_string("no_userid"))
+    await del_banned_user(int(user_id))
     await unban_msg.edit((await unzipperbot.get_string("ok_unban")).format(user_id))
