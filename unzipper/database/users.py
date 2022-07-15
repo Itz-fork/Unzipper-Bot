@@ -46,8 +46,7 @@ async def count_users():
 
 
 async def get_users_list():
-    async for user in user_db.find({}):
-        yield user["user_id"]
+    return (user["user_id"] async for user in user_db.find({}))
 
 
 # Banned users database (I don't know why tf i added this, but who cares)
@@ -83,13 +82,14 @@ async def count_banned_users():
 
 
 async def get_banned_users_list():
-    return [banned_users_list async for banned_users_list in b_user_db.find({})]
+    return (buser["user_id"] async for buser in b_user_db.find({}))
 
 
 # Questioning about the user's existence on this planet
 class MFYouAreBanned(Exception):
     def __init__(self) -> None:
         super().__init__("Mf you are banned from using this bot!")
+
 
 async def check_user(message):
     # Checking if user is banned
