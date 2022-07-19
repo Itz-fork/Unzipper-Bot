@@ -67,11 +67,11 @@ def humanbytes(size: int):
         return "NaN"
     power = 2**10
     n = 0
-    Dic_powerN = {0: ' ', 1: 'Ki', 2: 'Mi', 3: 'Gi', 4: 'Ti'}
+    Dic_powerN = {0: " ", 1: "KiB", 2: "MiB", 3: "GiB", 4: "TiB"}
     while size > power:
         size /= power
         n += 1
-    return str(round(size, 2)) + " " + Dic_powerN[n] + 'B'
+    return f"{round(size, 2)} {Dic_powerN[n]}"
 
 
 def TimeFormatter(milliseconds: int) -> str:
