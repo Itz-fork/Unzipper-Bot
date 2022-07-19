@@ -1,0 +1,29 @@
+{
+    "about": "",
+    "clean": "",
+    "upload_all": "",
+    
+    "cancel": "",
+    "no_cancel": "",
+    
+    "back": "",
+    "back_to_help_menu": "",
+    
+    "help": "",
+    "help_extract": "",
+    "help_upload": "",
+    "help_thumbnail": "",
+    "help_backup": "",
+
+    "extract_file": "",
+    "extract_file_pass": "",
+    "extract_url": "",
+    "extract_url_pass": "",
+
+    "gofile_set": "",
+    "gofile_get": "",
+    "gofile_del": "",
+
+    "as_vid": "",
+    "as_doc": ""
+}
