@@ -28,15 +28,15 @@ async def progress_for_pyrogram(current, total, ud_type, message, start):
         if round(diff % 10.00) == 0 or current == total:
             percentage = current * 100 / total
             elapsed_time = round(diff) * 1000
-            time_to_completion = round((total - current) / speed) * 1000
-            estimated_total_time = elapsed_time + time_to_completion
+            estimated_total_time = elapsed_time + \
+                round((total - current) / speed) * 1000
 
             elapsed_time = TimeFormatter(elapsed_time)
             estimated_total_time = TimeFormatter(estimated_total_time)
 
             progress = "[{0}{1}] \n**Process**: {2}%\n".format(
-                ''.join(["█" for i in range(floor(percentage / 5))]),
-                ''.join(["░" for i in range(20 - floor(percentage / 5))]),
+                ''.join(["▰" for i in range(floor(percentage / 5))]),
+                ''.join(["▱" for i in range(20 - floor(percentage / 5))]),
                 round(percentage, 2))
 
             tmp = progress + "{0} of {1}\n**Speed:** {2}/s\n**ETA:** {3}\n".format(
@@ -64,7 +64,7 @@ async def progress_for_pyrogram(current, total, ud_type, message, start):
 
 def humanbytes(size: int):
     if not size:
-        return ""
+        return "NaN"
     power = 2**10
     n = 0
     Dic_powerN = {0: ' ', 1: 'Ki', 2: 'Mi', 3: 'Gi', 4: 'Ti'}
