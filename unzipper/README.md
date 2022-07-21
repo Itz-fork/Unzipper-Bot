@@ -5,7 +5,7 @@ This is where the main stuff happens.
 - [Directory structure](#directory-structure)
 - [Folders](#folders)
 
-# Directory structure
+## Directory structure
 Directory tree structure of [unzipper](/unzipper) folder.
 
 ```
@@ -59,7 +59,7 @@ Directory tree structure of [unzipper](/unzipper) folder.
 ```
 
 
-# Folders
+## Folders
 - [client](client) - Contains the custom client (inherited from `pyrogram.Client` class)
 - [database](database) - Contains functions to handle database queries
 - [modules](modules) - Contains pyrogram modules
