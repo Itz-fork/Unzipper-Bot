@@ -17,45 +17,50 @@ from asyncio import sleep
 from typing import Callable
 from os import path, remove, stat
 
-from aiofiles import open
 from config import Config
 from pyrogram import Client
 from gofile2 import Async_Gofile
 from pyrogram.errors import FloodWait
+from aiofiles import open as open_async
 from pyrogram.types import CallbackQuery, Message
-
-from .database.users import check_user
-from .helpers_nexa.buttons import Buttons
-from .database.thumbnail import get_or_gen_thumb
-from .database.upload_mode import get_upload_mode
-from .helpers_nexa.utils import (TimeFormatter, progress_for_pyrogram,
-                                 rm_mark_chars, run_shell_cmds)
+from unzipper.database.upload_mode import get_upload_mode
+from unzipper.helpers_nexa.utils import (TimeFormatter, progress_for_pyrogram,
+                                         rm_mark_chars, run_shell_cmds)
 
 
-class CustomMethods:
+class UnzipperBot(Client):
+    """
+    Unzipper bot client
+    """
     version = "v1.0 - Beta"
 
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self):
+        super().__init__("UnzipperBot",
+                         api_id=Config.APP_ID,
+                         api_hash=Config.API_HASH,
+                         bot_token=Config.BOT_TOKEN,
+                         plugins=dict(root="unzipper/modules"),
+                         sleep_threshold=10)
 
-    def handle_erros(self: Client, func: Callable) -> Callable:
+    ######## Decorators ########
+    def handle_erros(self, func: Callable) -> Callable:
         """
         Handle erros and database updates of users
         """
 
         async def decorator(client: Client, message: Message):
             try:
-                await check_user(message)
+                await self.check_user(message)
                 return await func(client, message)
             except Exception as e:
                 logging.warn(e)
-                await self.send_message(message.chat.id, (await self.get_string("failed_main")).format(e))
+                await self.send_message(message.chat.id, (await self.get_string_key("failed_main")).format(e))
 
         return decorator
 
-    def handle_callbacks(self: Client, func: Callable) -> Callable:
+    def handle_query(self, func: Callable) -> Callable:
         """
-        Handle erros and database updates of users
+        Handle callback queries
         """
 
         async def decorator(client: Client, query: CallbackQuery):
@@ -63,11 +68,12 @@ class CustomMethods:
                 await func(client, query)
             except Exception as e:
                 logging.warn(e)
-                await self.send_message(query.message.chat.id, (await self.get_string("failed_main")).format(e))
+                await self.send_message(query.message.chat.id, (await self.get_string_key("failed_main")).format(e))
 
         return decorator
 
-    async def send_file(self: Client, c_id: int, doc_f: str, query: CallbackQuery):
+    ######## File utils ########
+    async def send_file(self, c_id: int, doc_f: str, query: CallbackQuery):
         """
         Send a file to the user
 
@@ -79,27 +85,31 @@ class CustomMethods:
         """
 
         try:
+            # Get text strings
+            texts = await self.get_strings()
+            # This is my kingdom...
             cum = await get_upload_mode(c_id)
             # Checks if url file size is bigger than 2GB (Telegram limit)
             file_size = stat(doc_f).st_size
             if file_size > Config.TG_MAX_SIZE:
                 # Uploads the file to gofile.io
-                upmsg = await self.send_message(c_id, text=await self.get_string("alert_file_too_large"))
+                upmsg = await self.send_message(c_id, text=texts["alert_file_too_large"])
                 try:
                     ga = Async_Gofile()
                     gfio = await ga.upload(doc_f)
+                    from unzipper import Buttons
                     await upmsg.edit("**Your file has been uploaded to gofile! Click on the below button to download it 👇**", reply_markup=await Buttons.make_button("Gofile link 🔗", url=gfio["downloadPage"]))
                 except:
                     await upmsg.edit("`Upload failed, Better luck next time 😔!`")
                 remove(doc_f)
                 return
 
-            tgupmsg = await self.send_message(c_id, await self.get_string("processing"))
+            tgupmsg = await self.send_message(c_id, texts["processing"])
             stm = time()
 
             # Uplaod type: Video
             if cum == "video":
-                sthumb = await get_or_gen_thumb(c_id, doc_f, True)
+                sthumb = await self.get_or_gen_thumb(c_id, doc_f, True)
                 vid_duration = await run_shell_cmds(f"ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 {doc_f}")
                 await self.send_video(
                     chat_id=c_id,
@@ -112,7 +122,7 @@ class CustomMethods:
                     progress_args=("**Trying to upload 😇** \n", tgupmsg, stm))
             # Upload type: Document
             else:
-                sthumb = await get_or_gen_thumb(c_id, doc_f)
+                sthumb = await self.get_or_gen_thumb(c_id, doc_f)
                 await self.send_document(
                     chat_id=c_id,
                     document=doc_f,
@@ -123,16 +133,8 @@ class CustomMethods:
             etm = time()
 
             # Edit the progress message
-            await tgupmsg.edit(f"""
-**Successfully uploaded!**
-        
-**File name:** `{path.basename(doc_f)}`
-**Uploaded in:** `{TimeFormatter(round(etm - stm))}`
-
-
-**Join @NexaBotsUpdates ❤️**
-        """)
-            # Cleanup (Added try except as thumbnail is sucking this code's duck)
+            await tgupmsg.edit(texts["ok_upload"].format(path.basename(doc_f), TimeFormatter(round(etm - stm))))
+            # Cleanup
             try:
                 remove(doc_f)
                 if sthumb:
@@ -143,15 +145,13 @@ class CustomMethods:
             await sleep(f.x)
             return await self.send_file(c_id, doc_f, query)
         except FileNotFoundError:
-            try:
-                return await query.answer("Sorry! I can't find that file", show_alert=True)
-            except:
-                return await self.send_message(c_id, "Sorry! I can't find that file")
+            return await self.answer_query(query, "Sorry! I can't find that file", True)
         except BaseException as e:
             logging.warn(e)
             await self.answer_query(query, f"**Error:** \n`{e}`")
 
-    async def answer_query(self: Client, query: CallbackQuery, text: str, alert: bool = False, *args, **kwargs):
+    ######## Utils ########
+    async def answer_query(self, query: CallbackQuery, text: str, alert: bool = False, *args, **kwargs):
         """
         Answer CallbackQuery with better error handling
 
@@ -173,7 +173,16 @@ class CustomMethods:
                 pass
             await self.send_message(query.message.chat.id, text, *args, **kwargs)
 
-    async def get_string(self: Client, key: str) -> str:
+    ######## Localization ########
+    async def get_strings(self) -> dict:
+        """
+        Get the dict that contains the strings of text messages according to the saved language type
+        """
+        lang = "en"
+        async with open_async(f"unzipper/localization/{lang}/messages.json") as ls:
+            return loads(await ls.read())
+
+    async def get_string_key(self, key: str) -> str:
         """
         Get the text string according to the saved language type
 
@@ -182,15 +191,22 @@ class CustomMethods:
             - `key` - String key
         """
         lang = "en"
-        async with open(f"unzipper/localization/{lang}/messages.json") as ls:
+        async with open_async(f"unzipper/localization/{lang}/messages.json") as ls:
             jsn = loads(await ls.read())
             return jsn.get(key)
 
+    async def get_button_strings(self) -> dict:
+        """
+        Get the dict that contains the strings of buttons according to the saved language type
+        """
+        lang = "en"
+        async with open_async(f"unzipper/localization/{lang}/buttons.json") as ls:
+            return loads(await ls.read())
 
-def apply_patch():
-    """
-    Apply custom methods defined in CustomMethods class to pyrogram.Client class
-    """
-    for ckey, cval in CustomMethods.__dict__.items():
-        if ckey[:2] != "__":
-            setattr(Client, ckey, cval)
+    def get_button_strings_sync(self) -> dict:
+        """
+        Get the dict that contains the strings of buttons according to the saved language type
+        """
+        lang = "en"
+        with open(f"unzipper/localization/{lang}/buttons.json") as ls:
+            return loads(ls.read())

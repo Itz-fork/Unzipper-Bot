@@ -13,9 +13,7 @@
 import logging
 from pyrogram import idle
 from os import makedirs, path
-from unzipper.modules import *
 from unzipper import unzip_client
-from .helpers_nexa.checks import check_log_channel
 from config import Config
 
 
@@ -32,13 +30,15 @@ if __name__ == "__main__":
         makedirs(Config.DOWNLOAD_LOCATION)
 
     logging.info(" >> Applying custom methods...")
-    from .custom_methods import apply_patch
-    apply_patch()
+    from .client import init_patch
+    init_patch()
 
     logging.info(" >> Starting client...")
+    from unzipper.modules import *
     unzip_client.start()
 
     logging.info(" >> Checking Log Channel...")
+    from .helpers_nexa.checks import check_log_channel
     check_log_channel()
 
     logging.info("Bot is active Now! Join @NexaBotsUpdates")

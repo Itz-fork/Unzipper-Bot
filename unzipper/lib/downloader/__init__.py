@@ -41,7 +41,7 @@ class Downloader:
                          "{2,6}\\b([-a-zA-Z0-9@:%" +
                          "._\\+~#?&//=]*)")
 
-    async def from_direct_link(self, url: str, path: str, cont_type: str = "application/", message: Message = None, udt: str = "**Trying to Download!** \n"):
+    async def from_direct_link(self, url: str, path: str, message: Message = None, cont_type: str = "application/", udt: str = "**Trying to Download!** \n"):
         """
         Download a file from direct link
 

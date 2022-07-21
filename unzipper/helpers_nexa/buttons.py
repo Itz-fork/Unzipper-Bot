@@ -10,23 +10,17 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>   #
 # ===================================================================== #
 
-from json import loads
 from os.path import basename
+from unzipper import unzip_client
 from pykeyboard import InlineKeyboard
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
-class Buttons:
+class Unzipper_Buttons:
+    def __init__(self) -> None:
+        self.texts = unzip_client.get_button_strings_sync()
 
-    def get_text() -> dict:
-        """
-        Get the dict that contains the strings of buttons according to the saved language type
-        """
-        lang = "en"
-        with open(f"unzipper/localization/{lang}/buttons.json") as ls:
-            return loads(ls.read())
-
-    async def make_button(text: str, *args, **kwargs):
+    async def make_button(self, text: str, *args, **kwargs):
         """
         Create pyrogram InlineKeyboardMarkup object with 1 button
         """
@@ -34,20 +28,13 @@ class Buttons:
             [InlineKeyboardButton(text, *args, **kwargs)]
         ])
 
-    async def make_keyboard(files: str, user_id: int, chat_id: int):
-        texts = Buttons.get_text()
+    async def make_keyboard(self, files: str, user_id: int, chat_id: int):
         i_kbd = InlineKeyboard(row_width=2)
-        data = []
-        data.append(
-            InlineKeyboardButton(
-                texts["upload_all"], f"ext_a|{user_id}|{chat_id}")
-        )
-        data.append(
-            InlineKeyboardButton(texts["cancel"], "cancel_dis")
-        )
+        data = [InlineKeyboardButton(self.texts["upload_all"], f"ext_a|{user_id}|{chat_id}"), InlineKeyboardButton(
+            self.texts["cancel"], "cancel_dis")]
         for num, file in enumerate(files):
             # Temp fix for REPLY_MARKUP_TOO_LONG error
-            if num > 90:
+            if num >= 90:
                 break
             data.append(
                 InlineKeyboardButton(f"{num} - {basename(file)}".encode(
@@ -56,7 +43,7 @@ class Buttons:
         i_kbd.add(*data)
         return i_kbd
 
-    texts = get_text()
+    texts = unzip_client.get_button_strings_sync()
 
     START = InlineKeyboardMarkup([[
         InlineKeyboardButton(texts["help"], callback_data="helpcallback"),

@@ -21,7 +21,7 @@ from unzipper import unzip_client
 from pyrogram.types import Message
 
 from unzipper.lib.extractor import Extractor
-from unzipper.helpers_nexa.buttons import Buttons
+from unzipper import Buttons
 from unzipper.lib.downloader import Downloader, dl_regex
 from unzipper.helpers_nexa.utils import (TimeFormatter, get_files,
                                          progress_for_pyrogram, humanbytes)
@@ -30,8 +30,9 @@ from unzipper.database.split_arc import del_split_arc_user, get_split_arc_user
 
 @unzip_client.on_message(filters.incoming & filters.private & filters.regex(dl_regex) | filters.document)
 @unzip_client.handle_erros
-async def extract_dis_archive(unzipperbot, message: Message):
-    unzip_msg = await message.reply(await unzipperbot.get_string("processing"), reply_to_message_id=message.id)
+async def extract_dis_archive(_, message: Message):
+    texts = await unzip_client.get_strings()
+    unzip_msg = await message.reply(texts["processing"], reply_to_message_id=message.id)
     user_id = message.from_user.id
     download_path = f"{Config.DOWNLOAD_LOCATION}/{user_id}"
     is_url = message.text and (match(dl_regex, message.text))
@@ -41,13 +42,13 @@ async def extract_dis_archive(unzipperbot, message: Message):
     is_spl, lfn, ps = await get_split_arc_user(user_id)
     if is_spl:
         file_name = is_doc.file_name if is_doc else path.basename(message.text)
-        await unzip_msg.edit(await unzipperbot.get_string("alert_downloading_part"))
+        await unzip_msg.edit(texts["alert_downloading_part"])
         # Check file extension
         if not path.splitext(file_name)[1].replace(".", "").isnumeric():
-            return await unzip_msg.edit(await unzipperbot.get_string("no_splitted_arc"))
+            return await unzip_msg.edit(texts["no_splitted_arc"])
         arc_name = f"{download_path}/archive_from_{user_id}_{file_name}"
         if path.isfile(arc_name):
-            return await unzip_msg.edit(await unzipperbot.get_string("alert_part_exists"))
+            return await unzip_msg.edit(texts["alert_part_exists"])
         # Download the file
         s_time = time()
         if is_url:
@@ -55,34 +56,35 @@ async def extract_dis_archive(unzipperbot, message: Message):
                 cleng = (await ses.head(message.text)).headers.get("Content-Length")
                 fsize = humanbytes(cleng) if cleng else "undefined"
                 # Send logs
-                await unzipperbot.send_message(Config.LOGS_CHANNEL, (await unzipperbot.get_string("log")).format(user_id, file_name, fsize))
+                await unzip_client.send_message(Config.LOGS_CHANNEL, texts["log"].format(user_id, file_name, fsize))
             await Downloader().from_direct_link(message.text, arc_name, unzip_msg)
         else:
             # Send logs
-            await unzipperbot.send_message(Config.LOGS_CHANNEL, (await unzipperbot.get_string("log")).format(user_id, file_name, humanbytes(is_doc.file_size)))
+            await unzip_client.send_message(Config.LOGS_CHANNEL, texts["log"].format(user_id, file_name, humanbytes(is_doc.file_size)))
             await message.download(
                 file_name=arc_name,
                 progress=progress_for_pyrogram, progress_args=(
                     "**Trying to Download!** \n", unzip_msg, s_time)
             )
         e_time = time()
-        await unzip_msg.edit((await unzipperbot.get_string("ok_download")).format(file_name, TimeFormatter(round(e_time-s_time) * 1000)))
+        await unzip_msg.edit(texts["ok_download"].format(file_name, TimeFormatter(round(e_time-s_time) * 1000)))
         return
 
     if path.isdir(download_path):
-        return await unzip_msg.edit(await unzipperbot.get_string("alert_process_running_already"))
+        return await unzip_msg.edit(texts["alert_process_running_already"])
     if is_url:
-        await unzip_msg.edit(await unzipperbot.get_string("ask_what_you_want"), reply_markup=Buttons.EXTRACT_URL)
+        await unzip_msg.edit(texts["ask_what_you_want"], reply_markup=Buttons.EXTRACT_URL)
     elif is_doc:
-        await unzip_msg.edit(await unzipperbot.get_string("ask_what_you_want"), reply_markup=Buttons.EXTRACT_FILE)
+        await unzip_msg.edit(texts["ask_what_you_want"], reply_markup=Buttons.EXTRACT_FILE)
     else:
-        await unzip_msg.edit(await unzipperbot.get_string("no_archive"))
+        await unzip_msg.edit(texts["no_archive"])
 
 
 @unzip_client.on_message(filters.private & filters.command("done"))
 @unzip_client.handle_erros
-async def extracted_dis_spl_archive(unzipperbot, message: Message):
-    spl_umsg = await message.reply(await unzipperbot.get_string("processing"), reply_to_message_id=message.id)
+async def extracted_dis_spl_archive(_, message: Message):
+    texts = await unzip_client.get_strings()
+    spl_umsg = await message.reply(texts["processing"], reply_to_message_id=message.id)
     user_id = message.from_user.id
     # Retrive data from database
     is_spl, lfn, ps = await get_split_arc_user(user_id)
@@ -92,7 +94,7 @@ async def extracted_dis_spl_archive(unzipperbot, message: Message):
     ext_path = f"{Config.DOWNLOAD_LOCATION}/{user_id}/extracted"
     arc_path = path.dirname(lfn)
     if not path.isdir(arc_path):
-        await spl_umsg.edit(await unzipperbot.get_string("alert_empty_files"))
+        await spl_umsg.edit(texts["alert_empty_files"])
         return await del_split_arc_user(user_id)
     # Remove user record from the database
     await del_split_arc_user(user_id)
@@ -103,7 +105,7 @@ async def extracted_dis_spl_archive(unzipperbot, message: Message):
     extdarc = f"{ext_path}/{path.splitext(path.basename(lfn))[0]}"
     await ext.extract(extdarc, ext_path, ps)
     e_time = time()
-    await spl_umsg.edit((await unzipperbot.get_string("ok_extract")).format(TimeFormatter(round(e_time-s_time) * 1000)))
+    await spl_umsg.edit(texts["ok_extract"].format(TimeFormatter(round(e_time-s_time) * 1000)))
     # Try to remove merged archive
     try:
         remove(extdarc)
@@ -111,4 +113,4 @@ async def extracted_dis_spl_archive(unzipperbot, message: Message):
         pass
     paths = await get_files(ext_path)
     i_e_btns = await Buttons.make_keyboard(paths, user_id, message.chat.id)
-    await spl_umsg.edit(await unzipperbot.get_string("select_files"), reply_markup=i_e_btns)
+    await spl_umsg.edit(texts["select_files"], reply_markup=i_e_btns)

@@ -9,7 +9,8 @@
 # You should have received a copy of the GNU General Public License     #
 # along with this program. If not, see <http://www.gnu.org/licenses/>   #
 # ===================================================================== #
-# Credits: SpEcHiDe's AnyDL-Bot
+
+# Credits: SpEcHiDe's AnyDL-Bot for progress_for_pyrogram, humanbytes and TimeFormatter
 
 from re import sub
 from time import time

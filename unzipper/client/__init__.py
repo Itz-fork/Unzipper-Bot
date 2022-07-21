@@ -10,13 +10,5 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>   #
 # ===================================================================== #
 
-
-from .client import UnzipperBot
-from pyromod import listen
-
-
-unzip_client = UnzipperBot()
-
-# Buttons
-from .helpers_nexa.buttons import Unzipper_Buttons
-Buttons = Unzipper_Buttons()
+from .patcher import init_patch
+from .pyro_client import UnzipperBot
