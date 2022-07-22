@@ -18,7 +18,7 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 class Unzipper_Buttons:
     def __init__(self) -> None:
-        self.texts = unzip_client.get_button_strings_sync()
+        self.texts = unzip_client.get_button_strings()
 
     async def make_button(self, text: str, *args, **kwargs):
         """
@@ -43,7 +43,7 @@ class Unzipper_Buttons:
         i_kbd.add(*data)
         return i_kbd
 
-    texts = unzip_client.get_button_strings_sync()
+    texts = unzip_client.get_button_strings()
 
     START = InlineKeyboardMarkup([[
         InlineKeyboardButton(texts["help"], callback_data="helpcallback"),

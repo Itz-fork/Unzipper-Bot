@@ -14,6 +14,7 @@
 - Extract archives from direct links
 - Support for multi-part 7z archives (archives ends with file extensions like `.001`, `.002`, etc.)
 - Custom thumbnail support
+- Muti-language support ([More info](https://github.com/Itz-fork/Unzip-Bot/tree/dev/unzipper/localization#readme))
 - Upload files larger than 2GB to gofile.io
 - Backup extracted files to gofile.io
 - Broadcast messages to users

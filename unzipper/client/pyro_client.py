@@ -202,7 +202,7 @@ class UnzipperBot(Client):
         jsn = await self._read_json(f"unzipper/localization/{lang}/messages.json", False)
         return jsn.get(key)
 
-    def get_button_strings_sync(self, lang: str = "en") -> dict:
+    def get_button_strings(self) -> dict:
         """
         Get the dict that contains the strings of buttons
         """
