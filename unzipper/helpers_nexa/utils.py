@@ -35,12 +35,12 @@ async def progress_for_pyrogram(current, total, ud_type, message, start):
             elapsed_time = TimeFormatter(elapsed_time)
             estimated_total_time = TimeFormatter(estimated_total_time)
 
-            progress = "[{0}{1}] \n**Process**: {2}%\n".format(
-                ''.join(["▰" for i in range(floor(percentage / 5))]),
-                ''.join(["▱" for i in range(20 - floor(percentage / 5))]),
+            progress = "┣ {0}{1} ┫ \n**📊 Progress**: {2}%\n".format(
+                ''.join(["◉" for i in range(floor(percentage / 5))]), # Filled
+                ''.join(["◎" for i in range(20 - floor(percentage / 5))]), # Empty
                 round(percentage, 2))
 
-            tmp = progress + "{0} of {1}\n**Speed:** {2}/s\n**ETA:** {3}\n".format(
+            tmp = progress + "{0} of {1}\n**🏃 Speed:** {2}/s\n**⏰ ETA:** {3}\n".format(
                 humanbytes(current),
                 humanbytes(total),
                 humanbytes(speed),
@@ -51,7 +51,7 @@ async def progress_for_pyrogram(current, total, ud_type, message, start):
             except:
                 pass
     else:
-        tmp = "{0} of {1}\n**Speed:** {2}/s\n**ETA:** {3}\n".format(
+        tmp = "**📊 Progress:** {0} of {1}\n**🏃 Speed:** {2}/s\n**⏰ ETA:** {3}\n".format(
             humanbytes(current),
             "?",
             humanbytes(speed),
