@@ -30,8 +30,8 @@ from unzipper.database.split_arc import del_split_arc_user, get_split_arc_user
 
 @unzip_client.on_message(filters.incoming & filters.private & filters.regex(dl_regex) | filters.document)
 @unzip_client.handle_erros
-async def extract_dis_archive(_, message: Message):
-    texts = await unzip_client.get_strings()
+async def extract_dis_archive(_, message: Message, lang):
+    texts = await unzip_client.get_strings(lang)
     unzip_msg = await message.reply(texts["processing"], reply_to_message_id=message.id)
     user_id = message.from_user.id
     download_path = f"{Config.DOWNLOAD_LOCATION}/{user_id}"
@@ -82,8 +82,8 @@ async def extract_dis_archive(_, message: Message):
 
 @unzip_client.on_message(filters.private & filters.command("done"))
 @unzip_client.handle_erros
-async def extracted_dis_spl_archive(_, message: Message):
-    texts = await unzip_client.get_strings()
+async def extracted_dis_spl_archive(_, message: Message, lang):
+    texts = await unzip_client.get_strings(lang)
     spl_umsg = await message.reply(texts["processing"], reply_to_message_id=message.id)
     user_id = message.from_user.id
     # Retrive data from database
@@ -112,5 +112,5 @@ async def extracted_dis_spl_archive(_, message: Message):
     except:
         pass
     paths = await get_files(ext_path)
-    i_e_btns = await Buttons.make_keyboard(paths, user_id, message.chat.id)
+    i_e_btns = await Buttons.make_files_keyboard(paths, user_id, message.chat.id)
     await spl_umsg.edit(texts["select_files"], reply_markup=i_e_btns)

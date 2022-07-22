@@ -29,8 +29,8 @@ from psutil import cpu_percent, disk_usage, net_io_counters, virtual_memory
 
 @unzip_client.on_message(filters.private & filters.command("stats"))
 @unzip_client.handle_erros
-async def send_stats(_, message: Message):
-    stats_msg = await message.reply(await unzip_client.get_string_key("processing"))
+async def send_stats(_, message: Message, lang):
+    stats_msg = await message.reply(await unzip_client.get_string_key("processing", lang))
     # Is message from owner?
     frmow = False
     if message.from_user and message.from_user.id == Config.BOT_OWNER:
@@ -88,8 +88,8 @@ async def _do_broadcast(message, user):
 
 @unzip_client.on_message(filters.private & filters.command("broadcast") & filters.user(Config.BOT_OWNER))
 @unzip_client.handle_erros
-async def broadcast_dis(_, message: Message):
-    texts = await unzip_client.get_strings()
+async def broadcast_dis(_, message: Message, lang):
+    texts = await unzip_client.get_strings(lang)
     bc_msg = await message.reply(texts["processing"])
     r_msg = message.reply_to_message
     if not r_msg:
@@ -110,8 +110,8 @@ async def broadcast_dis(_, message: Message):
 
 @unzip_client.on_message(filters.private & filters.command("ban") & filters.user(Config.BOT_OWNER))
 @unzip_client.handle_erros
-async def ban_user(_, message: Message):
-    texts = await unzip_client.get_strings()
+async def ban_user(_, message: Message, lang):
+    texts = await unzip_client.get_strings(lang)
     ban_msg = await message.reply(texts["processing"])
     try:
         user_id = message.text.split(None, 1)[1]
@@ -126,8 +126,8 @@ async def ban_user(_, message: Message):
 
 @unzip_client.on_message(filters.private & filters.command("unban") & filters.user(Config.BOT_OWNER))
 @unzip_client.handle_erros
-async def unban_user(_, message: Message):
-    texts = await unzip_client.get_strings()
+async def unban_user(_, message: Message, lang):
+    texts = await unzip_client.get_strings(lang)
     unban_msg = await message.reply(texts["processing"])
     try:
         user_id = message.text.split(None, 1)[1]

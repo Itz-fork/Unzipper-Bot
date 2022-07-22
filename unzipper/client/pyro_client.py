@@ -23,6 +23,7 @@ from gofile2 import Async_Gofile
 from pyrogram.errors import FloodWait
 from aiofiles import open as open_async
 from pyrogram.types import CallbackQuery, Message
+from unzipper.database.language import get_language
 from unzipper.database.upload_mode import get_upload_mode
 from unzipper.helpers_nexa.utils import (TimeFormatter, progress_for_pyrogram,
                                          rm_mark_chars, run_shell_cmds)
@@ -49,12 +50,13 @@ class UnzipperBot(Client):
         """
 
         async def decorator(client: Client, message: Message):
+            lang = await get_language(message.chat.id)
             try:
                 await self.check_user(message)
-                return await func(client, message)
+                return await func(client, message, lang)
             except Exception as e:
                 logging.warn(e)
-                await self.send_message(message.chat.id, (await self.get_string_key("failed_main")).format(e))
+                await self.send_message(message.chat.id, (await self.get_string_key("failed_main", lang)).format(e))
 
         return decorator
 
@@ -64,16 +66,17 @@ class UnzipperBot(Client):
         """
 
         async def decorator(client: Client, query: CallbackQuery):
+            lang = await get_language(query.message.chat.id)
             try:
-                await func(client, query)
+                await func(client, query, lang)
             except Exception as e:
                 logging.warn(e)
-                await self.send_message(query.message.chat.id, (await self.get_string_key("failed_main")).format(e))
+                await self.send_message(query.message.chat.id, (await self.get_string_key("failed_main", lang)).format(e))
 
         return decorator
 
     ######## File utils ########
-    async def send_file(self, c_id: int, doc_f: str, query: CallbackQuery):
+    async def send_file(self, c_id: int, doc_f: str, query: CallbackQuery, lang: str = "en"):
         """
         Send a file to the user
 
@@ -86,7 +89,7 @@ class UnzipperBot(Client):
 
         try:
             # Get text strings
-            texts = await self.get_strings()
+            texts = await self.get_strings(lang)
             # This is my kingdom...
             cum = await get_upload_mode(c_id)
             # Checks if url file size is bigger than 2GB (Telegram limit)
@@ -174,15 +177,21 @@ class UnzipperBot(Client):
             await self.send_message(query.message.chat.id, text, *args, **kwargs)
 
     ######## Localization ########
-    async def get_strings(self) -> dict:
+    async def _read_json(self, name: str, as_items: bool = True) -> dict:
+        async with open_async(name) as fs:
+            return loads(await fs.read()).items() if as_items else loads(await fs.read())
+
+    def _read_json_sync(self, name: str, as_items: bool = True) -> dict:
+        with open(name) as fs:
+            return loads(fs.read()).items() if as_items else loads(fs.read())
+
+    async def get_strings(self, lang: str = "en") -> dict:
         """
         Get the dict that contains the strings of text messages according to the saved language type
         """
-        lang = "en"
-        async with open_async(f"unzipper/localization/{lang}/messages.json") as ls:
-            return loads(await ls.read())
+        return await self._read_json(f"unzipper/localization/{lang}/messages.json", False)
 
-    async def get_string_key(self, key: str) -> str:
+    async def get_string_key(self, key: str, lang: str = "en") -> str:
         """
         Get the text string according to the saved language type
 
@@ -190,23 +199,11 @@ class UnzipperBot(Client):
 
             - `key` - String key
         """
-        lang = "en"
-        async with open_async(f"unzipper/localization/{lang}/messages.json") as ls:
-            jsn = loads(await ls.read())
-            return jsn.get(key)
+        jsn = await self._read_json(f"unzipper/localization/{lang}/messages.json", False)
+        return jsn.get(key)
 
-    async def get_button_strings(self) -> dict:
+    def get_button_strings_sync(self, lang: str = "en") -> dict:
         """
-        Get the dict that contains the strings of buttons according to the saved language type
+        Get the dict that contains the strings of buttons
         """
-        lang = "en"
-        async with open_async(f"unzipper/localization/{lang}/buttons.json") as ls:
-            return loads(await ls.read())
-
-    def get_button_strings_sync(self) -> dict:
-        """
-        Get the dict that contains the strings of buttons according to the saved language type
-        """
-        lang = "en"
-        with open(f"unzipper/localization/{lang}/buttons.json") as ls:
-            return loads(ls.read())
+        return self._read_json_sync(f"unzipper/localization/defaults/buttons.json", False)

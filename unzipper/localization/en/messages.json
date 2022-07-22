@@ -40,7 +40,7 @@
     "ask_what_you_want": "**What do you want?**",
     
     "select_upmode": "`Please select the upload mode by clicking on below buttons!`\n\n**Current upload mode is:** `{}`",
-    "select_lang": "`Select your language`",
+    "select_lang": "`Select your language`\n\n**Current language is:** `{}`",
     "select_files": "`Select files to upload!`",
     "select_provider": "**Select the cloud provider ☁️**",
     

@@ -38,24 +38,25 @@ Directory tree structure of [unzipper](/unzipper) folder.
 │   │   └── __init__.py
 │   └── __init__.py
 ├── localization
+│   ├── defaults
+│   │   └── buttons.json
 │   ├── en
-│   │   ├── buttons.json
 │   │   └── messages.json
+│   ├── languages.json
 │   ├── README.md
 │   ├── si
-│   │   ├── buttons.json
 │   │   └── messages.json
 │   └── templates
-│       ├── buttons.json
 │       └── messages.json
 ├── __main__.py
-└── modules
-    ├── admin.py
-    ├── callbacks.py
-    ├── extract.py
-    ├── __init__.py
-    ├── settings.py
-    └── user_utils.py
+├── modules
+│   ├── admin.py
+│   ├── callbacks.py
+│   ├── extract.py
+│   ├── __init__.py
+│   ├── settings.py
+│   └── user_utils.py
+└── README.md
 ```
 
 

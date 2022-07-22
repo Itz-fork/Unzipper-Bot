@@ -22,6 +22,7 @@ from unzipper import unzip_client
 from unzipper import Buttons
 from pyrogram.types import CallbackQuery
 from unzipper.database.cloud import GofileDB
+from unzipper.database.language import set_language
 from unzipper.database.upload_mode import set_upload_mode
 
 from unzipper.helpers_nexa.utils import (TimeFormatter, get_files, humanbytes,
@@ -35,9 +36,9 @@ from unzipper.lib.extractor import Extractor, ExtractionFailed
 # Callbacks
 @unzip_client.on_callback_query()
 @unzip_client.handle_query
-async def unzipper_cb(_, query: CallbackQuery):
+async def unzipper_cb(_, query: CallbackQuery, lang):
     qdat = query.data
-    texts = await unzip_client.get_strings()
+    texts = await unzip_client.get_strings(lang)
 
     if qdat == "megoinhome":
         await query.edit_message_text(texts["start"].format(query.from_user.mention), reply_markup=Buttons.START)
@@ -59,11 +60,6 @@ async def unzipper_cb(_, query: CallbackQuery):
 
     elif qdat == "aboutcallback":
         await query.edit_message_text(texts["about"].format(unzip_client.version), reply_markup=Buttons.BACK, disable_web_page_preview=True)
-
-    elif qdat.startswith("set_mode"):
-        mode = qdat.split("|")[1]
-        await set_upload_mode(query.from_user.id, mode)
-        await unzip_client.answer_query(query, texts["changed_upmode"].format(mode))
 
     elif qdat.startswith("extract_file"):
         splitted_data = qdat.split("|")
@@ -136,7 +132,7 @@ async def unzipper_cb(_, query: CallbackQuery):
 
             # Upload extracted files
             files = await get_files(ext_files_dir)
-            i_e_buttons = await Buttons.make_keyboard(files, user_id, query.message.chat.id)
+            i_e_buttons = await Buttons.make_files_keyboard(files, user_id, query.message.chat.id)
             await unzip_client.answer_query(query, texts["select_files"], reply_markup=i_e_buttons)
 
         except ExtractionFailed:
@@ -159,7 +155,7 @@ async def unzipper_cb(_, query: CallbackQuery):
             return await unzip_client.answer_query(query, texts["alert_empty_files"])
 
         await unzip_client.answer_query(query, texts["alert_sending_file"], True)
-        await unzip_client.send_file(spl_data[2], files[int(spl_data[3])], query)
+        await unzip_client.send_file(spl_data[2], files[int(spl_data[3])], query, lang)
 
         # Refreshing Inline keyboard
         await unzip_client.answer_query(query, texts["refreshing"])
@@ -171,7 +167,7 @@ async def unzipper_cb(_, query: CallbackQuery):
             except:
                 pass
             return await unzip_client.answer_query(query, texts["ok_upload_basic"])
-        i_e_buttons = await Buttons.make_keyboard(files, query.from_user.id, query.message.chat.id)
+        i_e_buttons = await Buttons.make_files_keyboard(files, query.from_user.id, query.message.chat.id)
         await unzip_client.answer_query(query, texts["select_files"], reply_markup=i_e_buttons)
 
     elif qdat.startswith("ext_a"):
@@ -185,10 +181,20 @@ async def unzipper_cb(_, query: CallbackQuery):
 
         await unzip_client.answer_query(query, texts["alert_sending_files"], True)
         for file in paths:
-            await unzip_client.send_file(spl_data[2], file, query)
+            await unzip_client.send_file(spl_data[2], file, query, lang)
 
         await unzip_client.answer_query(query, texts["ok_upload_basic"])
         rmtree(f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}")
+
+    elif qdat.startswith("set_mode"):
+        mode = qdat.split("|")[1]
+        await set_upload_mode(query.from_user.id, mode)
+        await unzip_client.answer_query(query, texts["changed_upmode"].format(mode))
+
+    elif qdat.startswith("set_lang"):
+        qlang = qdat.split("|")[1]
+        await set_language(query.message.chat.id, qlang)
+        await unzip_client.answer_query(query, texts["changed_lang"].format(qlang))
 
     elif qdat.startswith("gf_setting"):
         gf = GofileDB(query.from_user.id)

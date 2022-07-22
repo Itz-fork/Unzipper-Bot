@@ -28,7 +28,7 @@ class Unzipper_Buttons:
             [InlineKeyboardButton(text, *args, **kwargs)]
         ])
 
-    async def make_keyboard(self, files: str, user_id: int, chat_id: int):
+    async def make_files_keyboard(self, files: str, user_id: int, chat_id: int):
         i_kbd = InlineKeyboard(row_width=2)
         data = [InlineKeyboardButton(self.texts["upload_all"], f"ext_a|{user_id}|{chat_id}"), InlineKeyboardButton(
             self.texts["cancel"], "cancel_dis")]
@@ -133,6 +133,9 @@ class Unzipper_Buttons:
                 texts["as_vid"], callback_data="set_mode|video")
         ]
     ])
+
+    LANGUAGES = InlineKeyboardMarkup([[InlineKeyboardButton(
+        v, f"set_lang|{k}")] for k, v in unzip_client._read_json_sync("unzipper/localization/languages.json")])
 
     BACK = InlineKeyboardMarkup(
         [[InlineKeyboardButton(texts["back"], callback_data="megoinhome")]])
