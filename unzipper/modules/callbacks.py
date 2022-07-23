@@ -36,9 +36,8 @@ from unzipper.lib.extractor import Extractor, ExtractionFailed
 # Callbacks
 @unzip_client.on_callback_query()
 @unzip_client.handle_query
-async def unzipper_cb(_, query: CallbackQuery, lang):
+async def unzipper_cb(_, query: CallbackQuery, texts):
     qdat = query.data
-    texts = await unzip_client.get_strings(lang)
 
     if qdat == "megoinhome":
         await query.edit_message_text(texts["start"].format(query.from_user.mention), reply_markup=Buttons.START)
@@ -155,7 +154,7 @@ async def unzipper_cb(_, query: CallbackQuery, lang):
             return await unzip_client.answer_query(query, texts["alert_empty_files"])
 
         await unzip_client.answer_query(query, texts["alert_sending_file"], True)
-        await unzip_client.send_file(spl_data[2], files[int(spl_data[3])], query, lang)
+        await unzip_client.send_file(spl_data[2], files[int(spl_data[3])], query, texts["this_lang"])
 
         # Refreshing Inline keyboard
         await unzip_client.answer_query(query, texts["refreshing"])
@@ -181,7 +180,7 @@ async def unzipper_cb(_, query: CallbackQuery, lang):
 
         await unzip_client.answer_query(query, texts["alert_sending_files"], True)
         for file in paths:
-            await unzip_client.send_file(spl_data[2], file, query, lang)
+            await unzip_client.send_file(spl_data[2], file, query, texts["this_lang"])
 
         await unzip_client.answer_query(query, texts["ok_upload_basic"])
         rmtree(f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}")

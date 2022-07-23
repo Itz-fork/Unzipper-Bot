@@ -11,14 +11,15 @@
 # ===================================================================== #
 
 from os.path import basename
-from unzipper import unzip_client
 from pykeyboard import InlineKeyboard
+from unzipper.client.caching import STRINGS
+from unzipper.helpers_nexa.utils import read_json_sync
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 class Unzipper_Buttons:
     def __init__(self) -> None:
-        self.texts = unzip_client.get_button_strings()
+        pass
 
     async def make_button(self, text: str, *args, **kwargs):
         """
@@ -30,8 +31,8 @@ class Unzipper_Buttons:
 
     async def make_files_keyboard(self, files: str, user_id: int, chat_id: int):
         i_kbd = InlineKeyboard(row_width=2)
-        data = [InlineKeyboardButton(self.texts["upload_all"], f"ext_a|{user_id}|{chat_id}"), InlineKeyboardButton(
-            self.texts["cancel"], "cancel_dis")]
+        data = [InlineKeyboardButton(STRINGS["buttons"]["upload_all"], f"ext_a|{user_id}|{chat_id}"), InlineKeyboardButton(
+            STRINGS["buttons"]["cancel"], "cancel_dis")]
         for num, file in enumerate(files):
             # Temp fix for REPLY_MARKUP_TOO_LONG error
             if num >= 90:
@@ -43,68 +44,73 @@ class Unzipper_Buttons:
         i_kbd.add(*data)
         return i_kbd
 
-    texts = unzip_client.get_button_strings()
-
     START = InlineKeyboardMarkup([[
-        InlineKeyboardButton(texts["help"], callback_data="helpcallback"),
-        InlineKeyboardButton(texts["about"], callback_data="aboutcallback")
+        InlineKeyboardButton(
+            STRINGS["buttons"]["help"], callback_data="helpcallback"),
+        InlineKeyboardButton(
+            STRINGS["buttons"]["about"], callback_data="aboutcallback")
     ]])
 
     HELP = InlineKeyboardMarkup([
         [
             InlineKeyboardButton(
-                texts["help_extract"], callback_data="extracthelp"),
+                STRINGS["buttons"]["help_extract"], callback_data="extracthelp"),
             InlineKeyboardButton(
-                texts["help_upload"], callback_data="upmodhelp")
+                STRINGS["buttons"]["help_upload"], callback_data="upmodhelp")
         ],
         [
             InlineKeyboardButton(
-                texts["help_thumbnail"], callback_data="thumbhelp"),
+                STRINGS["buttons"]["help_thumbnail"], callback_data="thumbhelp"),
             InlineKeyboardButton(
-                texts["help_backup"], callback_data="backuphelp")
+                STRINGS["buttons"]["help_backup"], callback_data="backuphelp")
         ],
         [
-            InlineKeyboardButton(texts["back"], callback_data="megoinhome")
+            InlineKeyboardButton(
+                STRINGS["buttons"]["back"], callback_data="megoinhome")
         ]
     ])
 
     HELP_BACK = InlineKeyboardMarkup(
-        [[InlineKeyboardButton(texts["back_to_help_menu"], callback_data="helpcallback")]])
+        [[InlineKeyboardButton(STRINGS["buttons"]["back_to_help_menu"], callback_data="helpcallback")]])
 
     EXTRACT_FILE = InlineKeyboardMarkup([
         [
             InlineKeyboardButton(
-                texts["extract_file"], callback_data="extract_file|tg_file|no_pass")
+                STRINGS["buttons"]["extract_file"], callback_data="extract_file|tg_file|no_pass")
         ],
         [
             InlineKeyboardButton(
-                texts["extract_file_pass"], callback_data="extract_file|tg_file|with_pass")
+                STRINGS["buttons"]["extract_file_pass"], callback_data="extract_file|tg_file|with_pass")
         ],
         [
-            InlineKeyboardButton(texts["cancel"], callback_data="cancel_dis")
+            InlineKeyboardButton(
+                STRINGS["buttons"]["cancel"], callback_data="cancel_dis")
         ]
     ])
 
     EXTRACT_URL = InlineKeyboardMarkup([
         [
             InlineKeyboardButton(
-                texts["extract_url"], callback_data="extract_file|url|no_pass"),
+                STRINGS["buttons"]["extract_url"], callback_data="extract_file|url|no_pass"),
         ],
         [
             InlineKeyboardButton(
-                texts["extract_url_pass"], callback_data="extract_file|url|with_pass")
+                STRINGS["buttons"]["extract_url_pass"], callback_data="extract_file|url|with_pass")
         ],
         [
-            InlineKeyboardButton(texts["cancel"], callback_data="cancel_dis")
+            InlineKeyboardButton(
+                STRINGS["buttons"]["cancel"], callback_data="cancel_dis")
         ]
     ])
 
     CLEAN = InlineKeyboardMarkup([
         [
-            InlineKeyboardButton(texts["clean"], callback_data="cancel_dis")
+            InlineKeyboardButton(
+                STRINGS["buttons"]["clean"], callback_data="cancel_dis")
         ],
         [
-            InlineKeyboardButton(texts["no_cancel"], callback_data="nobully")
+            InlineKeyboardButton(
+                STRINGS["buttons"]["no_cancel"], callback_data="nobully")
         ]
     ])
 
@@ -114,28 +120,29 @@ class Unzipper_Buttons:
     SETTINGS_GOFILE = InlineKeyboardMarkup([
         [
             InlineKeyboardButton(
-                texts["gofile_set"], callback_data="gf_setting-set"),
+                STRINGS["buttons"]["gofile_set"], callback_data="gf_setting-set"),
             InlineKeyboardButton(
-                texts["gofile_del"], callback_data="gf_setting-del")
+                STRINGS["buttons"]["gofile_del"], callback_data="gf_setting-del")
         ],
         [
             InlineKeyboardButton(
-                texts["gofile_get"], callback_data="gf_setting-get")
+                STRINGS["buttons"]["gofile_get"], callback_data="gf_setting-get")
         ]
     ])
 
     UPLOAD_MODE = InlineKeyboardMarkup([
         [
-            InlineKeyboardButton(texts["as_doc"], callback_data="set_mode|doc")
+            InlineKeyboardButton(
+                STRINGS["buttons"]["as_doc"], callback_data="set_mode|doc")
         ],
         [
             InlineKeyboardButton(
-                texts["as_vid"], callback_data="set_mode|video")
+                STRINGS["buttons"]["as_vid"], callback_data="set_mode|video")
         ]
     ])
 
     LANGUAGES = InlineKeyboardMarkup([[InlineKeyboardButton(
-        v, f"set_lang|{k}")] for k, v in unzip_client._read_json_sync("unzipper/localization/languages.json")])
+        v, f"set_lang|{k}")] for k, v in read_json_sync("unzipper/localization/languages.json", True)])
 
     BACK = InlineKeyboardMarkup(
-        [[InlineKeyboardButton(texts["back"], callback_data="megoinhome")]])
+        [[InlineKeyboardButton(STRINGS["buttons"]["back"], callback_data="megoinhome")]])

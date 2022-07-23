@@ -15,6 +15,7 @@
 from re import sub
 from time import time
 from math import floor
+from json import loads
 from os import path, walk
 from functools import partial
 from subprocess import Popen, PIPE
@@ -36,8 +37,9 @@ async def progress_for_pyrogram(current, total, ud_type, message, start):
             estimated_total_time = TimeFormatter(estimated_total_time)
 
             progress = "┣ {0}{1} ┫ \n**📊 Progress**: {2}%\n".format(
-                ''.join(["◉" for i in range(floor(percentage / 5))]), # Filled
-                ''.join(["◎" for i in range(20 - floor(percentage / 5))]), # Empty
+                ''.join(["◉" for i in range(floor(percentage / 5))]),  # Filled
+                # Empty
+                ''.join(["◎" for i in range(20 - floor(percentage / 5))]),
                 round(percentage, 2))
 
             tmp = progress + "{0} of {1}\n**🏃 Speed:** {2}/s\n**⏰ ETA:** {3}\n".format(
@@ -109,17 +111,33 @@ async def run_cmds_on_cr(func, *args, **kwargs):
     )
 
 
-async def get_files(fpath: str):
+async def get_files(fpath: str, filter_fn=None):
     """
     Returns files in a folder
 
     Parameters:
 
         - `fpath` - Path to the folder
+        - `filter_fn` - Function to filter elements in the array
     """
     path_list = [val for sublist in [
         [path.join(i[0], j) for j in i[2]] for i in walk(fpath)] for val in sublist]
+    if filter_fn:
+        path_list = list(filter(filter_fn, path_list))
     return sorted(path_list)
+
+
+def read_json_sync(name: str, as_items: bool = False) -> dict:
+    """
+    Reads json file and returns a dict
+
+    Parameters:
+
+        - `name` - File path
+        - `as_items` - Pass "True" if you want to return items of the dict
+    """
+    with open(name) as fs:
+        return loads(fs.read()).items() if as_items else loads(fs.read())
 
 
 async def rm_mark_chars(text: str):

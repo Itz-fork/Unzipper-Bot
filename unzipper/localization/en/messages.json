@@ -1,4 +1,6 @@
 {
+    "this_lang": "en",
+
     "start": "Hi **{}**, I'm **Nexa Unzipper Bot** 😇!\n\n`I can extract archives like zip, rar, tar etc.`\n\n**Made with ❤️ by @NexaBotsUpdates**",
     "about": "**About Nexa Unzipper Bot,**\n\n✘ **Version:** `{}`\n✘ **Language:** [Python](https://www.python.org/)\n✘ **Framework:** [Pyrogram](https://docs.pyrogram.org/)\n✘ **Developer:** [Itz-fork](https://github.com/Itz-fork)\n✘ **Source Code:** [Itz-fork/Unzip-Bot](https://github.com/Itz-fork/Unzip-Bot)\n\n\n**Made with ❤️ by @NexaBotsUpdates**",
     

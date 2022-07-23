@@ -29,8 +29,7 @@ from unzipper.database.split_arc import del_split_arc_user, get_split_arc_user
 
 @unzip_client.on_message(filters.incoming & filters.private & filters.regex(dl_regex) | filters.document)
 @unzip_client.handle_erros
-async def extract_dis_archive(_, message: Message, lang):
-    texts = await unzip_client.get_strings(lang)
+async def extract_dis_archive(_, message: Message, texts):
     unzip_msg = await message.reply(texts["processing"], reply_to_message_id=message.id)
     user_id = message.from_user.id
     download_path = f"{Config.DOWNLOAD_LOCATION}/{user_id}"
@@ -81,8 +80,7 @@ async def extract_dis_archive(_, message: Message, lang):
 
 @unzip_client.on_message(filters.private & filters.command("done"))
 @unzip_client.handle_erros
-async def extracted_dis_spl_archive(_, message: Message, lang):
-    texts = await unzip_client.get_strings(lang)
+async def extracted_dis_spl_archive(_, message: Message, texts):
     spl_umsg = await message.reply(texts["processing"], reply_to_message_id=message.id)
     user_id = message.from_user.id
     # Retrive data from database

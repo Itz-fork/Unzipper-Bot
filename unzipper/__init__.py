@@ -10,12 +10,21 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>   #
 # ===================================================================== #
 
-
-from .client import UnzipperBot
+import logging
 from pyromod import listen
+from .client import UnzipperBot
+from .client.caching import update_cache
 
+# Logging stuff
+logging.getLogger().setLevel(logging.INFO)
+logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
+# Update cache
+update_cache()
+
+# CLient
 unzip_client = UnzipperBot()
+
 
 # Buttons
 from .helpers_nexa.buttons import Unzipper_Buttons
