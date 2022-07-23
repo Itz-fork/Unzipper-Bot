@@ -66,6 +66,10 @@ class Unzipper_Buttons:
         ],
         [
             InlineKeyboardButton(
+                STRINGS["buttons"]["help_langs"], callback_data="langhelp")
+        ],
+        [
+            InlineKeyboardButton(
                 STRINGS["buttons"]["back"], callback_data="megoinhome")
         ]
     ])

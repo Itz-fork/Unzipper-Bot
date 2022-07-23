@@ -56,6 +56,9 @@ async def unzipper_cb(_, query: CallbackQuery, texts):
 
     elif qdat == "thumbhelp":
         await query.edit_message_text(texts["help_thumb"], reply_markup=Buttons.HELP_BACK)
+    
+    elif qdat == "langhelp":
+        await query.edit_message_text(texts["help_lang"], reply_markup=Buttons.HELP_BACK)
 
     elif qdat == "aboutcallback":
         await query.edit_message_text(texts["about"].format(unzip_client.version), reply_markup=Buttons.BACK, disable_web_page_preview=True)
