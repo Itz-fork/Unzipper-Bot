@@ -10,6 +10,7 @@ Directory tree structure of [unzipper](/unzipper) folder.
 
 ```
 ├── client
+│   ├── caching.py
 │   ├── __init__.py
 │   ├── patcher.py
 │   └── pyro_client.py
