@@ -17,10 +17,9 @@ from os import path, remove
 from config import Config
 from pyrogram import filters
 from aiohttp import ClientSession
-from unzipper import unzip_client
 from pyrogram.types import Message
+from unzipper import unzip_client, Buttons
 
-from unzipper import Buttons
 from unzipper.lib.extractor import Extractor
 from unzipper.lib.downloader import Downloader, dl_regex
 from unzipper.helpers_nexa.utils import (TimeFormatter, get_files,

@@ -14,6 +14,7 @@ import logging
 from pyrogram import idle
 from os import makedirs, path
 from unzipper import unzip_client
+from .client.caching import update_languages_cache
 from config import Config
 
 
@@ -32,6 +33,9 @@ if __name__ == "__main__":
     logging.info(" >> Applying custom methods...")
     from .client import init_patch
     init_patch()
+
+    logging.info(" >> Updating language cache...")
+    update_languages_cache()
 
     logging.info(" >> Starting client...")
     from unzipper.modules import *

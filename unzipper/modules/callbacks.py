@@ -17,9 +17,8 @@ from os import makedirs, path
 
 from config import Config
 from aiohttp import ClientSession
-from unzipper import unzip_client
+from unzipper import unzip_client, Buttons
 
-from unzipper import Buttons
 from pyrogram.types import CallbackQuery
 from unzipper.database.cloud import GofileDB
 from unzipper.database.language import set_language

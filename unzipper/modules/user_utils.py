@@ -12,11 +12,8 @@
 
 from os import remove
 from pyrogram import filters
-from unzipper import unzip_client
 from pyrogram.types import Message
-
-from unzipper import Buttons
-from unzipper.database.language import get_language
+from unzipper import unzip_client, Buttons
 from unzipper.database.thumbnail import save_thumbnail, get_thumbnail, del_thumbnail
 
 
