@@ -18,6 +18,7 @@ from os import makedirs, path
 from config import Config
 from aiohttp import ClientSession
 from unzipper import unzip_client, Buttons
+from unzipper.client.caching import USER_LANG
 
 from pyrogram.types import CallbackQuery
 from unzipper.database.cloud import GofileDB
@@ -192,7 +193,9 @@ async def unzipper_cb(_, query: CallbackQuery, lang):
 
     elif qdat.startswith("set_lang"):
         qlang = qdat.split("|")[1]
-        await set_language(query.message.chat.id, qlang)
+        chid = query.message.chat.id
+        USER_LANG[chid] = qlang
+        await set_language(chid, qlang)
         await unzip_client.answer_query(query, texts["changed_lang"].format(qlang))
 
     elif qdat.startswith("gf_setting"):
