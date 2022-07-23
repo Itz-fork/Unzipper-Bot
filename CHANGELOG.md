@@ -2,9 +2,10 @@
 
 - Refactored the code
 - Rewrote most of the modules
-- Better error handling
 - Better logging
+- Better error handling
 - Multi-language support
+- Cache data to reduce database reads
 - Added progress bar for direct link downloads
 - Added support for multi-part 7z archives (archives ends with file extensions like `.001`, `.002`, etc.)
 - Changed thumbnail database to [telegra.ph](https://telegra.ph/)

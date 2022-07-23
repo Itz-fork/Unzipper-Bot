@@ -42,13 +42,15 @@ Directory tree structure of [unzipper](/unzipper) folder.
 │   ├── defaults
 │   │   └── buttons.json
 │   ├── en
-│   │   └── messages.json
+│   │   ├── messages.json
+│   │   └── README.md
 │   ├── languages.json
 │   ├── README.md
 │   ├── si
-│   │   └── messages.json
+│   │   ├── messages.json
+│   │   └── README.md
 │   └── templates
-│       └── messages.json
+│       └── messages-template.json
 ├── __main__.py
 ├── modules
 │   ├── admin.py
