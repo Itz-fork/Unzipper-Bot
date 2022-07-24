@@ -77,7 +77,3 @@ async def is_user_in_bdb(user_id: int):
 
 async def count_banned_users():
     return await b_user_db.count_documents({})
-
-
-async def get_banned_users_list():
-    return (buser["user_id"] async for buser in b_user_db.find({}))

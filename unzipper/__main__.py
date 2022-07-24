@@ -17,8 +17,6 @@ from config import Config
 
 
 if __name__ == "__main__":
-    logging.info("\n\n Copyright (c) 2022 Itz-fork \n\n")
-
     logging.info(" >> Checking download location...")
     if not path.isdir(Config.DOWNLOAD_LOCATION):
         makedirs(Config.DOWNLOAD_LOCATION)
