@@ -1,4 +1,4 @@
-# Unzip-Bot (A.K.A Unzipper-Bot)
+# Unzipper
 This is where the main stuff happens.
 
 # TOC

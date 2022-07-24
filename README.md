@@ -14,7 +14,7 @@
 - Extract archives from direct links
 - Support for multi-part 7z archives (archives ends with file extensions like `.001`, `.002`, etc.)
 - Custom thumbnail support
-- Muti-language support ([More info](https://github.com/Itz-fork/Unzip-Bot/tree/dev/unzipper/localization#readme))
+- Muti-language support ([More info](https://github.com/Itz-fork/Unzipper-Bot/tree/dev/unzipper/localization#readme))
 - Upload files larger than 2GB to gofile.io
 - Backup extracted files to gofile.io
 - Broadcast messages to users
@@ -48,7 +48,7 @@ Deploying is easy 🤫! You can deploy this bot in Heroku or in a linux VPS ♥�
 
 #### With Heroku
 
-<a href="https://www.heroku.com/deploy?template=https://github.com/Itz-fork/Unzip-Bot/tree/arch">
+<a href="https://www.heroku.com/deploy?template=https://github.com/Itz-fork/Unzipper-Bot/tree/arch">
   <img src="https://www.herokucdn.com/deploy/button.svg">
 </a>
 
@@ -61,8 +61,8 @@ Deploying is easy 🤫! You can deploy this bot in Heroku or in a linux VPS ♥�
 > It's recomended to use a arch linux based distro to deploy this bot as the original author of the p7zip package has not made an update since 2016, but the arch linux's version is packaged from an active fork.
 
 ```bash
-git clone -b arch https://github.com/Itz-fork/Unzip-Bot.git
-cd Unzip-Bot
+git clone https://github.com/Itz-fork/Unzipper-Bot.git
+cd Unzipper-Bot
 pip3 install -r requirements.txt
 
 # Arch linux
@@ -72,7 +72,7 @@ sudo pacman -S zstd p7zip
 # Ubuntu
 sudo add-apt-repository universe
 sudo apt update
-sudo apt install p7zip-full p7zip-rar
+sudo apt install p7zip-full p7zip-rar zstd
 ```
 
 <h4 align="center">Edit config.py with your own values</h4>
@@ -90,7 +90,7 @@ bash start.sh
 
 ## Found a bug 🐞?
 
-If you found a bug in this bot please open an [issue](https://github.com/Itz-fork/Unzip-Bot/issues) or report it at the [Support Group](#support).
+If you found a bug in this bot please open an [issue](https://github.com/Itz-fork/Unzipper-Bot/issues) or report it at the [Support Group](#support).
 
 </br>
 
@@ -112,6 +112,6 @@ If you found a bug in this bot please open an [issue](https://github.com/Itz-for
 ```
 Copyright (c) 2022 Itz-fork
 
-This Unzip-Bot repository is licensed under GPLv3 License (https://github.com/Itz-fork/Unzip-Bot/blob/master/LICENSE)
+This Unzipper-Bot repository is licensed under GPLv3 License (https://github.com/Itz-fork/Unzipper-Bot/blob/master/LICENSE)
 Copying or Modifying Any Part of the code without permission is strictly prohibited
 ```
