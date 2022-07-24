@@ -9,13 +9,13 @@
 ## Table of content
 
 - [Features](#features)
-- [Config vars](#configs-📖)
-- [Deployment](#deploy-👀)
+- [Config vars](#configs-)
+- [Deployment](#deploy-)
   - [Heroku](#with-heroku)
   - [Self-hosting](#self-hosting)
-- [Bug report](#found-a-bug-🐞)
-- [Support](#support-💙)
-- [License and Copyright](#license--copyright-👮)
+- [Bug report](#found-a-bug-)
+- [Support](#support-)
+- [License and Copyright](#license--copyright-)
 
 </br>
 
