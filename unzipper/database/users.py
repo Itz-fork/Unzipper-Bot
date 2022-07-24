@@ -12,14 +12,14 @@
 
 from . import unzipper_db
 
+
+# Main users database
 user_db = unzipper_db["users_db"]
 
 
 async def add_user(user_id: int):
     is_exist = await user_db.find_one({"user_id": user_id})
-    if is_exist:
-        return
-    else:
+    if not is_exist:
         await user_db.insert_one({"user_id": user_id})
 
 
@@ -27,16 +27,11 @@ async def del_user(user_id: int):
     is_exist = await user_db.find_one({"user_id": user_id})
     if is_exist:
         await user_db.delete_one({"user_id": user_id})
-    else:
-        return
 
 
 async def is_user_in_db(user_id: int):
     is_exist = await user_db.find_one({"user_id": user_id})
-    if is_exist:
-        return True
-    else:
-        return False
+    return True if is_exist else False
 
 
 async def count_users():
@@ -53,9 +48,7 @@ b_user_db = unzipper_db["banned_users_db"]
 
 async def add_banned_user(user_id: int):
     is_exist = await b_user_db.find_one({"banned_user_id": user_id})
-    if is_exist:
-        return
-    else:
+    if not is_exist:
         await b_user_db.insert_one({"banned_user_id": user_id})
 
 
@@ -63,16 +56,11 @@ async def del_banned_user(user_id: int):
     is_exist = await b_user_db.find_one({"banned_user_id": user_id})
     if is_exist:
         await b_user_db.delete_one({"banned_user_id": user_id})
-    else:
-        return
 
 
 async def is_user_in_bdb(user_id: int):
     is_exist = await b_user_db.find_one({"banned_user_id": user_id})
-    if is_exist:
-        return True
-    else:
-        return False
+    return True if is_exist else False
 
 
 async def count_banned_users():
