@@ -10,29 +10,30 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>   #
 # ===================================================================== #
 
-import logging
-from pyrogram import idle
-from os import makedirs, path
-from config import Config
+from . import unzipper_db
+
+spl_db = unzipper_db["splitted_archive_users"]
 
 
-if __name__ == "__main__":
-    logging.info(" >> Checking download location...")
-    if not path.isdir(Config.DOWNLOAD_LOCATION):
-        makedirs(Config.DOWNLOAD_LOCATION)
+async def add_split_arc_user(uid: int, fn: str, passw: str):
+    is_exist = await spl_db.find_one({"_id": uid})
+    if not is_exist:
+        await spl_db.insert_one({"_id": uid, "file_name": fn, "password": passw})
+    else:
+        raise ValueError("Data already exists!")
 
-    logging.info(" >> Applying custom methods...")
-    from .client import init_patch
-    init_patch()
 
-    logging.info(" >> Starting client...")
-    from unzipper import unzip_client
-    from unzipper.modules import *
-    unzip_client.start()
+async def get_split_arc_user(uid: int):
+    gsau = await spl_db.find_one({"_id": uid})
+    if gsau:
+        return True, gsau["file_name"], gsau["password"]
+    else:
+        return False, None, None
 
-    logging.info(" >> Checking Log Channel...")
-    from .helpers_nexa.checks import check_log_channel
-    check_log_channel()
 
-    logging.info("Bot is active Now! Join @NexaBotsUpdates")
-    idle()
+async def del_split_arc_user(uid: int):
+    is_exist = await spl_db.find_one({"_id": uid})
+    if is_exist:
+        await spl_db.delete_one({"_id": uid})
+    else:
+        return

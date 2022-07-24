@@ -1,19 +1,26 @@
-# Copyright (c) 2022 Itz-fork
-# Don't kang this else your dad is gae
+# ===================================================================== #
+#                      Copyright (c) 2022 Itz-fork                      #
+#                                                                       #
+# This program is distributed in the hope that it will be useful,       #
+# but WITHOUT ANY WARRANTY; without even the implied warranty of        #
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                  #
+# See the GNU General Public License for more details.                  #
+#                                                                       #
+# You should have received a copy of the GNU General Public License     #
+# along with this program. If not, see <http://www.gnu.org/licenses/>   #
+# ===================================================================== #
 
 from time import strftime
 from config import Config
 from gofile2 import Async_Gofile
-from unzipper.helpers_nexa.database.cloud import GofileDB
+from unzipper.database.cloud import GofileDB
 
 
 class CloudBackup:
     """
-    ### About
-
     Utility class to backup extracted files to cloud
 
-    ### Arguments
+    Parameters:
 
         - `id` - User id
     """

@@ -10,29 +10,31 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>   #
 # ===================================================================== #
 
-import logging
-from pyrogram import idle
-from os import makedirs, path
-from config import Config
+from . import unzipper_db
+from unzipper.client.caching import USER_LANG
 
 
-if __name__ == "__main__":
-    logging.info(" >> Checking download location...")
-    if not path.isdir(Config.DOWNLOAD_LOCATION):
-        makedirs(Config.DOWNLOAD_LOCATION)
+lang_db = unzipper_db["languages_db"]
 
-    logging.info(" >> Applying custom methods...")
-    from .client import init_patch
-    init_patch()
 
-    logging.info(" >> Starting client...")
-    from unzipper import unzip_client
-    from unzipper.modules import *
-    unzip_client.start()
+async def set_language(user_id: int, lang: str):
+    exists = await lang_db.find_one({"_id": user_id})
+    if exists:
+        await lang_db.update_one({"_id": user_id}, {"$set": {"lang": lang}})
+    else:
+        await lang_db.insert_one({"_id": user_id, "lang": lang})
 
-    logging.info(" >> Checking Log Channel...")
-    from .helpers_nexa.checks import check_log_channel
-    check_log_channel()
 
-    logging.info("Bot is active Now! Join @NexaBotsUpdates")
-    idle()
+async def get_language(user_id: int):
+    try:
+        return USER_LANG[user_id]
+    except:
+        exists = await lang_db.find_one({"_id": user_id})
+        if exists:
+            return exists["lang"]
+        else:
+            return "en"
+
+
+async def get_user_languages():
+    return lang_db.find({})

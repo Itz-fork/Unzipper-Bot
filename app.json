@@ -1,11 +1,13 @@
 {
-    "name": "Unzipper Bot",
+    "name": "Unzip Bot",
     "description": "A Telegram Bot to Extract Various Types Of Archives",
     "logo": "https://telegra.ph/file/dab7c08182e6d9e03bcef.jpg",
     "keywords": [
         "7z",
         "Telegram Bot",
-        "unzipper bot"
+        "unzip bot",
+        "unarchive bot",
+        "extractor bot"
     ],
     "website": "https://t.me/NexaBotsUpdates",
     "repository": "https://github.com/Itz-fork/Unzipper-Bot",
@@ -32,10 +34,6 @@
             "required": true
         },
         "LOGS_CHANNEL": {
-            "description": "Make a private channel and forward a message from that channel to @ChannelidHEXbot and Get this",
-            "required": true
-        },
-        "DB_CHANNEL": {
             "description": "Make a private channel and forward a message from that channel to @ChannelidHEXbot and Get this",
             "required": true
         },

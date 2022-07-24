@@ -1,0 +1,64 @@
+{
+    "this_lang": "Your ISO 639-1 language's code here",
+
+    "start": "",
+    "about": "",
+    
+    "processing": "",
+    "refreshing": "",
+    "gofile_token": "",
+    "canceled": "",
+    "log": "",
+    
+    "help_head": "",
+    "help_extract": "",
+    "help_upmode": "",
+    "help_backup": "",
+    "help_thumb": "",
+    
+    "ok_backup": "",
+    "ok_download": "",
+    "ok_extract": "",
+    "ok_upload": "",
+    "ok_upload_basic": "",
+    "ok_saving_thumb": "",
+    "ok_deleting_thumb": "",
+    "ok_ban": "",
+    "ok_unban": "",
+    "ok_wont_delete": "",
+    
+    "failed_main": "",
+    "failed_extract": "",
+    
+    "no_thumb": "",
+    "no_userid": "",
+    "no_archive": "",
+    "no_replied_msg": "",
+    "no_splitted_arc": "",
+    
+    "ask_clean": "",
+    "ask_password": "",
+    "ask_gofile_token": "",
+    "ask_what_you_want": "",
+    
+    "select_upmode": "",
+    "select_lang": "",
+    "select_files": "",
+    "select_provider": "",
+    
+    "changed_upmode": "",
+    "changed_lang": "",
+
+    "broadcast_started": "",
+    "boradcast_results": "",
+    
+    "alert_splitted_arc": "",
+    "alert_process_running_already": "",
+    "alert_downloading_part": "",
+    "alert_part_exists": "",
+    "alert_sending_file": "",
+    "alert_sending_files": "",
+    "alert_file_too_large": "",
+    "alert_empty_files": "",
+    "alert_uploading_to_gofile": ""
+}

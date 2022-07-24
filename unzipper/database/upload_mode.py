@@ -10,29 +10,22 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>   #
 # ===================================================================== #
 
-import logging
-from pyrogram import idle
-from os import makedirs, path
-from config import Config
+from . import unzipper_db
+
+mode_db = unzipper_db["upload_mode_db"]
 
 
-if __name__ == "__main__":
-    logging.info(" >> Checking download location...")
-    if not path.isdir(Config.DOWNLOAD_LOCATION):
-        makedirs(Config.DOWNLOAD_LOCATION)
+async def set_upload_mode(user_id, mode):
+    is_exist = await mode_db.find_one({"_id": user_id})
+    if is_exist:
+        await mode_db.update_one({"_id": user_id}, {"$set": {"mode": mode}})
+    else:
+        await mode_db.insert_one({"_id": user_id, "mode": mode})
 
-    logging.info(" >> Applying custom methods...")
-    from .client import init_patch
-    init_patch()
 
-    logging.info(" >> Starting client...")
-    from unzipper import unzip_client
-    from unzipper.modules import *
-    unzip_client.start()
-
-    logging.info(" >> Checking Log Channel...")
-    from .helpers_nexa.checks import check_log_channel
-    check_log_channel()
-
-    logging.info("Bot is active Now! Join @NexaBotsUpdates")
-    idle()
+async def get_upload_mode(user_id):
+    umode = await mode_db.find_one({"_id": user_id})
+    if umode:
+        return umode["mode"]
+    else:
+        return "doc"

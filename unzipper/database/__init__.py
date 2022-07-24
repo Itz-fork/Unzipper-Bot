@@ -10,29 +10,8 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>   #
 # ===================================================================== #
 
-import logging
-from pyrogram import idle
-from os import makedirs, path
 from config import Config
+from motor.motor_asyncio import AsyncIOMotorClient
 
-
-if __name__ == "__main__":
-    logging.info(" >> Checking download location...")
-    if not path.isdir(Config.DOWNLOAD_LOCATION):
-        makedirs(Config.DOWNLOAD_LOCATION)
-
-    logging.info(" >> Applying custom methods...")
-    from .client import init_patch
-    init_patch()
-
-    logging.info(" >> Starting client...")
-    from unzipper import unzip_client
-    from unzipper.modules import *
-    unzip_client.start()
-
-    logging.info(" >> Checking Log Channel...")
-    from .helpers_nexa.checks import check_log_channel
-    check_log_channel()
-
-    logging.info("Bot is active Now! Join @NexaBotsUpdates")
-    idle()
+mongodb = AsyncIOMotorClient(Config.MONGODB_URL)
+unzipper_db = mongodb["Unzipper_Bot"]

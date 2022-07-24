@@ -1,0 +1,30 @@
+{
+    "about": "About ⁉️",
+    "clean": "Clean My Files 😇",
+    "upload_all": "Upload All ♻️",
+    
+    "cancel": "Cancel ❌",
+    "no_cancel": "Nooo 😳!",
+    
+    "back": "Back 🏡",
+    "back_to_help_menu": "Back to Help Menu ◀️",
+    
+    "help": "Help 📜",
+    "help_extract": "Extract 🗃",
+    "help_upload": "Upload 📤",
+    "help_thumbnail": "Thumbnail 🖼",
+    "help_backup": "Backup 🗄",
+    "help_langs": "Languages 🗣",
+
+    "extract_file": "File Extract 📂",
+    "extract_file_pass": "File (Password) Extract 📂",
+    "extract_url": "🔗 Url Extract 📂",
+    "extract_url_pass": "🔗 (Password) Url Extract 📂",
+
+    "gofile_set": "Set token",
+    "gofile_get": "Get token",
+    "gofile_del": "Delete token",
+
+    "as_vid": "As Video 📹",
+    "as_doc": "As Doc 📁"
+}
