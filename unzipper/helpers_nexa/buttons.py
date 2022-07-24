@@ -29,7 +29,7 @@ class Unzipper_Buttons:
             [InlineKeyboardButton(text, *args, **kwargs)]
         ])
 
-    async def make_files_keyboard(self, files: str, user_id: int, chat_id: int):
+    async def make_files_keyboard(self, files: list, user_id: int, chat_id: int):
         i_kbd = InlineKeyboard(row_width=2)
         data = [InlineKeyboardButton(STRINGS["buttons"]["upload_all"], f"ext_a|{user_id}|{chat_id}"), InlineKeyboardButton(
             STRINGS["buttons"]["cancel"], "cancel_dis")]
