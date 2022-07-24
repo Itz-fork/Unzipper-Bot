@@ -1,4 +1,4 @@
-# v1.0 - Beta
+# v1.0
 
 - Refactored the code
 - Rewrote most of the modules
