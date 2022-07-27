@@ -183,7 +183,7 @@ async def unzipper_cb(_, query: CallbackQuery, texts):
 
         await unzip_client.answer_query(query, texts["alert_sending_files"], True)
         for file in paths:
-            await unzip_client.send_file(spl_data[2], file, query, texts["this_lang"])
+            await unzip_client.send_file(spl_data[2], file, query, texts["this_lang"], True)
 
         await unzip_client.answer_query(query, texts["ok_upload_basic"])
         rmtree(f"{Config.DOWNLOAD_LOCATION}/{spl_data[1]}")

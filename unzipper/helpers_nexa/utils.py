@@ -37,7 +37,8 @@ async def progress_for_pyrogram(current, total, ud_type, message, start):
             estimated_total_time = TimeFormatter(estimated_total_time)
 
             progress = "[{0}{1}] \n**📊 Progress**: {2}%\n".format(
-                ''.join(["◉" for i in range(floor(percentage / 5))]),  # Filled
+                # Filled
+                ''.join(["◉" for i in range(floor(percentage / 5))]),
                 # Empty
                 ''.join(["◎" for i in range(20 - floor(percentage / 5))]),
                 round(percentage, 2))

@@ -16,6 +16,8 @@ from asyncio import sleep
 from typing import Callable
 from os import path, remove, stat
 
+from requests import delete
+
 from config import Config
 from pyrogram import Client
 from .caching import STRINGS
@@ -75,7 +77,7 @@ class UnzipperBot(Client):
         return decorator
 
     ######## File utils ########
-    async def send_file(self, c_id: int, doc_f: str, query: CallbackQuery, lang: str = "en"):
+    async def send_file(self, c_id: int, doc_f: str, query: CallbackQuery, lang: str = "en", del_status: bool = False):
         """
         Send a file to the user
 
@@ -84,6 +86,7 @@ class UnzipperBot(Client):
             - `c_id` - Chat id
             - `doc_f` - File path
             - `query` - CallBackQuery object
+            - `del_status` - Whether if you want to delete progress message or not
         """
 
         try:
@@ -132,8 +135,8 @@ class UnzipperBot(Client):
                     progress_args=("**Trying to upload 😇** \n", tgupmsg, stm))
             etm = time()
 
-            # Edit the progress message
-            await tgupmsg.edit(STRINGS[lang]["ok_upload"].format(path.basename(doc_f), TimeFormatter(round(etm - stm))))
+            # Delete or edit the progress message
+            await tgupmsg.delete() if del_status else await tgupmsg.edit(STRINGS[lang]["ok_upload"].format(path.basename(doc_f), TimeFormatter(round(etm - stm))))
             # Cleanup
             try:
                 remove(doc_f)
