@@ -16,8 +16,6 @@ from asyncio import sleep
 from typing import Callable
 from os import path, remove, stat
 
-from requests import delete
-
 from config import Config
 from pyrogram import Client
 from .caching import STRINGS
