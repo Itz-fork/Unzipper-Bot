@@ -11,7 +11,7 @@
 # ===================================================================== #
 
 import logging
-from time import time
+from time import perf_counter
 from asyncio import sleep
 from typing import Callable
 from os import path, remove, stat
@@ -106,7 +106,7 @@ class UnzipperBot(Client):
                 return
 
             tgupmsg = await self.send_message(c_id, STRINGS[lang]["processing"])
-            stm = time()
+            stm = perf_counter()
 
             # Uplaod type: Video
             if cum == "video":
@@ -131,7 +131,7 @@ class UnzipperBot(Client):
                     thumb=sthumb,
                     progress=progress_for_pyrogram,
                     progress_args=("**Trying to upload 😇** \n", tgupmsg, stm))
-            etm = time()
+            etm = perf_counter()
 
             # Delete or edit the progress message
             await tgupmsg.delete() if del_status else await tgupmsg.edit(STRINGS[lang]["ok_upload"].format(path.basename(doc_f), TimeFormatter(round(etm - stm))))

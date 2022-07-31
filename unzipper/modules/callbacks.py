@@ -11,7 +11,7 @@
 # ===================================================================== #
 
 import logging
-from time import time
+from time import perf_counter
 from shutil import rmtree
 from os import makedirs, path
 
@@ -82,10 +82,10 @@ async def unzipper_cb(_, query: CallbackQuery, texts):
                     makedirs(download_path)
                     # Send logs
                     await unzip_client.send_message(Config.LOGS_CHANNEL, texts["log"].format(user_id, url, fsize))
-                s_time = time()
+                s_time = perf_counter()
                 arc_name = f"{download_path}/archive_from_{user_id}_{path.basename(url)}"
                 await Downloader().from_direct_link(url, arc_name, query.message)
-                e_time = time()
+                e_time = perf_counter()
 
             elif splitted_data[1] == "tg_file":
                 rdoc = r_message.document
@@ -94,14 +94,14 @@ async def unzipper_cb(_, query: CallbackQuery, texts):
                 # Send Logs
                 log_msg = await r_message.forward(Config.LOGS_CHANNEL)
                 await log_msg.reply(texts["log"].format(user_id, rdoc.file_name, humanbytes(rdoc.file_size)))
-                s_time = time()
+                s_time = perf_counter()
                 arc_name = f"{download_path}/archive_from_{user_id}_{rdoc.file_name}"
                 await r_message.download(
                     file_name=arc_name,
                     progress=progress_for_pyrogram, progress_args=(
                         "**Trying to Download!** \n", query.message, s_time)
                 )
-                e_time = time()
+                e_time = perf_counter()
 
             else:
                 return await unzip_client.answer_query(query, "Can't Find Details! Please contact support group!", answer_only=True)
@@ -122,13 +122,13 @@ async def unzipper_cb(_, query: CallbackQuery, texts):
             exter = Extractor()
             if splitted_data[2] == "with_pass":
                 password = (await unzip_client.ask(query.message.chat.id, texts["ask_password"])).text
-                ext_s_time = time()
+                ext_s_time = perf_counter()
                 await exter.extract(arc_name, ext_files_dir, password)
-                ext_e_time = time()
+                ext_e_time = perf_counter()
             else:
-                ext_s_time = time()
+                ext_s_time = perf_counter()
                 await exter.extract(arc_name, ext_files_dir)
-                ext_e_time = time()
+                ext_e_time = perf_counter()
 
             await unzip_client.answer_query(query, texts["ok_extract"].format(TimeFormatter(round(ext_e_time-ext_s_time) * 1000)))
 

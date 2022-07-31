@@ -11,7 +11,7 @@
 # ===================================================================== #
 
 from re import match
-from time import time
+from time import perf_counter
 from os import path, remove
 
 from config import Config
@@ -48,7 +48,7 @@ async def extract_dis_archive(_, message: Message, texts):
         if path.isfile(arc_name):
             return await unzip_msg.edit(texts["alert_part_exists"])
         # Download the file
-        s_time = time()
+        s_time = perf_counter()
         if is_url:
             async with ClientSession() as ses:
                 cleng = (await ses.head(message.text)).headers.get("Content-Length")
@@ -64,7 +64,7 @@ async def extract_dis_archive(_, message: Message, texts):
                 progress=progress_for_pyrogram, progress_args=(
                     "**Trying to Download!** \n", unzip_msg, s_time)
             )
-        e_time = time()
+        e_time = perf_counter()
         await unzip_msg.edit(texts["ok_download"].format(file_name, TimeFormatter(round(e_time-s_time) * 1000)))
         return
 
@@ -97,11 +97,11 @@ async def extracted_dis_spl_archive(_, message: Message, texts):
     await del_split_arc_user(user_id)
     # Extract the archive
     ext = Extractor()
-    s_time = time()
+    s_time = perf_counter()
     await ext.extract(lfn, ext_path, ps, True)
     extdarc = f"{ext_path}/{path.splitext(path.basename(lfn))[0]}"
     await ext.extract(extdarc, ext_path, ps)
-    e_time = time()
+    e_time = perf_counter()
     await spl_umsg.edit(texts["ok_extract"].format(TimeFormatter(round(e_time-s_time) * 1000)))
     # Try to remove merged archive
     try:

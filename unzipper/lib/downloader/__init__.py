@@ -11,7 +11,7 @@
 # ===================================================================== #
 
 from re import match
-from time import time
+from time import perf_counter
 from config import Config
 from aiohttp import ClientSession
 from pyrogram.types import Message
@@ -70,7 +70,7 @@ class Downloader:
                 if total and int(total) > Config.MAX_DOWNLOAD_SIZE:
                     raise FileTooLarge
                 curr = 0
-                st = time()
+                st = perf_counter()
                 async with openfile(path, mode="wb") as file:
                     async for chunk in resp.content.iter_chunked(Config.CHUNK_SIZE):
                         # Raise FileTooLarge if the content size exceeds Config.MAX_DOWNLOAD_SIZE
