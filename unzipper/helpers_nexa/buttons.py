@@ -29,19 +29,20 @@ class Unzipper_Buttons:
             [InlineKeyboardButton(text, *args, **kwargs)]
         ])
 
-    async def make_files_keyboard(self, files: list, user_id: int, chat_id: int):
+    async def make_files_keyboard(self, files: list, user_id: int, chat_id: int, inlude_files: bool = True):
         i_kbd = InlineKeyboard(row_width=2)
         data = [InlineKeyboardButton(STRINGS["buttons"]["upload_all"], f"ext_a|{user_id}|{chat_id}"), InlineKeyboardButton(
             STRINGS["buttons"]["cancel"], "cancel_dis")]
-        for num, file in enumerate(files):
-            data.append(
-                InlineKeyboardButton(f"{num} - {basename(file)}".encode(
-                    "utf-8").decode("utf-8"), f"ext_f|{user_id}|{chat_id}|{num}")
-            )
-        # Temp fix for REPLY_MARKUP_TOO_LONG error
-        if len(data) >= 90:
-            data = data[:90]
-        i_kbd.add(*data)
+        if inlude_files:
+            for num, file in enumerate(files):
+                # Stop iterating if file count is 90
+                if num >= 90:
+                    break
+                data.append(
+                    InlineKeyboardButton(f"{num} - {basename(file)}".encode(
+                        "utf-8").decode("utf-8"), f"ext_f|{user_id}|{chat_id}|{num}")
+                )
+            i_kbd.add(*data)
         return i_kbd
 
     START = InlineKeyboardMarkup([[

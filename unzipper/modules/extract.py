@@ -19,6 +19,7 @@ from pyrogram import filters
 from aiohttp import ClientSession
 from pyrogram.types import Message
 from unzipper import unzip_client, Buttons
+from pyrogram.errors import ReplyMarkupTooLong
 
 from unzipper.lib.extractor import Extractor
 from unzipper.lib.downloader import Downloader, dl_regex
@@ -110,4 +111,8 @@ async def extracted_dis_spl_archive(_, message: Message, texts):
         pass
     paths = await get_files(ext_path)
     i_e_btns = await Buttons.make_files_keyboard(paths, user_id, message.chat.id)
-    await spl_umsg.edit(texts["select_files"], reply_markup=i_e_btns)
+    try:
+        await spl_umsg.edit(texts["select_files"], reply_markup=i_e_btns)
+    except ReplyMarkupTooLong:
+        i_e_btns = await Buttons.make_files_keyboard(paths, user_id, message.chat.id, False)
+        await spl_umsg.edit(texts["select_files"], reply_markup=i_e_btns)

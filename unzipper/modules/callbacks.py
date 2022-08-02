@@ -11,8 +11,9 @@
 # ===================================================================== #
 
 import logging
-from time import perf_counter
+
 from shutil import rmtree
+from time import perf_counter
 from os import makedirs, path
 
 from config import Config
@@ -22,6 +23,7 @@ from unzipper.client.caching import USER_LANG
 
 from pyrogram.types import CallbackQuery
 from unzipper.database.cloud import GofileDB
+from pyrogram.errors import ReplyMarkupTooLong
 from unzipper.database.language import set_language
 from unzipper.database.upload_mode import set_upload_mode
 
@@ -56,7 +58,7 @@ async def unzipper_cb(_, query: CallbackQuery, texts):
 
     elif qdat == "thumbhelp":
         await query.edit_message_text(texts["help_thumb"], reply_markup=Buttons.HELP_BACK)
-    
+
     elif qdat == "langhelp":
         await query.edit_message_text(texts["help_lang"], reply_markup=Buttons.HELP_BACK)
 
@@ -135,7 +137,11 @@ async def unzipper_cb(_, query: CallbackQuery, texts):
             # Upload extracted files
             files = await get_files(ext_files_dir)
             i_e_buttons = await Buttons.make_files_keyboard(files, user_id, query.message.chat.id)
-            await unzip_client.answer_query(query, texts["select_files"], reply_markup=i_e_buttons)
+            try:
+                await unzip_client.answer_query(query, texts["select_files"], reply_markup=i_e_buttons)
+            except ReplyMarkupTooLong:
+                i_e_buttons = await Buttons.make_files_keyboard(files, user_id, query.message.chat.id, False)
+                await unzip_client.answer_query(query, texts["select_files"], reply_markup=i_e_buttons)
 
         except ExtractionFailed:
             await unzip_client.answer_query(query, texts["failed_extract"])
@@ -170,7 +176,11 @@ async def unzipper_cb(_, query: CallbackQuery, texts):
                 pass
             return await unzip_client.answer_query(query, texts["ok_upload_basic"])
         i_e_buttons = await Buttons.make_files_keyboard(files, query.from_user.id, query.message.chat.id)
-        await unzip_client.answer_query(query, texts["select_files"], reply_markup=i_e_buttons)
+        try:
+            await unzip_client.answer_query(query, texts["select_files"], reply_markup=i_e_buttons)
+        except ReplyMarkupTooLong:
+            i_e_buttons = await Buttons.make_files_keyboard(files, user_id, query.message.chat.id, False)
+            await unzip_client.answer_query(query, texts["select_files"], reply_markup=i_e_buttons)
 
     elif qdat.startswith("ext_a"):
         spl_data = qdat.split("|")
