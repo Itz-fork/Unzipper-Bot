@@ -42,7 +42,7 @@ class Unzipper_Buttons:
                     InlineKeyboardButton(f"{num} - {basename(file)}".encode(
                         "utf-8").decode("utf-8"), f"ext_f|{user_id}|{chat_id}|{num}")
                 )
-            i_kbd.add(*data)
+        i_kbd.add(*data)
         return i_kbd
 
     START = InlineKeyboardMarkup([[
