@@ -13,7 +13,7 @@
 # Credits: SpEcHiDe's AnyDL-Bot for progress_for_pyrogram, humanbytes and TimeFormatter
 
 from re import sub
-from time import perf_counter
+from time import time
 from math import floor
 from json import loads
 from os import path, walk
@@ -23,7 +23,7 @@ from asyncio import get_running_loop
 
 
 async def progress_for_pyrogram(current, total, ud_type, message, start):
-    now = perf_counter()
+    now = time()
     diff = now - start
     speed = current / diff
     if total:
