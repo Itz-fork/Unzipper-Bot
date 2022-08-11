@@ -57,7 +57,7 @@ async def get_thumbnail(user_id: int, download: bool = False):
     if gtm:
         if download:
             dimg = f"Dump/thumbnail_{path.basename(gtm['url'])}"
-            await Downloader().from_direct_link(gtm["url"], dimg, cont_type="image/")
+            await Downloader().download(gtm["url"], dimg, cont_type="image/")
             return dimg
         return gtm["url"]
     else:

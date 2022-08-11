@@ -56,7 +56,7 @@ async def extract_dis_archive(_, message: Message, texts):
                 fsize = humanbytes(cleng) if cleng else "undefined"
                 # Send logs
                 await unzip_client.send_message(Config.LOGS_CHANNEL, texts["log"].format(user_id, file_name, fsize))
-            await Downloader().from_direct_link(message.text, arc_name, unzip_msg)
+            await Downloader().download(message.text, arc_name, unzip_msg)
         else:
             # Send logs
             await unzip_client.send_message(Config.LOGS_CHANNEL, texts["log"].format(user_id, file_name, humanbytes(is_doc.file_size)))

@@ -86,7 +86,7 @@ async def unzipper_cb(_, query: CallbackQuery, texts):
                     await unzip_client.send_message(Config.LOGS_CHANNEL, texts["log"].format(user_id, url, fsize))
                 s_time = time()
                 arc_name = f"{download_path}/archive_from_{user_id}_{path.basename(url)}"
-                await Downloader().from_direct_link(url, arc_name, query.message)
+                await Downloader().download(url, arc_name, query.message)
                 e_time = time()
 
             elif splitted_data[1] == "tg_file":

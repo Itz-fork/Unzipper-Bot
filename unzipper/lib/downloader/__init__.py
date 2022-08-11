@@ -10,8 +10,8 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>   #
 # ===================================================================== #
 
-from re import match
 from time import time
+from re import match, sub
 from config import Config
 from aiohttp import ClientSession
 from pyrogram.types import Message
@@ -35,29 +35,39 @@ class Downloader:
     """
 
     def __init__(self) -> None:
+        self.gdrive_regex = r"https://drive\.google\.com/file/d/(.*?)/.*?"
         self.dl_regex = ("((http|https)://)(www.)?" +
                          "[a-zA-Z0-9@:%._\\+~#?&//=]" +
                          "{2,256}\\.[a-z]" +
                          "{2,6}\\b([-a-zA-Z0-9@:%" +
                          "._\\+~#?&//=]*)")
 
-    async def from_direct_link(self, url: str, path: str, message: Message = None, cont_type: str = "application/", udt: str = "**Trying to Download!** \n"):
+    async def download(self, url: str, path: str, message: Message = None, redirect: bool = False, cont_type: str = "application/", udt: str = "**Trying to Download!** \n"):
         """
-        Download a file from direct link
+        Download a file from direct / gdrive link
 
         Parameters:
 
             - `url` - Url to the file
             - `path` - Output path
             - `message` - Pyrogram Message object
+            - `redirect` - Redirect url
             - `udt` - Header for the progress bar
         """
-        # Raise InvalidUrl if regex mismatches
-        if not match(self.dl_regex, url):
+        if match(self.gdrive_regex, url):
+            gurl = await self._parse_gdrive(url)
+            return await self._from_direct_link(url=gurl, path=path, message=message, redirect=redirect, cont_type=cont_type, udt=udt)
+        elif match(self.dl_regex, url):
+            return await self._from_direct_link(url=url, path=path, message=message, redirect=redirect, cont_type=cont_type, udt=udt)
+        else:
             raise InvalidUrl
 
+    async def _parse_gdrive(self, url: str):
+        return sub(r"https://drive\.google\.com/file/d/(.*?)/.*?\?usp=sharing", r"https://drive.google.com/uc?export=download&id=\1", url)
+
+    async def _from_direct_link(self, url: str, path: str, message: Message = None, redirect: bool = False, cont_type: str = "application/", udt: str = "**Trying to Download!** \n"):
         async with ClientSession() as session:
-            async with session.get(url, timeout=None) as resp:
+            async with session.get(url, timeout=None, allow_redirects=redirect) as resp:
                 # Raise HttpStatusError if response status isn't 200
                 if resp.status != 200:
                     raise HttpStatusError
