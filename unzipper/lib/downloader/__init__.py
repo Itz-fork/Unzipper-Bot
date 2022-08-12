@@ -56,7 +56,7 @@ class Downloader:
         """
         if match(self.gdrive_regex, url):
             gurl = await self._parse_gdrive(url)
-            return await self._from_direct_link(url=gurl, path=path, message=message, redirect=redirect, cont_type=cont_type, udt=udt)
+            return await self._from_direct_link(url=gurl, path=path, message=message, redirect=True, cont_type=cont_type, udt=udt)
         elif match(self.dl_regex, url):
             return await self._from_direct_link(url=url, path=path, message=message, redirect=redirect, cont_type=cont_type, udt=udt)
         else:
