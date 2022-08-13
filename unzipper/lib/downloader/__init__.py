@@ -35,7 +35,7 @@ class Downloader:
     """
 
     def __init__(self) -> None:
-        self.gdrive_regex = r"https://drive\.google\.com/file/d/(.*?)/.*?"
+        self.gdrive_regex = r"https://drive\.google\.com/file/d/(.*?)/.*?\?usp=sharing"
         self.dl_regex = ("((http|https)://)(www.)?" +
                          "[a-zA-Z0-9@:%._\\+~#?&//=]" +
                          "{2,256}\\.[a-z]" +
@@ -68,8 +68,13 @@ class Downloader:
     async def _from_direct_link(self, url: str, path: str, message: Message = None, redirect: bool = False, cont_type: str = "application/", udt: str = "**Trying to Download!** \n"):
         async with ClientSession() as session:
             async with session.get(url, timeout=None, allow_redirects=redirect) as resp:
+                if resp.status == 200:
+                    pass
+                # Support for temporarily moved resources
+                elif resp.status == 302:
+                    resp = await session.get(url, timeout=None, allow_redirects=True)
                 # Raise HttpStatusError if response status isn't 200
-                if resp.status != 200:
+                else:
                     raise HttpStatusError
                 # Raise InvalidContentType if the content isn't an archive
                 if not cont_type in resp.content_type:
