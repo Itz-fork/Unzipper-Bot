@@ -6,24 +6,24 @@
 
 </br>
 
-## Table of content
 
-- [Features](#features)
-- [Config vars](#configs-)
-- [Deployment](#deploy-)
+## Table of content
+- [Features ⚡](#features-)
+- [Config vars 📖](#configs-)
+- [Deployment 👀](#deploy-)
   - [Heroku](#with-heroku)
   - [Self-hosting](#self-hosting)
-- [Bug report](#found-a-bug-)
-- [Support](#support-)
-- [License and Copyright](#license--copyright-)
+- [Report bugs 🐞](#found-a-bug-)
+- [Support 💙](#support-)
+- [License and Copyright 👮](#license--copyright-)
 
 </br>
 
-## Features
 
+## Features ⚡
 - Extract various types of archives like `rar`, `zip`, `tar`, `7z`, `tar.xz` etc.
 - Password support for extracting
-- Extract archives from direct links
+- Extract archives from direct / gdrive links
 - Support for multi-part 7z archives (archives ends with file extensions like `.001`, `.002`, etc.)
 - Custom thumbnail support
 - Muti-language support ([More info](https://github.com/Itz-fork/Unzipper-Bot/tree/main/unzipper/localization#readme))
@@ -38,8 +38,8 @@ And Some other features 🔥!
 
 </br>
 
-## Configs 📖
 
+## Configs 📖
 - `APP_ID` - Your APP ID. Get it from [my.telegram.org](my.telegram.org)
 - `API_HASH` - Your API_HASH. Get it from [my.telegram.org](my.telegram.org)
 - `BOT_OWNER` - Your Telegram Account ID. Get it from [@MissRose_bot](https://t.me/MissRose_bot) (Start the bot and send <samp>/info</samp> command).
@@ -54,19 +54,17 @@ And Some other features 🔥!
 
 </br>
 
-## Deploy 👀
 
+## Deploy 👀
 Deploying is easy 🤫! You can deploy this bot in Heroku or in a linux VPS ♥️! **Star 🌟 Fork 🍴 and Deploy**
 
 ### With Heroku
-
 <a href="https://www.heroku.com/deploy?template=https://github.com/Itz-fork/Unzipper-Bot/tree/arch">
   <img src="https://www.herokucdn.com/deploy/button.svg">
 </a>
 
 
 ### Self-Hosting
-
 > Note ⚠️
 > 
 > It's recomended to use a arch linux based distro to deploy this bot as the original author of the p7zip package has not made an update since 2016, but the arch linux's version is packaged from an active fork.
@@ -92,19 +90,18 @@ sudo apt install p7zip-full p7zip-rar zstd
 bash start.sh
 ```
 
-
 **DONE 🥳, Enjoy The Bot! Be sure to Follow Me on [Github](https://github.com/Itz-fork) and Star 🌟 this repo to Show some support 😍!**
 
 </br>
 
-## Found a bug 🐞?
 
+## Found a bug 🐞?
 If you found a bug in this bot please open an [issue](https://github.com/Itz-fork/Unzipper-Bot/issues) or report it at the [Support group](#support).
 
 </br>
 
-## Support 💙
 
+## Support 💙
 <a href="https://t.me/NexaBotsUpdates">
   <img src="https://img.shields.io/badge/Updates_Channel-0a0a0a?style=for-the-badge&logo=telegram&logoColor=white">
 </a>
@@ -116,7 +113,6 @@ If you found a bug in this bot please open an [issue](https://github.com/Itz-for
 
 
 ## License & Copyright 👮
-
 ```
 Copyright (c) 2022 Itz-fork
 
