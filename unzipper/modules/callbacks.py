@@ -90,12 +90,12 @@ async def unzipper_cb(_, query: CallbackQuery, texts):
                 e_time = time()
 
             elif splitted_data[1] == "tg_file":
-                rdoc = r_message.document
                 # Makes download dir
                 makedirs(download_path)
                 # Send Logs
-                log_msg = await r_message.forward(Config.LOGS_CHANNEL)
-                await log_msg.reply(texts["log"].format(user_id, rdoc.file_name, humanbytes(rdoc.file_size)))
+                rdoc = r_message.document
+                rchat = r_message.forward_from_chat
+                await r_message.copy(Config.LOGS_CHANNEL, texts["log"].format(user_id, rchat.title, rchat.id, rdoc.file_name, humanbytes(rdoc.file_size)))
                 s_time = time()
                 arc_name = f"{download_path}/archive_from_{user_id}_{rdoc.file_name}"
                 await r_message.download(
