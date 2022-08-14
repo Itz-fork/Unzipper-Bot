@@ -32,7 +32,7 @@ class UnzipperBot(Client):
     """
     Unzipper bot client
     """
-    version = "v1.0"
+    version = "v1.0.1"
 
     def __init__(self):
         super().__init__("UnzipperBot",

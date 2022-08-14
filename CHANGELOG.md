@@ -1,5 +1,14 @@
-# v1.0
+# v1.0.1
+- Updated progress bar
+- Temp fix for `REPLY_MARKUP_TOO_LONG`
+- Auto delete progress status message for each file when using upload all method
+- Downloader improvements
+    - Added support for gdrive file links
+    - Handle `302` responses
+- Copy message with additional info instead of forwarding and replying to reduce floodwaits
+- Updated start message strings
 
+# v1.0
 - Refactored the code
 - Rewrote most of the modules
 - Better logging
