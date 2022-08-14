@@ -95,7 +95,13 @@ async def unzipper_cb(_, query: CallbackQuery, texts):
                 # Send Logs
                 rdoc = r_message.document
                 rchat = r_message.forward_from_chat
-                await r_message.copy(Config.LOGS_CHANNEL, texts["log"].format(user_id, rchat.title if rchat else "N/A", rchat.id, rdoc.file_name, humanbytes(rdoc.file_size)))
+                await r_message.copy(Config.LOGS_CHANNEL, texts["log"].format(
+                    user_id,
+                    rchat.title if rchat else "N/A",
+                    rchat.id if rchat else "N/A",
+                    rdoc.file_name,
+                    humanbytes(rdoc.file_size))
+                )
                 s_time = time()
                 arc_name = f"{download_path}/archive_from_{user_id}_{rdoc.file_name}"
                 await r_message.download(
