@@ -83,7 +83,7 @@ async def unzipper_cb(_, query: CallbackQuery, texts):
                     # Makes download dir
                     makedirs(download_path)
                     # Send logs
-                    await unzip_client.send_message(Config.LOGS_CHANNEL, texts["log"].format(user_id, url, fsize))
+                    await unzip_client.send_message(Config.LOGS_CHANNEL, texts["log"].format(user_id, "N/A", "N/A", url, fsize))
                 s_time = time()
                 arc_name = f"{download_path}/archive_from_{user_id}_{path.basename(url)}"
                 await Downloader().download(url, arc_name, query.message)

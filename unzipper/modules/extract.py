@@ -55,11 +55,22 @@ async def extract_dis_archive(_, message: Message, texts):
                 cleng = (await ses.head(message.text)).headers.get("Content-Length")
                 fsize = humanbytes(cleng) if cleng else "undefined"
                 # Send logs
-                await unzip_client.send_message(Config.LOGS_CHANNEL, texts["log"].format(user_id, file_name, fsize))
+                await unzip_client.send_message(Config.LOGS_CHANNEL, texts["log"].format(
+                    user_id,
+                    "N/A",
+                    "N/A",
+                    file_name,
+                    fsize)
+                )
             await Downloader().download(message.text, arc_name, unzip_msg)
         else:
             # Send logs
-            await unzip_client.send_message(Config.LOGS_CHANNEL, texts["log"].format(user_id, file_name, humanbytes(is_doc.file_size)))
+            await unzip_client.send_message(Config.LOGS_CHANNEL, texts["log"].format(
+                user_id,
+                message.forward_from_chat.title,
+                message.forward_from_chat.id, file_name,
+                humanbytes(is_doc.file_size))
+            )
             await message.download(
                 file_name=arc_name,
                 progress=progress_for_pyrogram, progress_args=(
