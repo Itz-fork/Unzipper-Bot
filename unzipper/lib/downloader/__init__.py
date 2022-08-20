@@ -71,7 +71,7 @@ class Downloader:
                 if resp.status == 200:
                     pass
                 # Support for temporarily moved resources
-                elif resp.status == 302:
+                elif resp.status in (301, 302):
                     resp = await session.get(url, timeout=None, allow_redirects=True)
                 # Raise HttpStatusError if response status isn't 200
                 else:
