@@ -1,0 +1,65 @@
+{
+    "this_lang": "es",
+
+    "start": "Hola **{}**, Soy **Nexa Unzipper Bot** 😇!\n\n`Un bot de fuente abierta que puede extraer archivos como: zip, rar, tar etc.`\n\n**Hecho con ❤️ por @NexaBotsUpdates**",
+    "about": "**Acerca de Nexa Unzipper Bot,**\n\n✘ **Version:** `{}`\n✘ **Lenguaje:** [Python](https://www.python.org/)\n✘ **Framework:** [Pyrogram](https://docs.pyrogram.org/)\n✘ **Desarrollador:** [Itz-fork](https://github.com/Itz-fork)\n✘ **Fuente de código:** [Itz-fork/Unzipper-Bot](https://github.com/Itz-fork/Unzipper-Bot)\n\n\n**Hecho con ❤️ por @NexaBotsUpdates**",
+    
+    "processing": "`Procesando ⚙️...`",
+    "refreshing": "`Refrescando ⏳...`",
+    "gofile_token": "**Tu token de gofile:** `{}`",
+    "canceled": "**{} ✅!**\n\n`Todos tus archivos han sido eliminados del servidor 😏!`",
+    "log": "**Extraer registro 📝!**\n\n**ID de usuario:** `{}`\n**Reenviado de:** `{}` (`{}`)\n**Nombre del archivo:** `{}`\n**Tamaño del archivo:** `{}`",
+    
+    "help_head": "Obtiene ayuda presionando estos botones 😇",
+    "help_extract": "**¿Como extraer? 🤔**\n\n**1.** `Envia el archivo o link que quieras extraer.`\n**2.** `Presiona en el botón de extraer (Si enviaste un link, boton \"Extraer Url\". Si es sólo un archivo, boton de: \"Extraer archivo\").`\n\n\n**Nota:**\n    **1.** `Si tu archivo está protegido por una contraseña  selecciona el modo:` **(Contraseña) Extraer 📂** `. El bot no es un DIOS para saber las contraseñas de tus archivos, si pasa, solo envia la contraseña!`\n    \n    **2.** `Por favor, no envíes archivos corruptos! Si envias uno por error, envia el commando` **/clean** `!`\n    \n    **3.** `Si tu archivo tiene más de 90 archivos, el bot no mostrará todos los archivos extraidos para seleccionarlos. En ese caso, si no puedes ver todos los archivos, presiona el botón` \"Enviar todos ♻️\" `. Enviará todos los archivos extraidos para ti!`",
+    "help_upmode": "**Como cambiar el modo de envio? 🤔**\n\n**1.** `Envia el comando` **/mode** `.`\n**2.** `Selecciona la opción appropriada.`",
+    "help_backup": "**Como hacer una copia de seguridad a tus archivos? 🤔**\n\nEl servidor del bot resetea cada 24 horas (heroku). Lo que significa que tus archivos será completamente eliminados del servidor.\nAntes de que eso pase, puedes haver una copia de seguridad en gofile.io\n\n**1.** `Envia el coomando` **/backup** `al bot.`\n**2.** `Selecciona la opción apropiada.`",
+    "help_thumb": "**Como cambiar la miniatura? 🤔**\n\nPor defecto, los videos usan una miniatura generada por `ffmpeg` y los archivos no tienen una.\nSi tu quieres establecer tu propia mininatura, puedes hacerlo con los siguientes comandos 👇,\n\n\n    • **/set_thumb** - Establecer mininatura\n\n    • **/get_thumb** - Obtener actual miniatura\n\n    • **/del_thumb** - Para borrar la miniatura existente",
+    "help_lang": "**Como cambiar de lenguaje? 🤔**\n\nEl idioma por defecto es el Inglés. Sin embargo, puedes cambiarlo a tu idioma, si está disponible. Para cambiar el idioma actual, envia el comando **/set_lang**.\n\nQuieres ayudar con las traducciones? Por favor [lee esto](https://github.com/Itz-fork/Unzipper-Bot/tree/main/unzipper/localization#contribute-to-the-translation)",
+    
+    "ok_backup": "**Copia de seguridad exitosa ✅!** \n\n**Enlace 🔗:** {}",
+    "ok_download": "**Descarga exitosa ✅!**\n\n**📂 NOmbre del archivo:** `{}`\n**⬇️ Descargado en:** `{}`",
+    "ok_extract": "**Extraido exitosamente ✅!**\n\n**🕐 Extraido en:** `{}`\n\n\n**Hecho con ❤️ por @NexaBotsUpdates**",
+    "ok_upload": "**Subido exitosamente✅!**\n\n**📂 Nombre del archivo:** `{}`\n**⬆️ Subido en:** `{}`",
+    "ok_upload_basic": "**Subido exitosamente ✅!** \n\n *Únete a @NexaBotsUpdates ❤️**",
+    "ok_saving_thumb": "**Miniatura guardada exitosamente ✅!**",
+    "ok_deleting_thumb": "**Miniatura borrada exitosamente ✅!**",
+    "ok_ban": "**Usuario baneado exitosamente ✅!** \n\n**ID del usuario:** `{}`",
+    "ok_unban": "**Usuario desbaneado exitosamente ✅!** \n\n**ID del usuario:** `{}`",
+    "ok_wont_delete": "**Oh genial, No borraré tus archivos 😂!**",
+    
+    "failed_main": "**Ocurrió un error 😕!**\n\n**ERROR:** {}\n\n\n**Por favor reportalo a @Nexa_bots**",
+    "failed_extract": "**Extracción fallida 😕!**\n\n**Que hacer?**\n\n - `Por favor, asegurate de que el archivo no esté corrupto`\n - `Por favor, asegurate de que seleccionaste el modo correcto`\n - `Pueda que tu archivo no sea soportado😔`\n\n**Por favor reportalo a @Nexa_bots**",
+    
+    "no_thumb": "Miniatura no encontrada. Establece una con el comando `/set_thumb`!",
+    "no_userid": "`Pon una ID de usuario!`",
+    "no_archive": "`Este no es un archivo 😑`",
+    "no_replied_msg": "`Responde el mensaje!`",
+    "no_splitted_arc": "`Dawg, este no es parte de tu archivo separado 😑!`",
+    
+    "ask_clean": "**Quieres borrar todos los archivos de mi servidor🤔?**\n\n**Nota:** `Esta acción no se puede deshacer!`",
+    "ask_password": "**Envia la contraseña, por favor 🔑:**",
+    "ask_gofile_token": "**POr favor envia tu token de gofile.io**",
+    "ask_what_you_want": "**Que quieres?**",
+    
+    "select_upmode": "`Por favor selecciona el modo de subida, presionado los siguientes botones!`\n\n**El modo actual de subida es:** `{}`",
+    "select_lang": "`Selecciona tu idioma`\n\n**El idioma actual es:** `{}`",
+    "select_files": "`Selecciona los archivos a subir!`",
+    "select_provider": "**Selecciona el proveedor ☁️**",
+    
+    "changed_upmode": "**El modo ha sido cambiado a** `{}` **✅!** exitosamete",
+    "changed_lang": "**El idioma ha sido cambiado a** `{}` **✅!** exitosamente",
+
+    "broadcast_started": "`Broadcasting ha comenzado, podría tomar un tiempo 🥱!`",
+    "boradcast_results": "**Broadcast Completado ✅!**\n\n**Total de usuarios:** `{}`\n**Respuestas exitosas:** `{}`\n**Respuestas fallidas:** `{}`",
+    
+    "alert_splitted_arc": "**Archivos separados detectados!**\n\n\n**1.** `Envia las otras partes de uno a uno.`\n**2.** `Cuando hayas terminado, envia el comando` **/done** `.`\n\n\nQuieres cancelar el proceso actual? Envia el comando **/clean**!",
+    "alert_process_running_already": "`Ya hay un proceso, No spamees idiota 😑!` \n\nQuieres cancelar el proceso actual? Solo envia comando **/clean** !",
+    "alert_downloading_part": "`Oh, otra parte del archivo separado fue enviado por TI 👀!`",
+    "alert_part_exists": "`Dawg, Ya tengo este archivo 😑!`",
+    "alert_sending_file": "Enviando los archivos seleccionados. Por favor espera!",
+    "alert_sending_files": "Enviando todos los archivos. Por favor espera !",
+    "alert_file_too_large": "`El tamaño del archivo es demasiado grande para enviarlo a telegram 🥶! Intentando subir el archivo a gofile.io ahora 😉!`",
+    "alert_empty_files": "`Lo siento, Tu archivo ha sido removido del servidor 😔!`",
+    "alert_uploading_to_gofile": "`Subiendo archivos extraidos a  gofile.io! Por favor espera!`"
+}
