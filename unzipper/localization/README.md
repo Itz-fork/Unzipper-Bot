@@ -4,6 +4,7 @@
 | -------- | -------- | ---------- |
 | English  | [en](en) |   `100%`   |
 | Sinhala  | [si](si) | `100%`[^1] |
+| Spanish  | [es](es) | `100%`[^1] |
 
 
 # Contribute to the translation
