@@ -1,10 +1,10 @@
 # Available languages
 
-| Language |  Folder  |   Status   |
-| -------- | -------- | ---------- |
-| English  | [en](en) |   `100%`   |
-| Sinhala  | [si](si) | `100%`[^1] |
-| Spanish  | [es](es) | `100%`[^1] |
+| Language |  Folder  | Translated by |   Status   |
+| -------- | -------- | ------------- | ---------- |
+| English  | [en](en) |  [Itz-fork](https://github.com/Itz-fork/)|   `100%`   |
+| Sinhala  | [si](si) |  [Itz-fork](https://github.com/Itz-fork/)| `100%`[^1] |
+| Spanish  | [es](es) |  [Carlos](https://t.me/Carlitosbby/)| `100%`[^1] |
 
 
 # Contribute to the translation

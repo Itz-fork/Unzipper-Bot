@@ -36,6 +36,8 @@
 
 And Some other features 🔥!
 
+Also don't forget to check [changelog](CHANGELOG.md) 😉
+
 </br>
 
 
