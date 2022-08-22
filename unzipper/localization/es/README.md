@@ -1,3 +1,3 @@
 **Language:** Spanish
 
-**Translated by:** [Carlos](#)
+**Translated by:** [Carlos](https://t.me/Carlitosbby)
