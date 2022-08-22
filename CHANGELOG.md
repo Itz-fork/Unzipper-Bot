@@ -1,3 +1,8 @@
+# v1.0.2
+- Added spanish translation (Thanks to [Carlos](https://t.me/Carlitosbby))
+- Added support for 301 http responses
+- Fixed Attribute errors raised due to new log info message
+
 # v1.0.1
 - Updated progress bar
 - Temp fix for `REPLY_MARKUP_TOO_LONG`
