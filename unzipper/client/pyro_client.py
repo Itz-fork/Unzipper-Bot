@@ -16,12 +16,14 @@ from asyncio import sleep
 from typing import Callable
 from os import path, remove, stat
 
-from config import Config
+from gofile2 import Gofile
 from pyrogram import Client
-from .caching import STRINGS
-from gofile2 import Async_Gofile
 from pyrogram.errors import FloodWait
 from pyrogram.types import CallbackQuery, Message
+
+from config import Config
+from .caching import STRINGS
+from unzipper import Buttons
 from unzipper.database.language import get_language
 from unzipper.database.upload_mode import get_upload_mode
 from unzipper.helpers_nexa.utils import (TimeFormatter, progress_for_pyrogram,
@@ -96,9 +98,8 @@ class UnzipperBot(Client):
                 # Uploads the file to gofile.io
                 upmsg = await self.send_message(c_id, text=STRINGS[lang]["alert_file_too_large"])
                 try:
-                    ga = Async_Gofile()
+                    ga = await Gofile.initialize()
                     gfio = await ga.upload(doc_f)
-                    from unzipper import Buttons
                     await upmsg.edit("**Your file has been uploaded to gofile! Click on the below button to download it 👇**", reply_markup=await Buttons.make_button("Gofile link 🔗", url=gfio["downloadPage"]))
                 except:
                     await upmsg.edit("`Upload failed, Better luck next time 😔!`")

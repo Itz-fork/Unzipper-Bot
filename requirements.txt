@@ -1,6 +1,6 @@
 pyrogram
 TgCrypto
-pyromod
+pyromod==1.5
 motor
 dnspython
 psutil
@@ -8,4 +8,4 @@ pykeyboard
 aiohttp
 aiofiles
 Pillow
-gofile2
+git+https://github.com/Itz-fork/Gofile2.git

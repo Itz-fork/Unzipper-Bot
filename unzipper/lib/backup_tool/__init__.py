@@ -12,7 +12,7 @@
 
 from time import strftime
 from config import Config
-from gofile2 import Async_Gofile
+from gofile2 import Gofile
 from unzipper.database.cloud import GofileDB
 
 
@@ -35,15 +35,15 @@ class CloudBackup:
         Backup files to gofile.io
         """
         # Gofile client
-        gf = Async_Gofile(await self._get_gofile_token())
+        gf = await Gofile.initialize(await self._get_gofile_token())
         gf_id = await self._create_gofile_folder(gf)
         links = await gf.upload_folder(self.ext_dir, gf_id)
         return links[0]["downloadPage"]
 
     async def _create_gofile_folder(self, client: Async_Gofile):
-        rtfid = (await client.get_Account())["rootFolder"]
+        rtfid = (await client.get_account())["rootFolder"]
         cf = (await client.create_folder(rtfid, "Backup of {} in {}".format(self.id, strftime("%b %d, %Y %l:%M%p"))))["id"]
-        await client.set_folder_option(cf, "public", "true")
+        await client.set_option(cf, "public", "true")
         return cf
 
     async def _get_gofile_token(self):
